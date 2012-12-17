@@ -1,0 +1,55 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <link href="../Content/themes/base/jquery.ui.all.css" rel="stylesheet" />
+    <link href="Style/jquery.wa.core.css" rel="stylesheet" />
+    <link href="Style/jquery.wa.resizeable.css" rel="stylesheet" />
+    <link href="Style/jquery.wa.window.css" rel="stylesheet" />
+    <script src="../Scripts/jquery-1.7.1.js"></script>
+    <script src="Script/jquery.wa.core.js"></script>
+    <script src="Script/jquery.wa.overlay.js"></script>
+    <script src="Script/jquery.wa.openwindow.js"></script>
+    <script src="Script/jquery.wa.dragable.js"></script>
+    <script src="Script/jquery.wa.resizeable.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $('#btnOpen1,#btnOpen2').openwindow({
+                width: '50%',
+                height:'50%',
+                refresh: true,
+                title: 'My window',
+                showSimulate:true,
+                modal:true
+            });
+            //$('#div1').resizeable({ showSimulate: false });
+            //$('#btnOpen2').click(function () {
+            //    $('#div1').resizeable('destroy');
+            //});
+            $('#btnOpen1,#btnOpen2').click();
+        });
+    </script>
+    <style type="text/css">
+        w {
+           cursor:n-resize;
+           cursor:s-resize;
+           cursor:w-resize;
+           cursor:e-resize;
+           cursor:ne-resize;
+           cursor:nw-resize;
+           cursor:se-resize;
+           cursor:sw-resize;
+           cursor:default;
+           position:absolute;
+        }
+    </style>
+</head>
+<body>
+    <input type="button" value="Open" id="btnOpen1" class="btnOpen" />
+    <input type="button" value="Open" id="btnOpen2" class="btnOpen" />
+     
+    <div id="div1" style="width:400px;height:400px;border:1px solid #00ff21;margin-left:100px;margin-top:50px;"></div>
+   
+<div id="div4" style="width:200px; height:1400px;">ewefwefewf</div>
+</body>
+</html>

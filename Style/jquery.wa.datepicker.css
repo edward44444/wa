@@ -1,0 +1,39 @@
+﻿.wa-datepicker {
+    position:absolute;
+    width:16em;
+    border:1px solid #AAA;
+    text-align:center;
+    padding:2px;
+}
+.wa-datepicker .wa-header {
+    position:relative;
+    text-align:center;
+}
+.wa-datepicker .wa-prev,.wa-datepicker .wa-next {
+    display:block;
+    width:16px;
+    height:16px;
+    line-height:16px;
+    position:absolute;
+    overflow:hidden;
+}
+.wa-datepicker .wa-prev {
+    left:2px;
+    top:2px;
+}
+.wa-datepicker .wa-next {
+    right:2px;
+    top:2px;
+}
+.wa-datepicker .wa-select-year {
+    width:5em;
+}
+.wa-datepicker .wa-select-month {
+    width:3.2em;
+}
+.wa-datepicker .wa-calendar {
+    width:100%;
+    border-collapse:collapse;
+    margin-left:0px;
+    margin-right:0px;
+}

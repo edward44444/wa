@@ -1,0 +1,53 @@
+﻿.wa-dropdownlist {
+}
+.wa-dropdownlist > input {
+     margin-top:0px;
+     margin-left:0px;
+     margin-right:0px;
+     margin-bottom:0px;
+}
+.wa-dropdownlist-content {
+    border-left:1px solid #919191;
+    border-right:1px solid #919191;
+    border-bottom:1px solid #919191;
+    background:#FFFFFF;
+    box-shadow:0px 0px 8px #000000;
+}
+.wa-items {
+    margin-top:0px;
+    margin-left:0px;
+    margin-bottom:0px;
+    padding-left:0px;
+    display:block;
+    overflow-y:auto;
+}
+.wa-items li {
+    list-style-type:none;
+}
+.wa-items .wa-item {
+    display:block;
+    height:30px;
+    line-height:30px;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+    overflow-x:hidden;
+    padding-left:4px;
+}
+.wa-items .wa-item:hover {
+    background-color:#000000;
+    color:#FFFFFF;
+}
+.wa-items .wa-item input {
+    margin-top:0px;
+    margin-bottom:0px;
+    padding:0px;
+    vertical-align:baseline;
+    margin-left:2px;
+    margin-right:6px;
+}
+.wa-dropdownlist .wa-button-arrow-down {
+    width:20px;
+    height:20px;
+    line-height:20px;
+    text-align:center;
+}

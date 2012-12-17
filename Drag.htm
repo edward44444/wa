@@ -1,0 +1,48 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <script src="../Scripts/jquery-1.7.1.js"></script>
+    <script src="../Scripts/jquery-ui-1.8.20.js"></script>
+    <script src="Script/Jquery.Jdragable.js"></script>
+    <script src="Jquery.JExtension.js" type="text/javascript"></script>
+    <script src="Jquery.Jdragable.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        $(function () {
+            $('#div2,#div3').Jdragable({ showSimulate: true, handle: 'div', axis: null });
+            $('#div1').disableSelection();
+        });
+       
+    </script>
+</head>
+<body>
+    <div id="div1" style="width: 400px; height: 400px; background-color: Blue; margin-left: 200px;
+        position: absolute;z-index:90;">
+        edward
+        <div id="div2" style="width: 100px; height: 100px; background-color: Green; position: relative;">
+            <div style="height: 20px; background-color: Yellow">
+            </div>
+        </div>
+        <div id="div3" style="width: 100px; height: 100px; background-color: Red; position: relative;">
+            <div id="div4" style="width: 50px; height: 50px; background-color: Green; margin-left: 10px;">
+                21572<br />
+                1567
+            </div>
+        </div>
+    </div>
+   <!-- <div id="div5" style="width: 400px; height: 400px; background-color: Blue; margin-left: 700px;
+        position: absolute; padding:20px; z-index:70;">
+        edward
+        <div id="div6" style="width: 100px; height: 100px; background-color: Green; position: relative;">
+            <div style="height: 20px; background-color: Yellow">
+            </div>
+        </div>
+        <div id="div7" style="width: 100px; height: 100px; background-color: Red; position: relative;">
+            <div id="div8" style="width: 50px; height: 50px; background-color: Green; margin-left: 10px;">
+                21572<br />
+                1567
+            </div>
+        </div>
+    </div>-->
+</body>
+</html>
