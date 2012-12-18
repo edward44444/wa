@@ -30,7 +30,7 @@ $.wa.widget('dropdownlist', {
                 left: me.element.offset().left,
                 top: me.element.offset().top
             });
-	    input = me.element.clone().removeAttr('id').appendTo(wrap)
+	    input = me.element.clone().removeAttr('id').appendTo(wrap).addClass('wa-dropdownlist-input')
             .css({
                 margin: '0px'
             });
@@ -47,7 +47,7 @@ $.wa.widget('dropdownlist', {
                 'margin-top':'-1px'
 	        });
 	    }
-	    buttonArrowDown = $('<a class="wa-button wa-button-arrow-down">▼</a>')
+	    buttonArrowDown = $('<a class="wa-button wa-dropdownlist-button-arrow-down">▼</a>')
             .css({
                 'position': 'absolute',
                 right: '0px',
@@ -74,27 +74,29 @@ $.wa.widget('dropdownlist', {
 	    itemsHtml.push('<ul style="'
             + (options.contentHeight ? 'height:' + options.contentHeight + 'px;' : '')
             + (options.contentMinHeight ? 'min-height:' + options.contentMinHeight + 'px;' : '')
-            + '" class="wa-items">');
+            + '" class="wa-dropdownlist-items">');
 	    //  /[^\{][^\{]+?(?=\})/g
 	    for (var i = 0; i < options.dataSource.length; i++) {
-	        itemsHtml.push('<li><a class="wa-item">');
+	        itemsHtml.push('<li><a class="wa-dropdownlist-item">');
 	        if (options.mutil) {
 	            var guid = $.wa.guid++;
-	            itemsHtml.push('<label for="chk' + guid + '"><input type="checkbox" value="' + i + '" id="chk' + guid + '" /><label>');
+	            itemsHtml.push('<label class="wa-dropdownlist-label" for="chk' + guid + '"><input type="checkbox" value="' + i + '" id="chk' + guid + '" />');
 	            itemsHtml.push(options.tpl.replace(/\{\S+?\}/g, function (match) {
 	                return options.dataSource[i][match.replace(/\{|\}/g, '')];
 	            }));
-	            itemsHtml.push('</label></label>');
+	            itemsHtml.push('</label>');
 	        } else {
+	            itemsHtml.push('<label class="wa-dropdownlist-label">');
 	            itemsHtml.push(options.tpl.replace(/\{\S+?\}/g, function (match) {
 	                return options.dataSource[i][match.replace(/\{|\}/g, '')];
 	            }));
+	            itemsHtml.push('</label>');
 	        }
 	        itemsHtml.push('</a></li>');
 	    }
 	    itemsHtml.push('</ul>');
 	    listItems.append(itemsHtml.join(''));
-	    items = listItems.find('.wa-item');
+	    items = listItems.find('.wa-dropdownlist-item');
 	    if (options.mutil) {
 	        me.selectedItems = [];
 	        items.find('input:checkbox').bind('click', function (event) {
@@ -177,9 +179,11 @@ $.wa.widget('dropdownlist', {
                     left = offset.left,
                     top = offset.top + this.ui.wrap.outerHeight();
 	        if (showAll) {
-	            this.ui.listItems.find('.wa-item').parent().show();
+	            this.ui.listItems.find('.wa-dropdownlist-item').parent().show();
 	        }
-	        this.ui.listItems.show().offset({
+	        this.ui.listItems.css({
+	            'z-index': (4 + $.wa.overlayZindex)
+	        }).show().offset({
 	            left: left,
 	            top: top
 	        });

@@ -49,31 +49,31 @@ $.wa.widget('openwindow', {
             width: openwindow.width()+'px',
             height: openwindow.height()+'px'
         });
-        html.push('<div class="wa-resize">');
-        html.push('  <div class="wa-resize-top"></div>');
-        html.push('  <div class="wa-resize-top-left"></div>');
-        html.push('  <div class="wa-resize-top-right"></div>');
-        html.push('  <div class="wa-resize-bottom"></div>');
-        html.push('  <div class="wa-resize-bottom-left"></div>');
-        html.push('  <div class="wa-resize-bottom-right"></div>');
-        html.push('  <div class="wa-resize-left"></div>');
-        html.push('  <div class="wa-resize-right"></div>');
+        html.push('<div class="wa-window-resize">');
+        html.push('  <div class="wa-window-resize-top"></div>');
+        html.push('  <div class="wa-window-resize-top-left"></div>');
+        html.push('  <div class="wa-window-resize-top-right"></div>');
+        html.push('  <div class="wa-window-resize-bottom"></div>');
+        html.push('  <div class="wa-window-resize-bottom-left"></div>');
+        html.push('  <div class="wa-window-resize-bottom-right"></div>');
+        html.push('  <div class="wa-window-resize-left"></div>');
+        html.push('  <div class="wa-window-resize-right"></div>');
         html.push('</div>');
-        html.push('<div class="wa-inner">');
-        html.push('  <div class="wa-header">');
-        html.push('    <div class="wa-title">'+options.title+'</div>');
-        html.push('    <div class="wa-tool">');
+        html.push('<div class="wa-window-inner">');
+        html.push('  <div class="wa-window-header">');
+        html.push('    <div class="wa-window-title">' + options.title + '</div>');
+        html.push('    <div class="wa-window-tool">');
         html.push('      <a class="wa-button-close">×</a>');
         html.push('    </div>');
         html.push('  </div>');
-        html.push('  <div class="wa-body">');
-        html.push('      <iframe class="iframe" frameborder="0"></iframe>');
+        html.push('  <div class="wa-window-body">');
+        html.push('      <iframe class="wa-window-iframe" frameborder="0"></iframe>');
         html.push('  </div>');
         html.push('</div>');
         openwindow.append(html.join(''));
-        var windowInner = $('.wa-inner', openwindow),
-            windowFrame = $('iframe', openwindow),
-            windowHeader = $('.wa-header', openwindow),
+        var windowInner = $('.wa-window-inner', openwindow),
+            windowFrame = $('.wa-window-iframe', openwindow),
+            windowHeader = $('.wa-window-header', openwindow),
             buttonClose = $('.wa-button-close', openwindow).
             bind('click.' + me.name, function () {
                 me.hide();
@@ -86,7 +86,7 @@ $.wa.widget('openwindow', {
         openwindow.offset({ left: left, top: top })
             .dragable({
                 showSimulate: options.showSimulate,
-                handle: '.wa-header'
+                handle: '.wa-window-header'
             })
             .resizeable({ showSimulate: options.showSimulate })
             .bind('resize.' + me.name, function () {
