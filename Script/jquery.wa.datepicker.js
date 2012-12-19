@@ -1,9 +1,12 @@
-﻿/// <reference path="jquery.wa.core.js" />
+﻿/// <reference path="jquery.wa.date.js" />
+/// <reference path="jquery.wa.core.js" />
 $.wa.widget('datepicker', {
     options: {
         minDate: null,
         maxDate: null,
-        selectedDate:new Date()
+        selectedDate: new Date(),
+        dateFormat: 'yyyy-MM-dd',
+        onSelect:null
     },
     _create: function () {
         var me = this, options = this.options,datePicker, datePickerHtml = [],
@@ -23,7 +26,7 @@ $.wa.widget('datepicker', {
             datePickerHtml.push('<select class="wa-datepicker-select-month"></select>');
             datePickerHtml.push('</div>');
             datePickerHtml.push('</div>');
-            datePickerHtml.push('<table class="wa-datepicker-calendar">');
+            datePickerHtml.push('<table cellspacing="0" cellpadding="0" border="0"  class="wa-datepicker-calendar">');
             datePickerHtml.push('<thead><tr><th>Su</th><th>Mo</th><th>Tu</th><th>We</th><th>Th</th><th>Fr</th><th>Sa</th></tr></thead>');
             datePickerHtml.push('<tbody></tbody>');
             datePickerHtml.push('</table>');
@@ -36,36 +39,63 @@ $.wa.widget('datepicker', {
             tbCalendar = $('.wa-datepicker-calendar', datePicker);
         }
         me.btnPrev = btnPrev.bind('click', function () {
-            me.selectedDate.month--;
-            if (me.selectedDate.month < 0) {
-                me.selectedDate.month = 11;
-                me.selectedDate.year--;
-                me.selectYear.val(me.selectedDate.year).trigger('change');
+            var self = $(this);
+            if (self.is('.wa-datepicker-nav-disbaled')) {
                 return;
             }
-            me.selectMonth.val(me.selectedDate.month + 1).trigger('change');
+            btnNext.removeClass('wa-datepicker-nav-disbaled');
+            me.choosedDate.month--;
+            if (me.choosedDate.month < 0) {
+                me.choosedDate.month = 11;
+                me.choosedDate.year--;
+                me.selectYear.val(me.choosedDate.year).trigger('change');
+            } else {
+                me.selectMonth.val(me.choosedDate.month + 1).trigger('change');
+            }
+            if (options.minDate) {
+                if (me.choosedDate.year == options.minDate.getFullYear() && me.choosedDate.month == options.minDate.getMonth()) {
+                    self.addClass('wa-datepicker-nav-disbaled');
+                }
+            }
         });
         me.btnNext = btnNext.bind('click', function () {
-            me.selectedDate.month++;
-            if (me.selectedDate.month > 11) {
-                me.selectedDate.month = 0;
-                me.selectedDate.year++;
-                me.selectYear.val(me.selectedDate.year).trigger('change');
+            var self = $(this);
+            if (self.is('.wa-datepicker-nav-disbaled')) {
                 return;
             }
-            me.selectMonth.val(me.selectedDate.month + 1).selectMonth.trigger('change');
+            btnPrev.removeClass('wa-datepicker-nav-disbaled');
+            me.choosedDate.month++;
+            if (me.choosedDate.month > 11) {
+                me.choosedDate.month = 0;
+                me.choosedDate.year++;
+                me.selectYear.val(me.choosedDate.year).trigger('change');
+            } else {
+                me.selectMonth.val(me.choosedDate.month + 1).trigger('change');
+            }
+            if (options.maxDate) {
+                if (me.choosedDate.year == options.maxDate.getFullYear() && me.choosedDate.month == options.maxDate.getMonth()) {
+                    self.addClass('wa-datepicker-nav-disbaled');
+                }
+            }
         });
         me.selectYear = selectYear.bind('change', function () {
-            me.selectedDate.year =parseInt($(this).val());
+            me.choosedDate.year = parseInt($(this).val());
             me.changeYear();
         });
         me.selectMonth = selectMonth.bind('change', function () {
-            me.selectedDate.month = parseInt($(this).val()) - 1;
+            me.choosedDate.month = parseInt($(this).val()) - 1;
             me.changeMonth();
         });
-        me.selectedDate = {};
-        me.selectedDate.year = options.selectedDate.getFullYear();
-        me.selectedDate.month = options.selectedDate.getMonth();
+        me.selectedDate={
+            year: options.selectedDate.getFullYear(),
+            month: options.selectedDate.getMonth(),
+            date: options.selectedDate.getDate()
+        };
+        me.choosedDate = {
+            year: options.selectedDate.getFullYear(),
+            month: options.selectedDate.getMonth(),
+            date: options.selectedDate.getDate()
+        };
         me.tbCalendar = tbCalendar;
         $(document).bind('click.' + me.name + me.guid, function (event) {
             if (jQuery.contains(datePicker.get(0), event.target) || event.target == datePicker.get(0)) {
@@ -82,7 +112,21 @@ $.wa.widget('datepicker', {
     },
     showDatePicker: function () {
         if (this.ui.datePicker.is(':hidden')) {
-            var me = this, options = this.options, selectedDate, offset, left, top;
+            var me = this, options = this.options, selectedDate, offset, left, top, value;
+            value=$.trim(me.element.val());
+            if (value.length) {
+                selectedDate = Date.wa.parseExact(value, options.dateFormat);
+                me.selectedDate = {
+                    year: selectedDate.getFullYear(),
+                    month: selectedDate.getMonth(),
+                    date: selectedDate.getDate()
+                }
+                me.choosedDate = {
+                    year: selectedDate.getFullYear(),
+                    month: selectedDate.getMonth(),
+                    date: selectedDate.getDate()
+                };
+            }
             me.changeYear();
             offset = me.element.offset();
             left = offset.left;
@@ -100,11 +144,20 @@ $.wa.widget('datepicker', {
     },
     changeYear: function () {
         var me = this, options = this.options,
-            i, year, month, yearHtml, montHtml;
+            i, year,minYear,maxYear, month,minMonth,maxMonth, yearHtml, montHtml;
         // initial Year Begin
-        year = me.selectedDate.year;
+        year = me.choosedDate.year;
         yearHtml = [];
-        for (i = year - 10; i <= year + 10; i++) {
+        minYear = year - 10;
+        maxYear = year + 10;
+        if (options.minDate) {
+            minYear = Math.max(minYear, options.minDate.getFullYear());
+        }
+        if (options.maxDate) {
+            maxYear = Math.min(maxYear, options.maxDate.getFullYear());
+        }
+        for (i = minYear; i <= maxYear; i++) {
+            
             yearHtml.push('<option value="' + i + '">' + i + '</option>');
         }
         me.selectYear.empty().append(yearHtml.join(''));
@@ -112,9 +165,21 @@ $.wa.widget('datepicker', {
         // initial Year End
 
         // initial Month Begin
-        month = me.selectedDate.month;
+        month = me.choosedDate.month;
         montHtml = [];
-        for (i = 1; i < 13; i++) {
+        minMonth = 1;
+        maxMonth = 12;
+        if (options.minDate) {
+            if (year == options.minDate.getFullYear()) {
+                minMonth = Math.max(options.minDate.getMonth() + 1, minMonth)
+            }
+        }
+        if (options.maxDate) {
+            if (year == options.maxDate.getFullYear()) {
+                maxMonth = Math.min(options.maxDate.getMonth() + 1, maxMonth)
+            }
+        }
+        for (i = minMonth; i <=maxMonth; i++) {
             montHtml.push('<option value="' + i + '">' + i + '</option>');
         }
         me.selectMonth.empty().append(montHtml.join(''));
@@ -124,17 +189,32 @@ $.wa.widget('datepicker', {
     },
     changeMonth: function () {
         var me = this, options = this.options,
-            year=me.selectedDate.year, month=me.selectedDate.month,
-            date = 1, i, dateTime, date, dateHtml;
+            year = me.choosedDate.year, month = me.choosedDate.month,
+            date = 1, i, dateTime,dateClass, dateHtml,now=new Date();
         dateHtml = [];
         dateTime = new Date(year, month, date++);
         dateHtml.push('<tr>');
         for (i = 0; i < dateTime.getDay() ; i++) {
-            dateHtml.push('<td>&nbsp;</td>');
+            dateHtml.push('<td class="wa-datepicker-date-td">&nbsp;</td>');
         }
         i++;
         while (dateTime.getMonth() == month) {
-            dateHtml.push('<td><a class="wa-datepicker-date' + (dateTime.getDay() == 0 || dateTime.getDay() == 6 ? ' wa-datepicker-weekend' : '') + (dateTime.getDay() == 0 || dateTime.getDay() == 6 ? ' wa-datepicker-weekend' : '') + '">' + dateTime.getDate() + '</a></td>');
+            dateClass = 'wa-datepicker-date';
+            disabled = '';
+            dateClass += (dateTime.getDay() == 0 || dateTime.getDay() == 6 ? ' wa-datepicker-weekend' : '');
+            dateClass += (dateTime.getFullYear() == now.getFullYear() && dateTime.getMonth() == now.getMonth() && dateTime.getDate() == now.getDate() ? ' wa-datepicker-now' : '');
+            dateClass += (dateTime.getFullYear() == me.selectedDate.year && dateTime.getMonth() == me.selectedDate.month && dateTime.getDate() == me.selectedDate.date ? ' wa-datepicker-date-selected' : '');
+            if (options.minDate) {
+                if (dateTime < options.minDate) {
+                    dateClass += ' wa-datepicker-date-disabled';
+                }
+            }
+            if (options.maxDate) {
+                if (dateTime > options.maxDate) {
+                    dateClass += ' wa-datepicker-date-disabled';
+                }
+            }
+            dateHtml.push('<td class="wa-datepicker-date-td"><a class="' + dateClass + '">' + dateTime.getDate() + '</a></td>');
             if (i % 7 == 0) {
                 dateHtml.push('</tr><tr>');
             }
@@ -143,11 +223,38 @@ $.wa.widget('datepicker', {
         }
         if (i % 7 > 1) {
             for (var j = 7 - i % 7; j >= 0; j--) {
-                dateHtml.push('<td>&nbsp;</td>');
+                dateHtml.push('<td class="wa-datepicker-date-td">&nbsp;</td>');
             }
         }
         me.tbCalendar.find('tbody').empty().append(dateHtml.join(''));
+        me.tbCalendar.find('tbody .wa-datepicker-date:not(.wa-datepicker-date-disabled)').bind('click', function () {
+            var selectedDate=new Date(me.choosedDate.year, me.choosedDate.month, parseInt($(this).text()));
+            me.element.val(Date.wa.format(selectedDate, options.dateFormat));
+            if ($.isFunction(options.onSelect)) {
+                options.onSelect.call(me, selectedDate, me.ui);
+            }
+            me.hideDatePicker();
+        }).hover(function () {
+            $(this).addClass('wa-datepicker-date-hover');
+        }, function () {
+            $(this).removeClass('wa-datepicker-date-hover');
+        });
+        me.btnPrev.removeClass('wa-datepicker-nav-disbaled');
+        me.btnNext.removeClass('wa-datepicker-nav-disbaled');
+        if (options.minDate) {
+            if (me.selectedDate.year == options.minDate.getFullYear() && me.choosedDate.month == options.minDate.getMonth()) {
+                me.btnPrev.addClass('wa-datepicker-nav-disbaled');
+            }
+        }
+        if (options.maxDate) {
+            if (me.selectedDate.year == options.maxDate.getFullYear() && me.choosedDate.month == options.maxDate.getMonth()) {
+                me.btnNext.addClass('wa-datepicker-nav-disbaled');
+            }
+        }
     },
     destroy: function () {
+        this.element.unbind('.' + this.name);
+        $(document).unbind('click.' + this.name + this.guid);
+        $.wa.base.prototype.destroy.call(this);
     }
 });

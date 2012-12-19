@@ -6,10 +6,27 @@
     <link href="../Style/jquery.wa.datepicker.css" rel="stylesheet" />
     <script src="../Script/jquery-1.7.1.js"></script>
     <script src="../Script/jquery.wa.core.js"></script>
+    <script src="../Script/jquery.wa.date.js"></script>
     <script src="../Script/jquery.wa.datepicker.js"></script>
     <script type="text/javascript">
         $(function () {
-            $('#txtDate').datepicker();
+            $('#txtDate').datepicker({ minDate: new Date(2012, 10, 20), maxDate: new Date(2012, 11, 30) });
+            var dateFrom = $('#txtDateFrom').datepicker({
+                minDate: new Date(2012, 0, 1),
+                maxDate: new Date(2012, 11, 30),
+                dateFormat: 'yyyy年MM月dd日',
+                onSelect: function (date) {
+                    dateTo.datepicker('option', { minDate: date });
+                }
+            });
+            var dateTo = $('#txtDateTo').datepicker({
+                minDate: new Date(2012, 0, 1),
+                maxDate: new Date(2012, 11, 30),
+                dateFormat: 'yyyy年MM月dd日',
+                onSelect: function (date) {
+                    dateFrom.datepicker('option', { maxDate: date });
+                }
+            });
         });
     </script>
 </head>
@@ -17,7 +34,11 @@
     <table style="margin: auto;">
         <tr>
             <td>
-                <input type="text" id="txtDate" /></td>
+                <input type="text" id="txtDate" />
+            </td>
+        </tr>
+        <tr>
+            <td>From<input type="text" id="txtDateFrom" />To<input type="text" id="txtDateTo" /></td>
         </tr>
     </table>
 
