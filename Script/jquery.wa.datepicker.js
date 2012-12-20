@@ -4,13 +4,13 @@ $.wa.widget('datepicker', {
     options: {
         minDate: null,
         maxDate: null,
-        selectedDate: new Date(),
+        selectedDate: null,
         dateFormat: 'yyyy-MM-dd',
         onSelect:null
     },
     _create: function () {
         var me = this, options = this.options,datePicker, datePickerHtml = [],
-            btnPrev, btnNext, selectYear, selectMonth, tbCalendar;
+            btnPrev, btnNext, selectYear, selectMonth, tbCalendar,now;
         me.guid=$.wa.guid++;
         me.element.bind('click.' + me.name, function () {
             me.showDatePicker();
@@ -19,19 +19,19 @@ $.wa.widget('datepicker', {
         if (datePicker.length == 0) {
             datePickerHtml.push('<div class="wa-datepicker" style="display:none;">');
             datePickerHtml.push('<div class="wa-datepicker-header">');
-            datePickerHtml.push('<a class="wa-datepicker-prev"><</a>');
-            datePickerHtml.push('<a class="wa-datepicker-next">></a>');
+            datePickerHtml.push('<a class="wa-button wa-datepicker-prev"><</a>');
+            datePickerHtml.push('<a class="wa-button wa-datepicker-next">></a>');
             datePickerHtml.push('<div class="wa-datepicker-title">');
             datePickerHtml.push('<select class="wa-datepicker-select-year"></select>');
             datePickerHtml.push('<select class="wa-datepicker-select-month"></select>');
             datePickerHtml.push('</div>');
             datePickerHtml.push('</div>');
             datePickerHtml.push('<table cellspacing="0" cellpadding="0" border="0"  class="wa-datepicker-calendar">');
-            datePickerHtml.push('<thead><tr><th>Su</th><th>Mo</th><th>Tu</th><th>We</th><th>Th</th><th>Fr</th><th>Sa</th></tr></thead>');
+            datePickerHtml.push('<thead class="wa-datepicker-week"><tr><th>Su</th><th>Mo</th><th>Tu</th><th>We</th><th>Th</th><th>Fr</th><th>Sa</th></tr></thead>');
             datePickerHtml.push('<tbody></tbody>');
             datePickerHtml.push('</table>');
             datePickerHtml.push('</div>');
-            datePicker = $(datePickerHtml.join('')).appendTo(document.body);
+            datePicker = $(datePickerHtml.join('')).appendTo(document.body).disableSelection();
             btnPrev = $('.wa-datepicker-prev', datePicker);
             btnNext = $('.wa-datepicker-next', datePicker);
             selectYear = $('.wa-datepicker-select-year', datePicker);
@@ -86,16 +86,30 @@ $.wa.widget('datepicker', {
             me.choosedDate.month = parseInt($(this).val()) - 1;
             me.changeMonth();
         });
-        me.selectedDate={
-            year: options.selectedDate.getFullYear(),
-            month: options.selectedDate.getMonth(),
-            date: options.selectedDate.getDate()
-        };
-        me.choosedDate = {
-            year: options.selectedDate.getFullYear(),
-            month: options.selectedDate.getMonth(),
-            date: options.selectedDate.getDate()
-        };
+        now = new Date();
+        if (options.selectedDate) {
+            me.selectedDate = {
+                year: options.selectedDate.getFullYear(),
+                month: options.selectedDate.getMonth(),
+                date: options.selectedDate.getDate()
+            };
+            me.choosedDate = {
+                year: options.selectedDate.getFullYear(),
+                month: options.selectedDate.getMonth(),
+                date: options.selectedDate.getDate()
+            };
+        } else {
+            me.selectedDate = {
+                year: 0,
+                month:0,
+                date: 0
+            };
+            me.choosedDate = {
+                year: now.getFullYear(),
+                month: now.getMonth(),
+                date: now.getDate()
+            };
+        }
         me.tbCalendar = tbCalendar;
         $(document).bind('click.' + me.name + me.guid, function (event) {
             if (jQuery.contains(datePicker.get(0), event.target) || event.target == datePicker.get(0)) {
@@ -242,12 +256,12 @@ $.wa.widget('datepicker', {
         me.btnPrev.removeClass('wa-datepicker-nav-disbaled');
         me.btnNext.removeClass('wa-datepicker-nav-disbaled');
         if (options.minDate) {
-            if (me.selectedDate.year == options.minDate.getFullYear() && me.choosedDate.month == options.minDate.getMonth()) {
+            if (me.choosedDate.year == options.minDate.getFullYear() && me.choosedDate.month == options.minDate.getMonth()) {
                 me.btnPrev.addClass('wa-datepicker-nav-disbaled');
             }
         }
         if (options.maxDate) {
-            if (me.selectedDate.year == options.maxDate.getFullYear() && me.choosedDate.month == options.maxDate.getMonth()) {
+            if (me.choosedDate.year == options.maxDate.getFullYear() && me.choosedDate.month == options.maxDate.getMonth()) {
                 me.btnNext.addClass('wa-datepicker-nav-disbaled');
             }
         }

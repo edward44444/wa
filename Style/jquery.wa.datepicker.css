@@ -5,10 +5,15 @@
     text-align:center;
     padding:2px;
     background-color:#FFFFFF;
+    border-radius:4px;
 }
 .wa-datepicker-header {
     position:relative;
     text-align:center;
+    border:1px solid #AAA;
+    border-radius:4px;
+    padding:1px 0px;
+    background:transparent url(Images/ui-bg-highlight.png) repeat-x 50% 50% scroll;
 }
 .wa-datepicker-prev,.wa-datepicker-next {
     display:block;
@@ -18,17 +23,23 @@
     position:absolute;
     overflow:hidden;
     cursor:pointer;
+    top:50%;
+    margin-top:-8px;
 }
 .wa-datepicker-prev {
     left:2px;
-    top:2px;
+    background-position:-80px -192px;
+    top:50%;
+    margin-top:-8px;
 }
 .wa-datepicker-nav-disbaled {
     color:#808080;
+    opacity:0.6;
+    filter:alpha(opacity=60);
 }
 .wa-datepicker-next {
     right:2px;
-    top:2px;
+    background-position:-48px -192px;
 }
 .wa-datepicker-select-year {
     width:5em;
@@ -43,16 +54,17 @@
     margin-left:0px;
     margin-right:0px;
 }
+.wa-datepicker-week {
+    line-height:2em;
+}
 .wa-datepicker-date-td {
     padding:2px 2px;
 }
 .wa-datepicker-date {
     display:block;
     text-align:right;
-    padding-top:1px;
-    padding-bottom:1px;
-    padding-left:1px;
-    padding-right:5px;
+    line-height:1.5em;
+    padding-right:0.4em;
     cursor:pointer;
 }
 .wa-datepicker-date.wa-datepicker-date-hover,.wa-datepicker-date.wa-datepicker-date-selected.wa-datepicker-date-hover {

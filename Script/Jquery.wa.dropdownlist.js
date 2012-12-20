@@ -47,15 +47,7 @@ $.wa.widget('dropdownlist', {
                 'margin-top':'-1px'
 	        });
 	    }
-	    buttonArrowDown = $('<a class="wa-button wa-dropdownlist-button-arrow-down">▼</a>')
-            .css({
-                'position': 'absolute',
-                right: '0px',
-                top: '0px',
-                height: height + 'px',
-                'line-height': height + 'px'
-            })
-            .appendTo(wrap);
+	    buttonArrowDown = $('<a class="wa-button wa-dropdownlist-button-arrow-down">▼</a>').appendTo(wrap);
 	    listItems = $('<div style="display:none;"></div>')
             .appendTo(document.body)
             .addClass('wa-dropdownlist-content');

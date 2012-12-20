@@ -14,8 +14,12 @@ body {
   margin-bottom:0px;
   border-width:0px;
   font-size:12px;
+  font-family:微软雅黑;
 }
 .wa-button {
     display:block;
     cursor:pointer;
+    background-image:url(Images/ui-icons.png);
+    text-indent:-999px;
+    overflow:hidden;
 }
