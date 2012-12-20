@@ -10,7 +10,11 @@ $.wa.widget('datepicker', {
     },
     _create: function () {
         var me = this, options = this.options,datePicker, datePickerHtml = [],
-            btnPrev, btnNext, selectYear, selectMonth, tbCalendar,now;
+            btnPrev, btnNext, selectYear, selectMonth, tbCalendar, now;
+        me.element.attr({
+            'autocomplete': 'off',
+            'readonly':'true'
+        }).val('');
         me.guid=$.wa.guid++;
         me.element.bind('click.' + me.name, function () {
             me.showDatePicker();
@@ -145,6 +149,9 @@ $.wa.widget('datepicker', {
             offset = me.element.offset();
             left = offset.left;
             top = offset.top + me.element.outerHeight();
+            if (top + me.ui.datePicker.outerHeight() > $(window).height()) {
+                top = offset.top - me.ui.datePicker.outerHeight();
+            }
             me.ui.datePicker.css({
                 'z-index': (4 + $.wa.overlayZindex)
             }).show().offset({
@@ -267,7 +274,7 @@ $.wa.widget('datepicker', {
         }
     },
     destroy: function () {
-        this.element.unbind('.' + this.name);
+        this.element.unbind('.' + this.name).removeAttr('readonly');
         $(document).unbind('click.' + this.name + this.guid);
         $.wa.base.prototype.destroy.call(this);
     }

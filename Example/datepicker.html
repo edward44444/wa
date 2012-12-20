@@ -10,7 +10,7 @@
     <script src="../Script/jquery.wa.datepicker.js"></script>
     <script type="text/javascript">
         $(function () {
-            $('#txtDate').datepicker({selectedDate:new Date(2012,11,25), minDate: new Date(2012, 10, 20), maxDate: new Date(2012, 11, 30) });
+            $('#txtDate').datepicker({ selectedDate: new Date(2012, 11, 25), minDate: new Date(2012, 10, 20), maxDate: new Date(2012, 11, 30) });
             var dateFrom = $('#txtDateFrom').datepicker({
                 minDate: new Date(2012, 0, 1),
                 maxDate: new Date(2012, 11, 30),
@@ -34,13 +34,15 @@
     <table style="margin: auto;">
         <tr>
             <td>
-                <input type="text" id="txtDate" />
+                <input type="text" id="txtDate" autocomplete="off" readonly="true" />
             </td>
         </tr>
+
+    </table>
+    <table style="margin-top:300px;">
         <tr>
             <td>From<input type="text" id="txtDateFrom" />To<input type="text" id="txtDateTo" /></td>
         </tr>
     </table>
-
 </body>
 </html>

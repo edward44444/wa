@@ -153,6 +153,12 @@ $.wa.widget('dropdownlist', {
 	        }
 	        me.hideListItems();
 	    });
+	    $(window).bind('resize.' + me.name + me.guid, function () {
+	        me.resizeTimeOut = setTimeout(function () {
+	            wrap.offset(me.element.offset());
+	            clearTimeout(me.resizeTimeOut);
+	        }, 0);
+	    });
 	    me.ui = {};
 	    me.ui.listItems = listItems;
 	    me.ui.wrap = wrap;
@@ -170,6 +176,9 @@ $.wa.widget('dropdownlist', {
 	        var offset = this.ui.wrap.offset(),
                     left = offset.left,
                     top = offset.top + this.ui.wrap.outerHeight();
+	        if (top + this.ui.listItems.outerHeight() > $(window).height()) {
+	            top = offset.top - this.ui.listItems.outerHeight();
+	        }
 	        if (showAll) {
 	            this.ui.listItems.find('.wa-dropdownlist-item').parent().show();
 	        }
@@ -202,6 +211,7 @@ $.wa.widget('dropdownlist', {
 	},
 	destroy: function () {
 	    $(document).unbind('click.' + this.name + this.guid);
+	    $(window).unbind('resize.'+this.name + this.guid);
 	    $.wa.base.prototype.destroy.call(this);
 	}
 });
