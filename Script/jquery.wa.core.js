@@ -57,6 +57,7 @@ $.wa.base.prototype = {
     destroy: function () {
         for (property in this.ui) {
             this.ui[property].remove();
+            this.ui[property] = null;
         }
         this.element.removeData(this.name);
     }

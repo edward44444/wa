@@ -108,7 +108,7 @@ $.wa.widget('resizeable', {
             borderRightWidth = me.variables.borderLeftWidth,
             borderBottomWidth = me.variables.borderLeftWidth,
             borderTopWidth = me.variables.borderLeftWidth
-        target.bind('mouseover.' + me.name, function (e) {
+	    target.bind('mouseover.' + me.name, function (e) {
             target.unbind('mousedown.' + me.name).bind('mousedown.' + me.name, function (e) {
                 //$(document.body).overlay({ opacity: 0.0 });
                 overlay = $('<div></div>').css({

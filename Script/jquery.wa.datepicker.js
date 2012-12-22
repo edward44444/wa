@@ -9,39 +9,36 @@ $.wa.widget('datepicker', {
         onSelect:null
     },
     _create: function () {
-        var me = this, options = this.options,datePicker, datePickerHtml = [],
+        var me = this, options = this.options, datePicker, datePickerHtml = [],
             btnPrev, btnNext, selectYear, selectMonth, tbCalendar, now;
         me.element.attr({
             'autocomplete': 'off',
-            'readonly':'true'
+            'readonly': 'true'
         }).val('');
-        me.guid=$.wa.guid++;
+        me.guid = $.wa.guid++;
         me.element.bind('click.' + me.name, function () {
             me.showDatePicker();
         });
-        datePicker = $('#wa-datepicker');
-        if (datePicker.length == 0) {
-            datePickerHtml.push('<div class="wa-datepicker" style="display:none;">');
-            datePickerHtml.push('<div class="wa-datepicker-header">');
-            datePickerHtml.push('<a class="wa-button wa-datepicker-prev"><</a>');
-            datePickerHtml.push('<a class="wa-button wa-datepicker-next">></a>');
-            datePickerHtml.push('<div class="wa-datepicker-title">');
-            datePickerHtml.push('<select class="wa-datepicker-select-year"></select>');
-            datePickerHtml.push('<select class="wa-datepicker-select-month"></select>');
-            datePickerHtml.push('</div>');
-            datePickerHtml.push('</div>');
-            datePickerHtml.push('<table cellspacing="0" cellpadding="0" border="0"  class="wa-datepicker-calendar">');
-            datePickerHtml.push('<thead class="wa-datepicker-week"><tr><th>Su</th><th>Mo</th><th>Tu</th><th>We</th><th>Th</th><th>Fr</th><th>Sa</th></tr></thead>');
-            datePickerHtml.push('<tbody></tbody>');
-            datePickerHtml.push('</table>');
-            datePickerHtml.push('</div>');
-            datePicker = $(datePickerHtml.join('')).appendTo(document.body).disableSelection();
-            btnPrev = $('.wa-datepicker-prev', datePicker);
-            btnNext = $('.wa-datepicker-next', datePicker);
-            selectYear = $('.wa-datepicker-select-year', datePicker);
-            selectMonth = $('.wa-datepicker-select-month', datePicker);
-            tbCalendar = $('.wa-datepicker-calendar', datePicker);
-        }
+        datePickerHtml.push('<div class="wa-datepicker" style="display:none;">');
+        datePickerHtml.push('<div class="wa-datepicker-header">');
+        datePickerHtml.push('<a class="wa-button wa-datepicker-prev"><</a>');
+        datePickerHtml.push('<a class="wa-button wa-datepicker-next">></a>');
+        datePickerHtml.push('<div class="wa-datepicker-title">');
+        datePickerHtml.push('<select class="wa-datepicker-select-year"></select>');
+        datePickerHtml.push('<select class="wa-datepicker-select-month"></select>');
+        datePickerHtml.push('</div>');
+        datePickerHtml.push('</div>');
+        datePickerHtml.push('<table cellspacing="0" cellpadding="0" border="0"  class="wa-datepicker-calendar">');
+        datePickerHtml.push('<thead class="wa-datepicker-week"><tr><th>Su</th><th>Mo</th><th>Tu</th><th>We</th><th>Th</th><th>Fr</th><th>Sa</th></tr></thead>');
+        datePickerHtml.push('<tbody></tbody>');
+        datePickerHtml.push('</table>');
+        datePickerHtml.push('</div>');
+        datePicker = $(datePickerHtml.join('')).disableSelection();
+        btnPrev = $('.wa-datepicker-prev', datePicker);
+        btnNext = $('.wa-datepicker-next', datePicker);
+        selectYear = $('.wa-datepicker-select-year', datePicker);
+        selectMonth = $('.wa-datepicker-select-month', datePicker);
+        tbCalendar = $('.wa-datepicker-calendar', datePicker);
         me.btnPrev = btnPrev.bind('click', function () {
             var self = $(this);
             if (self.is('.wa-datepicker-nav-disbaled')) {
@@ -105,7 +102,7 @@ $.wa.widget('datepicker', {
         } else {
             me.selectedDate = {
                 year: 0,
-                month:0,
+                month: 0,
                 date: 0
             };
             me.choosedDate = {
@@ -126,11 +123,13 @@ $.wa.widget('datepicker', {
         });
         me.ui = {};
         me.ui.datePicker = datePicker;
-
     },
     showDatePicker: function () {
         if (this.ui.datePicker.is(':hidden')) {
             var me = this, options = this.options, selectedDate, offset, left, top, value;
+            if (!me.ui.datePicker.parent().length) {
+                me.ui.datePicker.appendTo(document.body);
+            }
             value=$.trim(me.element.val());
             if (value.length) {
                 selectedDate = Date.wa.parseExact(value, options.dateFormat);
@@ -162,6 +161,7 @@ $.wa.widget('datepicker', {
     },
     hideDatePicker: function () {
         this.ui.datePicker.hide();
+        this.ui.datePicker.detach();
     },
     changeYear: function () {
         var me = this, options = this.options,
@@ -271,6 +271,10 @@ $.wa.widget('datepicker', {
             if (me.choosedDate.year == options.maxDate.getFullYear() && me.choosedDate.month == options.maxDate.getMonth()) {
                 me.btnNext.addClass('wa-datepicker-nav-disbaled');
             }
+        }
+        // http: //jsfiddle.net/edward44444/v2NmD/1/
+        if ($.browser.msie && $.browser.version >= 9) {
+            me.ui.datePicker[0].style.display = '';
         }
     },
     destroy: function () {

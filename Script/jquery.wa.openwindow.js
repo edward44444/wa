@@ -50,20 +50,20 @@ $.wa.widget('openwindow', {
             height: openwindow.height()+'px'
         });
         html.push('<div class="wa-window-resize">');
-        html.push('  <div class="wa-window-resize-top"></div>');
-        html.push('  <div class="wa-window-resize-top-left"></div>');
-        html.push('  <div class="wa-window-resize-top-right"></div>');
-        html.push('  <div class="wa-window-resize-bottom"></div>');
-        html.push('  <div class="wa-window-resize-bottom-left"></div>');
-        html.push('  <div class="wa-window-resize-bottom-right"></div>');
-        html.push('  <div class="wa-window-resize-left"></div>');
-        html.push('  <div class="wa-window-resize-right"></div>');
+        html.push('  <div class="wa-resize-top wa-window-resize-top"></div>');
+        html.push('  <div class="wa-resize-top-left wa-window-resize-top-left"></div>');
+        html.push('  <div class="wa-resize-top-right wa-window-resize-top-right"></div>');
+        html.push('  <div class="wa-resize-bottom wa-window-resize-bottom"></div>');
+        html.push('  <div class="wa-resize-bottom-left wa-window-resize-bottom-left"></div>');
+        html.push('  <div class="wa-resize-bottom-right wa-window-resize-bottom-right"></div>');
+        html.push('  <div class="wa-resize-left wa-window-resize-left"></div>');
+        html.push('  <div class="wa-resize-right wa-window-resize-right"></div>');
         html.push('</div>');
         html.push('<div class="wa-window-inner">');
         html.push('  <div class="wa-window-header">');
         html.push('    <div class="wa-window-title">' + options.title + '</div>');
         html.push('    <div class="wa-window-tool">');
-        html.push('      <a class="wa-button-close">×</a>');
+        html.push('      <a class="wa-window-button-close">×</a>');
         html.push('    </div>');
         html.push('  </div>');
         html.push('  <div class="wa-window-body">');
@@ -74,7 +74,7 @@ $.wa.widget('openwindow', {
         var windowInner = $('.wa-window-inner', openwindow),
             windowFrame = $('.wa-window-iframe', openwindow),
             windowHeader = $('.wa-window-header', openwindow),
-            buttonClose = $('.wa-button-close', openwindow).
+            buttonClose = $('.wa-window-button-close', openwindow).
             bind('click.' + me.name, function () {
                 me.hide();
             }).bind('mousedown.' + me.name, function (e) {
