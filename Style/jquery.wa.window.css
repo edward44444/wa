@@ -96,10 +96,14 @@
    bottom:0px;
 }
 .wa-window-iframe {
-    border-style:none;
-    border-width:0px;
-    width:100%;
-    background-color:white;
+    border-style: none;
+    border-width: 0px;
+    width: 100%;
+    background-color: white;
+    margin: 0px;
+    outline-style: none;
+    outline-width:0px;
+    display:block;/*remove iframe margin bottom space*/
 }
 .wa-window-button-close {
     width:16px;

@@ -11,7 +11,6 @@ $.wa.widget('openwindow', {
         refresh: true,
         showSimulate:true
     },
-    resizeTimeOut:null,
     _create: function () {
         var me = this;
         this.element.bind('click.' + me.name, function () {
@@ -67,7 +66,7 @@ $.wa.widget('openwindow', {
         html.push('    </div>');
         html.push('  </div>');
         html.push('  <div class="wa-window-body">');
-        html.push('      <iframe class="wa-window-iframe" frameborder="0"></iframe>');
+        html.push('      <iframe class="wa-window-iframe" scrolling="auto" frameborder="0"></iframe>');
         html.push('  </div>');
         html.push('</div>');
         openwindow.append(html.join(''));
@@ -112,16 +111,19 @@ $.wa.widget('openwindow', {
             $(window).bind('resize.' + me.name+me.guid, function () {
                 //console.log('resize');
                 // in Chrome reszie event will raise twice when resize window
-                me.resizeTimeOut = setTimeout(function () {
-                    overlay.css({
-                        width: 0 + 'px',
-                        height: 0 + 'px'
-                    }).css({
-                        'width': Math.max($(document.body).width(),$(window).width()) + 'px',
-                        'height':Math.max($(document.body).height(),$(window).height()) + 'px'
-                    });
-                    clearTimeout(me.resizeTimeOut);
-                }, 0);
+                if (!me.resizeTimerId) {
+                    me.resizeTimerId = setTimeout(function () {
+                        overlay.css({
+                            width: 0 + 'px',
+                            height: 0 + 'px'
+                        }).css({
+                            'width': Math.max($(document.body).width(), $(window).width()) + 'px',
+                            'height': Math.max($(document.body).height(), $(window).height()) + 'px'
+                        });
+                        clearTimeout(me.resizeTimerId);
+                        me.resizeTimerId = null;
+                    }, 0);
+                }
             });
         }
         windowFrame.attr('src', options.url);
