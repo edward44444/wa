@@ -8,7 +8,6 @@ $.wa.widget('overlay',{
         attachWindowResize:false
     },
     overlay:null,
-    resizeTimeOut: null,
     ui:{},
     _create: function () {
         var me = this;
@@ -41,16 +40,19 @@ $.wa.widget('overlay',{
         });
         me.element.bind('resize.' + me.name, function () {
             // in Chrome reszie event will raise twice when resize window
-            me.resizeTimeOut = setTimeout(function () {
-                overlay.css({
-                    width: 0 + 'px',
-                    height: 0 + 'px'
-                }).css({
-                    'width': me.element.width() + 'px',
-                    'height': me.element.height() + 'px'
-                });
-                clearTimeout(me.resizeTimeOut);
-            }, 0);
+            if (!me.resizeTimerId) {
+                me.resizeTimerId = setTimeout(function () {
+                    overlay.css({
+                        width: 0 + 'px',
+                        height: 0 + 'px'
+                    }).css({
+                        'width': me.element.width() + 'px',
+                        'height': me.element.height() + 'px'
+                    });
+                    clearTimeout(me.resizeTimerId);
+                    me.resizeTimerId = null;
+                }, 0);
+            }
             //if (me.element.is('body')) {
             //    me.resizeTimeOut = setTimeout(function () {
             //        overlay.css({
