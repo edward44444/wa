@@ -12,7 +12,7 @@ $.wa.widget('resizeable', {
 	    resizeSE: '.wa-resize-bottom-right',
 	    resizeSW: '.wa-resize-bottom-left',
 	    showSimulate: true,
-	    container: 'parent',
+	    container: null,
 	    minWidth: 80,
         minHeight:80
 	},
@@ -71,7 +71,7 @@ $.wa.widget('resizeable', {
 	    if (options.container == 'parent') {
 	        container = me.element.parent();
 	    } else {
-	        container = $(document);
+	        container =options.container|| $(document.body);
 	    }
 	    me.container = container;
 	    me.variables = {

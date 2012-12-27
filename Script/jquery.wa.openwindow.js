@@ -85,6 +85,7 @@ $.wa.widget('openwindow', {
         openwindow.offset({ left: left, top: top })
             .dragable({
                 showSimulate: options.showSimulate,
+                container:$(document.body),
                 handle: '.wa-window-header'
             })
             .resizeable({ showSimulate: options.showSimulate })

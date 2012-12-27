@@ -2,10 +2,17 @@
 /// <reference path="jquery.wa.overlay.js" />
 $.wa.widget('dragable', {
     options: {
-        container: 'parent',
+        container:null,
         showSimulate: false,
         handle: null,
-        axis:null
+        axis: null,
+        onDragStart: function () {
+        },
+        onBeforeDrag: function (offset) {
+            return offset;
+        },
+        onDragEnd: function () {
+        }
     },
     _create: function () {
         var me = this,options=this.options,handle,container;
@@ -18,7 +25,7 @@ $.wa.widget('dragable', {
         if (options.container == 'parent') {
             container = me.element.parent();
         } else {
-            container = $(document);
+            container = options.container || $(document.body);
         }
         var containerWidth,
             containerHeight,
@@ -30,9 +37,10 @@ $.wa.widget('dragable', {
             borderBottomWidth = parseInt(me.element.css('border-bottom-width')),
             borderTopWidth = parseInt(me.element.css('border-top-width')),
             elementOffset, simulateBorderWidth = 1,
-            simulate,overlay,mouseRelativeLeft, mouseRelativeTop, left, top;
+            simulate,overlay,mouseRelativeLeft, mouseRelativeTop, left, top,offset,draged=false;
         handle.css({ 'cursor': 'move' }).bind('mouseover.' + me.name, function (e) {
             handle.unbind('mousedown.' + me.name).bind('mousedown.' + me.name, function (e) {
+                draged = false;
                 containerWidth = container.width();
                 containerHeight = container.height();
                 containerOffset = container.offset();
@@ -65,6 +73,13 @@ $.wa.widget('dragable', {
                 mouseRelativeLeft = e.pageX - elementOffset.left;
                 mouseRelativeTop = e.pageY - elementOffset.top;
                 $(document).bind('mousemove.' + me.name, function (e) {
+                    if (!draged) {
+                        if ($.isFunction(options.onDragStart)) {
+                            options.onBeforeDrag.call(me.element);
+                        }
+                        draged = true;
+                        alert('eee');
+                    }
                     e.preventDefault();
                     left = e.pageX - mouseRelativeLeft;
                     top = e.pageY - mouseRelativeTop;
@@ -79,12 +94,22 @@ $.wa.widget('dragable', {
                     } else if (options.axis == 'x') {
                         top = elementOffset.top;
                     }
+                    offset = {
+                        left: left,
+                        top: top
+                    };
+                    if ($.isFunction(options.onBeforeDrag)) {
+                        offset = options.onBeforeDrag.call(me.element, offset);
+                    }
                     if (options.showSimulate == true) {
-                        simulate.offset({ left: left, top: top });
+                        simulate.offset(offset);
                     } else {
-                        me.element.offset({ left: left, top: top });
+                        me.element.offset(offset);
                     }
                 }).bind('mouseup.' + me.name, function (e) {
+                    if ($.isFunction(options.onDragEnd)) {
+                        options.onDragEnd.call(me.element);
+                    }
                     overlay.remove();
                     $(document).unbind('mousemove.' + me.name).unbind('mouseup.' + me.name);
                     if (options.showSimulate == true) {

@@ -16,7 +16,7 @@ Date.wa.format = function (date, format) {
     ms = date.getMilliseconds();
     ms = ms > 99 ? ms : '0' + (ms > 9 ? ms : '0' + ms);
     return format.replace(/yyyy/g, yyyy).replace(/MM/g, MM).replace(/dd/g, dd).replace(/HH/g, HH).replace(/mm/g, mm).replace(/ss/g, ss).replace(/ms/g, ms);
-}
+};
 Date.wa.parseExact = function (dateString, format) {
     var year = 0, month = 0, date = 1, hour = 0, minute = 0, second = 0, millisecond = 0,
         formatReg = /yyyy|MM|dd|HH|mm|ss|ms/g,
@@ -53,4 +53,7 @@ Date.wa.parseExact = function (dateString, format) {
         millisecond = parseInt(matches[index + 1]);
     }
     return new Date(year, month, date, hour, minute, second, millisecond);
-}
+};
+Date.prototype.addDay = function (num) {
+    return new Date(this.getTime() + 86400000);
+};
