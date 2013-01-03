@@ -1,5 +1,4 @@
 ﻿/// <reference path="jquery.wa.core.js" />
-
 /// All property shoud declare use this or the property will in prototype
 $.wa.widget('overlay',{
     options: {
@@ -7,78 +6,41 @@ $.wa.widget('overlay',{
         zIndex: 10001,
         attachWindowResize:false
     },
-    overlay:null,
-    ui:{},
     _create: function () {
-        var me = this;
-        var overlay = $('<div></div>').appendTo(document.body);
-        var position, width, height;
-        width = this.element.width();
-        height = this.element.height();
-        if (this.element.get(0) == window || this.element.get(0) == document) {
-            position = { left: 0, top: 0, borderLeftWidth: 0, borderTopWidth: 0 };  
-        } else {
-            position = this.element.offset();
-            position.borderLeftWidth = parseInt(this.element.css('border-left-width'));
-            position.borderTopWidth = parseInt(this.element.css('border-top-width'));
-        }
-        if (me.element.is('body')) {
-            //width = Math.max(me.element.width(), $(window).width());
-            //height = Math.max(me.element.height(), $(window).height());
-            width = me.element.width();
-            height = me.element.height();
-        }
-        overlay.css({
+        this.guid = $.wa.guid++;
+        var me = this, options = this.options, overlay,
+            position, width, height;
+        width = this.element.outerWidth();
+        height = this.element.outerHeight();
+        position = this.element.offset() || { left: 0, top: 0 };
+        overlay=$('<div></div>').appendTo(document.body).css({
             'position': 'absolute',
             'width': width + 'px',
             'height': height + 'px',
-            'opacity': this.options.opacity,
-            'z-index': (this.options.zIndex?this.options.zIndex:$.wa.overlayZindex++),
+            'opacity': options.opacity,
+            'z-index': (options.zIndex ?options.zIndex : $.wa.overlayZindex++),
             'background-color': '#000000',
-            'left': position.left + position.borderLeftWidth + 'px',
-            'top': position.top + position.borderTopWidth + 'px'
+            'left': position.left + 'px',
+            'top': position.top + 'px'
         });
         me.element.bind('resize.' + me.name, function () {
-            // in Chrome reszie event will raise twice when resize window
+            // in some browser, reszie event will raise twice when resize window
             if (!me.resizeTimerId) {
                 me.resizeTimerId = setTimeout(function () {
                     overlay.css({
                         width: 0 + 'px',
                         height: 0 + 'px'
                     }).css({
-                        'width': me.element.width() + 'px',
-                        'height': me.element.height() + 'px'
+                        'width': me.element.outerWidth() + 'px',
+                        'height': me.element.outerHeight() + 'px'
                     });
                     clearTimeout(me.resizeTimerId);
                     me.resizeTimerId = null;
                 }, 0);
             }
-            //if (me.element.is('body')) {
-            //    me.resizeTimeOut = setTimeout(function () {
-            //        overlay.css({
-            //            width: 0 + 'px',
-            //            height: 0 + 'px'
-            //        }).css({
-            //            'width': Math.max(me.element.width(), $(window).width()) + 'px',
-            //            'height': Math.max(me.element.height(), $(window).height()) + 'px'
-            //        });
-            //        clearTimeout(me.resizeTimeOut);
-            //    }, 0);
-            //} else {
-            //    me.resizeTimeOut = setTimeout(function () {
-            //        overlay.css({
-            //            width: 0 + 'px',
-            //            height: 0 + 'px'
-            //        }).css({
-            //            'width': me.element.width() + 'px',
-            //            'height': me.element.height() + 'px'
-            //        });
-            //        clearTimeout(me.resizeTimeOut);
-            //    }, 0);
-            //}
         });
         if (me.options.attachWindowResize) {
-            $(window).bind('resize.' + me.name, function () {
+            $(window).bind('resize.' + me.name+me.guid, function () {
                 me.element.triggerHandler('resize.' + me.name);
             });
         }
@@ -94,6 +56,7 @@ $.wa.widget('overlay',{
         this._create();
     },
     destroy: function () {
+        $(window).unbind('.' + this.name + this.guid);
         this.element.removeClass('has-wa-overlay');
         $.wa.base.prototype.destroy.call(this);
     },

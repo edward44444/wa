@@ -1,0 +1,19 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <link href="../Style/jquery.wa.core.css" rel="stylesheet" />
+    <script src="../Script/jquery-1.7.1.js"></script>
+    <script src="../Script/jquery.wa.core.js"></script>
+    <script src="../Script/jquery.wa.dragable.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $('#div1').dragable({ showSimulate: true,container:'parent' });
+            //$('#div1').dragable('destroy');
+        });
+    </script>
+</head>
+<body>
+    <div id="div1" style="width:100px;height:100px;border:10px solid #0026ff;"></div>
+</body>
+</html>

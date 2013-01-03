@@ -17,6 +17,7 @@ $.wa.widget('resizeable', {
         minHeight:80
 	},
 	_create: function () {
+	    this.guid = $.wa.guid++;
 	    this.control = {};
 	    var me = this, options = this.options, container,
             resizeN = $(options.resizeN, me.element),
@@ -98,8 +99,8 @@ $.wa.widget('resizeable', {
 	    me._bindEvent(resizeSW,'sw');
 	},
 	_bindEvent: function (target, orient) {
-	    var me = this, options = this.options, elementOffset, elementWidth, elementHeight,
-            simulate, overlay, simulateOffset, simulateBorderWidth = 1,resizeTarget,
+	    var me = this, options = this.options, elementOffset, elementWidth,elementOuterWidth, elementHeight,
+            elementOuterHeight, simulate, overlay, simulateOffset, simulateBorderWidth = 1, resizeTarget,
             mouseRelativeLeft, mouseRelativeTop, left, top;
 	    var containerWidth,
             containerHeight,
@@ -109,8 +110,7 @@ $.wa.widget('resizeable', {
             borderBottomWidth = me.variables.borderLeftWidth,
             borderTopWidth = me.variables.borderLeftWidth
 	    target.bind('mouseover.' + me.name, function (e) {
-            target.unbind('mousedown.' + me.name).bind('mousedown.' + me.name, function (e) {
-                //$(document.body).overlay({ opacity: 0.0 });
+	        target.unbind('mousedown.' + me.name).bind('mousedown.' + me.name, function (e) {
                 overlay = $('<div></div>').css({
                     "position": "absolute",
                     "zIndex": (4 + $.wa.overlayZindex),
@@ -127,6 +127,8 @@ $.wa.widget('resizeable', {
                 elementOffset = me.element.offset();
                 elementWidth = me.element.width();
                 elementHeight = me.element.height();
+                elementOuterWidth = elementWidth + borderLeftWidth + borderRightWidth;
+                elementOuterHeight = elementHeight + borderTopWidth + borderBottomWidth;
                 if (options.showSimulate == true) {
                     resizeTarget = simulate = $("<div></div>").css({
                         "position": "absolute",
@@ -140,42 +142,42 @@ $.wa.widget('resizeable', {
                 }
                 mouseRelativeLeft = e.pageX - elementOffset.left;
                 mouseRelativeTop = e.pageY - elementOffset.top;
-                $(document).bind('mousemove.' + me.name, function (e) {
+	            $(document).bind('mousemove.' + me.name + me.guid, function (e) {
                     e.preventDefault();
                     left = e.pageX - mouseRelativeLeft;
                     top = e.pageY - mouseRelativeTop;
                     if (orient.indexOf('s') > -1) {
-                        top = Math.max(top, elementOffset.top - elementHeight + options.minHeight);
-                        top = Math.min(top, containerOffset.top + containerHeight - elementHeight - simulateBorderWidth * 2);
-                        resizeTarget.height(elementHeight + top - elementOffset.top);
+                        top = Math.max(top, elementOffset.top - elementOuterHeight + options.minHeight);
+                        top = Math.min(top, containerOffset.top + containerHeight - elementOuterHeight - simulateBorderWidth * 2);
+                        resizeTarget.height(elementOuterHeight + top - elementOffset.top);
                     }
                     if (orient.indexOf('n') > -1) {
-                        top = Math.min(top, elementOffset.top + elementHeight - options.minHeight);
+                        top = Math.min(top, elementOffset.top + elementOuterHeight - options.minHeight);
                         top = Math.max(top, containerOffset.top + simulateBorderWidth * 2);
                         resizeTarget.offset({ top: top - (resizeTarget == me.element ? 0 : simulateBorderWidth) });
-                        resizeTarget.height(elementHeight + elementOffset.top - top);
+                        resizeTarget.height(elementOuterHeight + elementOffset.top - top);
                     }
                     if (orient.indexOf('w') > -1) {
-                        left = Math.min(left, elementOffset.left + elementWidth - options.minWidth);
+                        left = Math.min(left, elementOffset.left + elementOuterWidth - options.minWidth);
                         left = Math.max(left, containerOffset.left + simulateBorderWidth * 2);
                         resizeTarget.offset({ left: left - (resizeTarget == me.element ? 0 : simulateBorderWidth) });
-                        resizeTarget.width(elementWidth + elementOffset.left - left);
+                        resizeTarget.width(elementOuterWidth + elementOffset.left - left);
                     }
                     if (orient.indexOf('e') > -1) {
-                        left = Math.max(left, elementOffset.left - elementWidth + options.minWidth);
-                        left = Math.min(left, containerOffset.left + containerWidth - elementWidth - simulateBorderWidth * 2);
-                        resizeTarget.width(elementWidth + left - elementOffset.left);
+                        left = Math.max(left, elementOffset.left - elementOuterWidth + options.minWidth);
+                        left = Math.min(left, containerOffset.left + containerWidth - elementOuterWidth - simulateBorderWidth * 2);
+                        resizeTarget.width(elementOuterWidth + left - elementOffset.left);
                     }
                     if (resizeTarget == me.element) {
                         me.element.triggerHandler('resize');
                     }
-                }).bind('mouseup.' + me.name, function (e) {
+	            }).bind('mouseup.' + me.name + me.guid, function (e) {
                     overlay.remove();
-                    $(document).unbind('mousemove.' + me.name).unbind('mouseup.' + me.name);
+                    $(document).unbind('mousemove.' + me.name + me.guid).unbind('mouseup.' + me.name + me.guid);
                     if (options.showSimulate == true) {
                         var simulateOffset = simulate.offset();
-                        me.element.width(simulate.width());
-                        me.element.height(simulate.height());
+                        me.element.width(simulate.width() - borderLeftWidth - borderRightWidth);
+                        me.element.height(simulate.height() - borderTopWidth - borderBottomWidth);
                         me.element.offset({ left: simulateOffset.left + simulateBorderWidth, top: simulateOffset.top + simulateBorderWidth });
                         simulate.remove();
                         me.element.triggerHandler('resize');

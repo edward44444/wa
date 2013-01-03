@@ -18,9 +18,8 @@ $.wa.widget('openwindow', {
         });
     },
     _open: function () {
-        var me = this;
-        var html = [];
-        var options = this.options;
+        this.guid = $.wa.guid++;
+        var me = this,html = [],options = this.options;
         if (!options.refresh && me.ui && me.ui.openwindow) {
             me.ui.openwindow.show();
             if (options.modal) {
@@ -97,7 +96,6 @@ $.wa.widget('openwindow', {
             });
         openwindow.triggerHandler('resize.' + me.name);
         overlay = $('<div></div>').appendTo(document.body);
-        me.guid = $.wa.guid++;
         if (options.modal) {
             overlay.css({
                 'position': 'absolute',

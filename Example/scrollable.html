@@ -5,61 +5,12 @@
     <link href="../Style/jquery.wa.core.css" rel="stylesheet" />
     <script src="../Script/jquery-1.7.1.js"></script>
     <script src="../Script/jquery.wa.core.js"></script>
-    <script src="../Script/jquery.wa.date.js" type="text/javascript"></script>
+    <script src="../Script/jquery.wa.date.js"></script>
     <script src="../Script/jquery.wa.dragable.js" type="text/javascript"></script>
+    <script src="../Script/jquery.wa.scrollable.js"></script>
+    <script src="../Script/jquery.wa.touchpunch.js"></script>
     <script type="text/javascript">
-        function bezier(p0, p1, p2, p3, t) {
-            return {
-                x: p0.x * Math.pow((1 - t), 3) + p1.x * 3 * t * Math.pow((1 - t), 2) + p2.x * 3 * (1 - t) * Math.pow(t, 2) + p3.x * Math.pow(t, 3),
-                y: p0.y * Math.pow((1 - t), 3) + p1.y * 3 * t * Math.pow((1 - t), 2) + p2.y * 3 * (1 - t) * Math.pow(t, 2) + p3.y * Math.pow(t, 3)
-            };
-        }
-        $.easing = $.extend($.easing, {
-            waScrollBezier: function (p) {
-                return bezier({ x: 0, y: 0 }, { x: 0.0001, y: 1 }, { x: 0.0002, y: 1 }, { x: 1, y: 1 }, p).y;
-            }
-        });
-        $.wa.widget('scrollable', {
-            options:{
-            },
-            _create: function () {
-                var me = this, options = this.options, dragStartTime, dragEndTime, offsetTopStart, offsetTopEnd,
-                child = this.element.find(':first-child')
-                    .dragable({
-                        axis: 'y',
-                        onDragStart: function () {
-                            dragStartTime = $.now();
-                            offsetTopStart = parseFloat(child.css('top'));
-                            alert(offsetTopEnd + '-' + offsetTopStart);
-                        },
-                        onDragEnd: function () {
-                            dragEndTime = $.now();
-                            offsetTopEnd = parseFloat(child.css('top'));
-                            alert(offsetTopEnd + '-' + offsetTopStart);
-                            if (offsetTopEnd < offsetTopStart) {
-                                child.animate({ top: '-=1000px' }, 3000, 'waScrollBezier');
-                            } else {
-                                child.animate({ top: '+=1000px' }, 3000, 'waScrollBezier');
-                            }
-                            
-                        }
-                    }).bind('mousedown.' + me.name, function () {
-                        child.stop();
-                    });
-            },
-            destroy: function () {
-                $.wa.base.prototype.destroy.call(this);
-            }
-        });
-        
         $(function () {
-           
-            $('#btnTop').click(function () {
-                $('#div2').animate({ top: '0px' }, 3000, 'waScrollBezier');
-            });
-            $('#btnBottom').click(function () {
-                $('#div2').animate({ top: '-1200px' }, 3000, 'waScrollBezier');
-            });
             var html = [];
             var now = new Date();
             for (var i = 0; i < 100; i++) {
@@ -71,39 +22,47 @@
         });
     </script>
     <style>
+        body {
+            user-select:none;
+            -webkit-user-select:none;
+        }
         #div1
         {
-            width: 200px;
-            height: 600px;
+            margin-top:20px;
+            margin-left:20px;
+            width: 600px;
+            height: 400px;
             overflow: hidden;
-            background-color: Yellow;
+            background-color: #0026ff;
             position:relative;
+            margin:20px auto;
         }
         #div2
         {
-            width: 200px;
-            background-color: Blue;
+            background-color:#0026ff;
             position:relative;
             color:White;
+            cursor:default!important;
         }
         #ulDate
         {
             list-style-type:none;
-            line-height:30px;
+            line-height:40px;
             display:block;
             margin:0px;
+            padding:0px 10px;
+        }
+        #ulDate li {
+            border-bottom:1px solid #808080;
         }
     </style>
 </head>
 <body>
-    <input id="btnTop" type="button" value="top"/>
-    <input id="btnBottom" type="button" value="bottom"/>
     <div id="div1">
         <div id="div2">
            <ul id="ulDate">
            </ul>
         </div>
-        <div></div>
     </div>
 </body>
 </html>
