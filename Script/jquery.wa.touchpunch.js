@@ -3,13 +3,16 @@
         _create: function () {
             var me = this,touchMoved;
             me.element.bind('touchstart.' + me.name, function (event) {
+                event.preventDefault();
                 touchMoved = false;
                 me.simulateMouseEvent(event, 'mouseover');
                 me.simulateMouseEvent(event, 'mousedown');
             }).bind('touchmove.' + me.name, function (event) {
+                event.preventDefault();
                 touchMoved = true;
                 me.simulateMouseEvent(event, 'mousemove');
             }).bind('touchend.' + me.name, function (event) {
+                event.preventDefault();
                 me.simulateMouseEvent(event, 'mouseout');
                 me.simulateMouseEvent(event, 'mouseup');
                 if (touchMoved) {
@@ -22,7 +25,6 @@
             if (event.originalEvent.touches.length > 1) {
                 return;
             }
-            event.preventDefault();
             var touch = event.originalEvent.changedTouches[0],
                 simulatedEvent = document.createEvent('MouseEvents');
             // Initialize the simulated mouse event using the touch event's coordinates

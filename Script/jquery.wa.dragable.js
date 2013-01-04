@@ -75,7 +75,7 @@ $.wa.widget('dragable', {
                     left = e.pageX - mouseRelativeLeft;
                     top = e.pageY - mouseRelativeTop;
                     if (options.container) {
-                        left = Math.max(left, containerOffset.left + (options.showSimulate ? simulateBorderWidth : simulateBorderWidth*2));
+                        left = Math.max(left, containerOffset.left + (options.showSimulate ? simulateBorderWidth : simulateBorderWidth * 2));
                         left = Math.min(left, containerOffset.left + containerWidth - elementOuterWidth - (options.showSimulate ? simulateBorderWidth * 3 : simulateBorderWidth * 2));
                         top = Math.max(top, containerOffset.top + (options.showSimulate ? simulateBorderWidth : simulateBorderWidth * 2));
                         top = Math.min(top, containerOffset.top + containerHeight - elementOuterHeight - (options.showSimulate ? simulateBorderWidth * 3 : simulateBorderWidth * 2));
@@ -98,7 +98,7 @@ $.wa.widget('dragable', {
                         me.element.offset(offset);
                     }
                 }).bind('mouseup.' + me.name + me.guid, function (e) {
-                    if (dragged &&$.isFunction(options.onDragEnd)) {
+                    if (dragged && $.isFunction(options.onDragEnd)) {
                         options.onDragEnd.call(me);
                     }
                     overlay.remove();
@@ -109,9 +109,9 @@ $.wa.widget('dragable', {
                         simulate.remove();
                     }
                 });
-            }).bind('mouseout.' + me.name, function (e) {
-                handle.unbind('mousedown.' + me.name);
             });
+        }).bind('mouseout.' + me.name, function (e) {
+            handle.unbind('mousedown.' + me.name);
         });
         this.handle = handle;
     },

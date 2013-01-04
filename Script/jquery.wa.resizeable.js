@@ -111,82 +111,82 @@ $.wa.widget('resizeable', {
             borderTopWidth = me.variables.borderLeftWidth
 	    target.bind('mouseover.' + me.name, function (e) {
 	        target.unbind('mousedown.' + me.name).bind('mousedown.' + me.name, function (e) {
-                overlay = $('<div></div>').css({
-                    "position": "absolute",
-                    "zIndex": (4 + $.wa.overlayZindex),
-                    "width": $(document.body).width() + "px",
-                    "height": $(document.body).height() + "px",
-                    "background-color": '#000000',
-                    "opacity": 0,
-                    'left': '0px',
-                    'top':'0px'
-                }).appendTo(document.body);
-                containerWidth = me.container.width();
-                containerHeight = me.container.height();
-                containerOffset = me.container.offset();
-                elementOffset = me.element.offset();
-                elementWidth = me.element.width();
-                elementHeight = me.element.height();
-                elementOuterWidth = elementWidth + borderLeftWidth + borderRightWidth;
-                elementOuterHeight = elementHeight + borderTopWidth + borderBottomWidth;
-                if (options.showSimulate == true) {
-                    resizeTarget = simulate = $("<div></div>").css({
-                        "position": "absolute",
-                        "zIndex": 10000,
-                        "width": elementWidth + borderLeftWidth + borderRightWidth + "px",
-                        "height": elementHeight + borderTopWidth + borderBottomWidth + "px",
-                        "border": "1px dashed #000000"
-                    }).appendTo('body').offset({ left: elementOffset.left - 1, top: elementOffset.top - 1 });
-                } else {
-                    resizeTarget = me.element;
-                }
-                mouseRelativeLeft = e.pageX - elementOffset.left;
-                mouseRelativeTop = e.pageY - elementOffset.top;
+	            overlay = $('<div></div>').css({
+	                "position": "absolute",
+	                "zIndex": (4 + $.wa.overlayZindex),
+	                "width": $(document.body).width() + "px",
+	                "height": $(document.body).height() + "px",
+	                "background-color": '#000000',
+	                "opacity": 0,
+	                'left': '0px',
+	                'top': '0px'
+	            }).appendTo(document.body);
+	            containerWidth = me.container.width();
+	            containerHeight = me.container.height();
+	            containerOffset = me.container.offset();
+	            elementOffset = me.element.offset();
+	            elementWidth = me.element.width();
+	            elementHeight = me.element.height();
+	            elementOuterWidth = elementWidth + borderLeftWidth + borderRightWidth;
+	            elementOuterHeight = elementHeight + borderTopWidth + borderBottomWidth;
+	            if (options.showSimulate == true) {
+	                resizeTarget = simulate = $("<div></div>").css({
+	                    "position": "absolute",
+	                    "zIndex": 10000,
+	                    "width": elementWidth + borderLeftWidth + borderRightWidth + "px",
+	                    "height": elementHeight + borderTopWidth + borderBottomWidth + "px",
+	                    "border": "1px dashed #000000"
+	                }).appendTo('body').offset({ left: elementOffset.left - 1, top: elementOffset.top - 1 });
+	            } else {
+	                resizeTarget = me.element;
+	            }
+	            mouseRelativeLeft = e.pageX - elementOffset.left;
+	            mouseRelativeTop = e.pageY - elementOffset.top;
 	            $(document).bind('mousemove.' + me.name + me.guid, function (e) {
-                    e.preventDefault();
-                    left = e.pageX - mouseRelativeLeft;
-                    top = e.pageY - mouseRelativeTop;
-                    if (orient.indexOf('s') > -1) {
-                        top = Math.max(top, elementOffset.top - elementOuterHeight + options.minHeight);
-                        top = Math.min(top, containerOffset.top + containerHeight - elementOuterHeight - simulateBorderWidth * 2);
-                        resizeTarget.height(elementOuterHeight + top - elementOffset.top);
-                    }
-                    if (orient.indexOf('n') > -1) {
-                        top = Math.min(top, elementOffset.top + elementOuterHeight - options.minHeight);
-                        top = Math.max(top, containerOffset.top + simulateBorderWidth * 2);
-                        resizeTarget.offset({ top: top - (resizeTarget == me.element ? 0 : simulateBorderWidth) });
-                        resizeTarget.height(elementOuterHeight + elementOffset.top - top);
-                    }
-                    if (orient.indexOf('w') > -1) {
-                        left = Math.min(left, elementOffset.left + elementOuterWidth - options.minWidth);
-                        left = Math.max(left, containerOffset.left + simulateBorderWidth * 2);
-                        resizeTarget.offset({ left: left - (resizeTarget == me.element ? 0 : simulateBorderWidth) });
-                        resizeTarget.width(elementOuterWidth + elementOffset.left - left);
-                    }
-                    if (orient.indexOf('e') > -1) {
-                        left = Math.max(left, elementOffset.left - elementOuterWidth + options.minWidth);
-                        left = Math.min(left, containerOffset.left + containerWidth - elementOuterWidth - simulateBorderWidth * 2);
-                        resizeTarget.width(elementOuterWidth + left - elementOffset.left);
-                    }
-                    if (resizeTarget == me.element) {
-                        me.element.triggerHandler('resize');
-                    }
+	                e.preventDefault();
+	                left = e.pageX - mouseRelativeLeft;
+	                top = e.pageY - mouseRelativeTop;
+	                if (orient.indexOf('s') > -1) {
+	                    top = Math.max(top, elementOffset.top - elementOuterHeight + options.minHeight);
+	                    top = Math.min(top, containerOffset.top + containerHeight - elementOuterHeight - simulateBorderWidth * 2);
+	                    resizeTarget.height(elementOuterHeight + top - elementOffset.top);
+	                }
+	                if (orient.indexOf('n') > -1) {
+	                    top = Math.min(top, elementOffset.top + elementOuterHeight - options.minHeight);
+	                    top = Math.max(top, containerOffset.top + simulateBorderWidth * 2);
+	                    resizeTarget.offset({ top: top - (resizeTarget == me.element ? 0 : simulateBorderWidth) });
+	                    resizeTarget.height(elementOuterHeight + elementOffset.top - top);
+	                }
+	                if (orient.indexOf('w') > -1) {
+	                    left = Math.min(left, elementOffset.left + elementOuterWidth - options.minWidth);
+	                    left = Math.max(left, containerOffset.left + simulateBorderWidth * 2);
+	                    resizeTarget.offset({ left: left - (resizeTarget == me.element ? 0 : simulateBorderWidth) });
+	                    resizeTarget.width(elementOuterWidth + elementOffset.left - left);
+	                }
+	                if (orient.indexOf('e') > -1) {
+	                    left = Math.max(left, elementOffset.left - elementOuterWidth + options.minWidth);
+	                    left = Math.min(left, containerOffset.left + containerWidth - elementOuterWidth - simulateBorderWidth * 2);
+	                    resizeTarget.width(elementOuterWidth + left - elementOffset.left);
+	                }
+	                if (resizeTarget == me.element) {
+	                    me.element.triggerHandler('resize');
+	                }
 	            }).bind('mouseup.' + me.name + me.guid, function (e) {
-                    overlay.remove();
-                    $(document).unbind('mousemove.' + me.name + me.guid).unbind('mouseup.' + me.name + me.guid);
-                    if (options.showSimulate == true) {
-                        var simulateOffset = simulate.offset();
-                        me.element.width(simulate.width() - borderLeftWidth - borderRightWidth);
-                        me.element.height(simulate.height() - borderTopWidth - borderBottomWidth);
-                        me.element.offset({ left: simulateOffset.left + simulateBorderWidth, top: simulateOffset.top + simulateBorderWidth });
-                        simulate.remove();
-                        me.element.triggerHandler('resize');
-                    }
-                });
-            }).bind('mouseout.' + me.name, function (e) {
-                target.unbind('mousedown.' + me.name);
-            });
-        });
+	                overlay.remove();
+	                $(document).unbind('mousemove.' + me.name + me.guid).unbind('mouseup.' + me.name + me.guid);
+	                if (options.showSimulate == true) {
+	                    var simulateOffset = simulate.offset();
+	                    me.element.width(simulate.width() - borderLeftWidth - borderRightWidth);
+	                    me.element.height(simulate.height() - borderTopWidth - borderBottomWidth);
+	                    me.element.offset({ left: simulateOffset.left + simulateBorderWidth, top: simulateOffset.top + simulateBorderWidth });
+	                    simulate.remove();
+	                    me.element.triggerHandler('resize');
+	                }
+	            });
+	        });
+	    }).bind('mouseout.' + me.name, function (e) {
+	        target.unbind('mousedown.' + me.name);
+	    });
 	},
 	destroy: function () {
 	    var me = this;

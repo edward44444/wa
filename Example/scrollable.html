@@ -11,7 +11,7 @@
     <script src="../Script/jquery.wa.touchpunch.js"></script>
     <script type="text/javascript">
         $(function () {
-            var html = [];
+            var html = [], timer;
             var now = new Date();
             for (var i = 0; i < 100; i++) {
                 now = now.addDay(1);
@@ -19,7 +19,18 @@
             }
             $('#ulDate').append(html.join(''));
             $('#div1').scrollable();
+            $(document).bind('mousemove', function () {
+                if (!timer) {
+                    timer = setTimeout(function () {
+                        Write('mousemove');
+                        timer = null;
+                    }, 500);
+                }
+            });
         });
+        function Write(str) {
+            document.getElementById('div3').appendChild(document.createTextNode(str + ' '));
+        }
     </script>
     <style>
         body {
@@ -30,7 +41,6 @@
         {
             margin-top:20px;
             margin-left:20px;
-            width: 600px;
             height: 400px;
             overflow: hidden;
             background-color: #0026ff;
@@ -43,6 +53,11 @@
             position:relative;
             color:White;
             cursor:default!important;
+        }
+        #div3 {
+            width:200px;
+            height:200px;
+            background-color:#4cff00;
         }
         #ulDate
         {
@@ -64,5 +79,6 @@
            </ul>
         </div>
     </div>
+    <div id="div3"></div>
 </body>
 </html>

@@ -1,7 +1,8 @@
 ﻿/// <reference path="jquery.wa.core.js" />
 /// <reference path="jquery.wa.dragable.js" />
 (function ($) {
-    var scrollBezierArray = [],dragBezierArray=[],precisionNum=100;
+    var scrollBezierArray = [], dragBezierArray = [], precisionNum = 100;
+    //$.fx.interval = 2;
     $.easing = $.extend($.easing, {
         waScrollBezier: function (p) {
             if (!scrollBezierArray.length) {
@@ -43,7 +44,7 @@
     $.wa.widget('scrollable', {
         options: {
             tripThreshold: 1500,
-            boundThreshold: 50,
+            boundThreshold: 100,
             distanceThreshold: 200,
             durationThreshold: 3000,
             timeThreshold: 400
@@ -65,28 +66,19 @@
                         offsetTopStart = parseFloat(child.css('top')) || 0;
                         elementOffsetTop = me.element.offset().top;
                         me.elementHeight = elementHeight = me.element.height();
-                        childHeight = child.height();
+                        me.childHeight = childHeight = child.height();
                         me.scrollbarHeight = scrollbarHeight = Math.pow(elementHeight, 2) / childHeight;
                         scrollbar.css({
                             height: scrollbarHeight + 'px'
                         });
+                        scrollbarOffsetTop = -1 * (parseFloat(child.css('top')) || 0) * elementHeight / childHeight;
+                        me.setScrollBarPosition(scrollbarOffsetTop);
                         me.showScrollbar();
                     },
                     onDragEnd: function () {
                         dragEndTime = $.now();
                         offsetTopEnd = parseFloat(child.css('top')) || 0;
                         if (offsetTopEnd > 0 || offsetTopEnd < (elementHeight - childHeight)) {
-                            child.animate({
-                                top: (offsetTopEnd > 0 ? 0 : elementHeight - childHeight) + 'px'
-                            }, 800, 'waScrollBezier', {
-                                complete: function () {
-                                    me.hideScrollbar();
-                                },
-                                step: function (now) {
-                                    scrollbarOffsetTop = -1 * now * elementHeight / childHeight;
-                                    me.setScrollBarPosition(scrollbarOffsetTop);
-                                }
-                            });
                             return;
                         }
                         if (dragEndTime - dragStartTime <= options.timeThreshold) {
@@ -108,14 +100,14 @@
                                         bound = options.boundThreshold * Math.abs(fx.end - now) / options.tripThreshold;
                                         child.animate({
                                             top: (now > 0 ? bound : elementHeight - childHeight - bound) + 'px'
-                                        }, 400, 'waScrollBezier', {
+                                        }, 200, 'waScrollBezier', {
                                             step: function (now) {
                                                 scrollbarOffsetTop = -1 * now * elementHeight / childHeight;
                                                 me.setScrollBarPosition(scrollbarOffsetTop);
                                             }
                                         }).animate({
                                             top: (now > 0 ? 0 : elementHeight - childHeight) + 'px'
-                                        }, 200, 'waLinear', {
+                                        }, 400, 'waScrollBezier', {
                                             complete: function () {
                                                 me.hideScrollbar();
                                             },
@@ -149,7 +141,9 @@
                 }),
             scrollbar = $('<div class="wa-scrollable-scrollbar" style="display:none;"></div>').appendTo(me.element);
             $(document).bind('mouseup.' + me.name + me.guid, function () {
-                return;
+                if (child.is(':animated')) {
+                    return;
+                }
                 offsetTopEnd = parseFloat(child.css('top')) || 0;
                 if (offsetTopEnd > 0 || offsetTopEnd < (elementHeight - childHeight)) {
                     child.animate({
@@ -170,17 +164,21 @@
         },
         setScrollBarPosition: function (scrollbarOffsetTop) {
             if (scrollbarOffsetTop < 0) {
+                scrollbarOffsetTop = scrollbarOffsetTop * this.childHeight / this.elementHeight;
                 this.ui.scrollbar.css({
-                    height: (this.scrollbarHeight + scrollbarOffsetTop) + 'px'
+                    height: (this.scrollbarHeight + scrollbarOffsetTop) + 'px',
+                    top:'0px'
                 });
             } else if (scrollbarOffsetTop > this.elementHeight - this.scrollbarHeight) {
+                scrollbarOffsetTop = (scrollbarOffsetTop - this.elementHeight + this.scrollbarHeight) * this.childHeight / this.elementHeight;
                 this.ui.scrollbar.css({
-                    height: (this.elementHeight - scrollbarOffsetTop) + 'px',
-                    top: scrollbarOffsetTop + 'px'
+                    height: (this.scrollbarHeight - scrollbarOffsetTop) + 'px',
+                    top: this.elementHeight - this.scrollbarHeight + scrollbarOffsetTop + 'px'
                 });
             } else {
                 this.ui.scrollbar.css({
-                    top: scrollbarOffsetTop + 'px'
+                    top: scrollbarOffsetTop + 'px',
+                    height: this.scrollbarHeight+'px'
                 });
             }
         },
