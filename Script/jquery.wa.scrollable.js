@@ -1,5 +1,5 @@
 ﻿/// <reference path="jquery.wa.core.js" />
-/// <reference path="jquery.wa.dragable.js" />
+/// <reference path="jquery.wa.draggable.js" />
 (function ($) {
     var scrollBezierArray = [], dragBezierArray = [], precisionNum = 100;
     //$.fx.interval = 2;
@@ -59,9 +59,9 @@
             scrollTime, scrollbarHeight, elementHeight, childHeight, scrollbarOffsetTop, bound,
             elementOffsetTop,
             child = me.element.find('>:first-child')
-                .dragable({
+                .draggable({
                     axis: 'y',
-                    onDragStart: function () {
+                    dragstart: function () {
                         dragStartTime = $.now();
                         offsetTopStart = parseFloat(child.css('top')) || 0;
                         elementOffsetTop = me.element.offset().top;
@@ -75,7 +75,7 @@
                         me.setScrollBarPosition(scrollbarOffsetTop);
                         me.showScrollbar();
                     },
-                    onDragEnd: function () {
+                    dragstop: function () {
                         dragEndTime = $.now();
                         offsetTopEnd = parseFloat(child.css('top')) || 0;
                         if (offsetTopEnd > 0 || offsetTopEnd < (elementHeight - childHeight)) {
@@ -126,8 +126,8 @@
                             me.hideScrollbar();
                         }
                     },
-                    onDrag: function (offset) {
-                        scrollbarOffsetTop = -1 * (parseFloat(this.element.css('top')) || 0) * elementHeight / childHeight;
+                    drag: function (event,offset) {
+                        scrollbarOffsetTop = -1 * (parseFloat(child.css('top')) || 0) * elementHeight / childHeight;
                         me.setScrollBarPosition(scrollbarOffsetTop);
                         if (offset.top - elementOffsetTop > 0) {
                             //console.log(2 * Math.atan(100) / Math.PI);
@@ -191,7 +191,7 @@
             }
         },
         destroy: function () {
-            this.element.find('>:first-child').unbind('.' + this.name).dragable('destroy');
+            this.element.find('>:first-child').unbind('.' + this.name).draggable('destroy');
             $(document).unbind('.' + this.name + this.guid);
             $.wa.base.prototype.destroy.call(this);
         }

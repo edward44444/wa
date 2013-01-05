@@ -1,0 +1,93 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <link href="../Style/jquery.wa.core.css" rel="stylesheet" />
+    <script src="../Script/jquery-1.7.1.js"></script>
+    <script src="../Script/jquery.wa.core.js"></script>
+    <script src="../Script/jquery.wa.draggable.js"></script>
+    <script type="text/javascript">
+        $.wa.intersect = function (draggable, droppable, tolerance) {
+            if (tolerance == 'intersect') {
+                return true;
+            }
+        }
+        $.wa.ddmanager = {
+            droppables: { 'default': [] },
+            dragStart: function (draggable, event) {
+                $.each($.wa.ddmanager.droppables[draggable.options.scope], function () {
+                    if (this.accept.call(this.element[0], draggable.element)) {
+                        this._activate(event);
+                    }
+                });
+            },
+            drag: function (draggable, event) {
+                $.each($.wa.ddmanager.droppables[draggable.options.scope], function () {
+                    var intersects = $.wa.intersect(draggable, this, this.options.tolerance);
+
+                });
+            },
+            dragStop: function (draggable, event) {
+                $.each($.wa.ddmanager.droppables[draggable.options.scope], function () {
+                    if (this.accept.call(this.element[0], draggable.element)) {
+                        this._deactivate(event);
+                    }
+                });
+            }
+        }
+        $.wa.widget('droppable', {
+            options: {
+                accept: '*',
+                scope: 'default',
+                activeClass: 'wa-droppable-active',
+                hoverClass: false,
+                tolerance: 'intersect'
+            },
+            _create: function () {
+                var me = this, options = this.options, accept = options.accept;
+                this.accept = $.isFunction(accept) ? accept : function (element) {
+                    return element.is(accept);
+                };
+                $.wa.ddmanager.droppables[options.scope] = $.wa.ddmanager.droppables[options.scope] || [];
+                $.wa.ddmanager.droppables[options.scope].push(me);
+            },
+            _activate: function (event) {
+                var draggable = $.wa.ddmanager.current;
+                if (this.accept.call(this.element[0], draggable.element)) {
+                    if (this.options.activeClass) {
+                        this.element.addClass(this.options.activeClass);
+                    }
+                }
+            },
+            _deactivate: function (event) {
+                var draggable = $.wa.ddmanager.current;
+                if (this.accept.call(this.element[0], draggable.element)) {
+                    if (this.options.activeClass) {
+                        this.element.removeClass(this.options.activeClass);
+                    }
+                }
+            },
+            _over: function (event) {
+
+            },
+            _out: function (event) {
+            },
+            _drop: function (event) {
+            }
+        });
+        $(function () {
+            $('#div1').draggable();
+            $('#div2').droppable();
+        });
+    </script>
+    <style type="text/css">
+        .wa-droppable-active {
+            background-color: #EEEEEE;
+        }
+    </style>
+</head>
+<body>
+    <div id="div1" class="wa-draggable" style="width: 100px; height: 100px; border: 1px solid #0026ff;"></div>
+    <div id="div2" class="wa-droppable" style="width: 400px; height: 400px; border: 1px solid #0026ff;"></div>
+</body>
+</html>

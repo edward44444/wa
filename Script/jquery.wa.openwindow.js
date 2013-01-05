@@ -1,6 +1,6 @@
 ﻿/// <reference path="jquery.wa.core.js" />
-/// <reference path="jquery.wa.resizeable.js" />
-/// <reference path="jquery.wa.dragable.js" />
+/// <reference path="jquery.wa.resizable.js" />
+/// <reference path="jquery.wa.draggable.js" />
 $.wa.widget('openwindow', {
     options: {
         width: '100%',
@@ -9,7 +9,7 @@ $.wa.widget('openwindow', {
         title:'wa',
         url: 'http://www.baidu.com',
         refresh: true,
-        showSimulate:true
+        simulate:true
     },
     _create: function () {
         var me = this;
@@ -82,12 +82,12 @@ $.wa.widget('openwindow', {
         left = ($(window).width() - openwindow.width()) / 2;
         top = ($(window).height() - openwindow.height()) / 2;
         openwindow.offset({ left: left, top: top })
-            .dragable({
-                showSimulate: options.showSimulate,
+            .draggable({
+                simulate: options.simulate,
                 container:$(document.body),
                 handle: '.wa-window-header'
             })
-            .resizeable({ showSimulate: options.showSimulate })
+            .resizable({ simulate: options.simulate })
             .bind('resize.' + me.name, function () {
                 windowFrame.css({
                     height: (windowInner.height() - windowHeader.height()) + 'px',

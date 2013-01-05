@@ -94,6 +94,16 @@
                 delete this.ui[property];
             }
             this.element.removeData(this.name);
+        },
+        _trigger: function (type, event, data) {
+            var callback = this.options[type];
+            data = data || {};
+            event.type = this.name + type;
+            event.target = this.element[0];
+            this.element.trigger(event, data);
+            if ($.isFunction(callback)) {
+                return callback.call(this.element[0], event, data);
+            }
         }
     }
     $.wa.widget = function (name, prototype, base) {
