@@ -1,4 +1,4 @@
-﻿(function ($) {
+﻿(function ($, undefined) {
     $.wa = {};
     var div = document.createElement("div");
     $.wa.support = {};
@@ -45,7 +45,7 @@
         }
     }
     $.wa.getBezierY = function (array, x) {
-        return GetBezierY(array, 0, array.length-1, x);
+        return GetBezierY(array, 0, array.length - 1, x);
     }
     //$.wa.guid = function () {
     //    var now = new Date();

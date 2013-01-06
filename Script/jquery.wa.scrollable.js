@@ -1,6 +1,6 @@
 ﻿/// <reference path="jquery.wa.core.js" />
 /// <reference path="jquery.wa.draggable.js" />
-(function ($) {
+(function ($, undefined) {
     var scrollBezierArray = [], dragBezierArray = [], precisionNum = 100;
     //$.fx.interval = 2;
     $.easing = $.extend($.easing, {
@@ -50,9 +50,6 @@
             timeThreshold: 400
         },
         _create: function () {
-            if ($.wa.support.touch) {
-                this.element.touchpunch();
-            }
             this.guid = $.wa.guid++;
             var me = this, options = this.options, dragStartTime,
             dragEndTime, offsetTopStart, offsetTopEnd, distance,
@@ -126,7 +123,7 @@
                             me.hideScrollbar();
                         }
                     },
-                    drag: function (event,offset) {
+                    drag: function (event, offset) {
                         scrollbarOffsetTop = -1 * (parseFloat(child.css('top')) || 0) * elementHeight / childHeight;
                         me.setScrollBarPosition(scrollbarOffsetTop);
                         if (offset.top - elementOffsetTop > 0) {
@@ -159,6 +156,10 @@
                     });
                 }
             });
+            me.child = child;
+            if ($.wa.support.touch) {
+                me.child.touchpunch();
+            }
             this.ui = {};
             this.ui.scrollbar = scrollbar;
         },
@@ -167,7 +168,7 @@
                 scrollbarOffsetTop = scrollbarOffsetTop * this.childHeight / this.elementHeight;
                 this.ui.scrollbar.css({
                     height: (this.scrollbarHeight + scrollbarOffsetTop) + 'px',
-                    top:'0px'
+                    top: '0px'
                 });
             } else if (scrollbarOffsetTop > this.elementHeight - this.scrollbarHeight) {
                 scrollbarOffsetTop = (scrollbarOffsetTop - this.elementHeight + this.scrollbarHeight) * this.childHeight / this.elementHeight;
@@ -178,7 +179,7 @@
             } else {
                 this.ui.scrollbar.css({
                     top: scrollbarOffsetTop + 'px',
-                    height: this.scrollbarHeight+'px'
+                    height: this.scrollbarHeight + 'px'
                 });
             }
         },
@@ -191,6 +192,9 @@
             }
         },
         destroy: function () {
+            if ($.wa.support.touch) {
+                this.child.touchpunch('destroy');
+            }
             this.element.find('>:first-child').unbind('.' + this.name).draggable('destroy');
             $(document).unbind('.' + this.name + this.guid);
             $.wa.base.prototype.destroy.call(this);

@@ -1,7 +1,7 @@
-﻿(function ($) {
+﻿(function ($, undefined) {
     $.wa.widget('touchpunch', {
         _create: function () {
-            var me = this,touchMoved;
+            var me = this, touchMoved;
             me.element.bind('touchstart.' + me.name, function (event) {
                 event.preventDefault();
                 touchMoved = false;

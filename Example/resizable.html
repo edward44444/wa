@@ -11,8 +11,9 @@
     <script src="../Script/jquery.wa.resizable.js"></script>
     <script type="text/javascript">
         $(function () {
-            $('#div1').resizable({ simulate: false });
-            $('#div2').resizable({ simulate: true });
+            $('#div1').resizable({ helper: false });
+            $('#div2').resizable({ helper: true });
+            $('#div1').resizable('destroy');
         });
     </script>
 </head>
