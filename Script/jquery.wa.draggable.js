@@ -33,11 +33,12 @@
                 container = options.container || $(document.body);
             }
             var containerWidth, containerHeight, containerOffset, elementOuterWidth, elementOuterHeight,
-                elementPosition, elementOffset, helperOffset, helperBorderWidth = 1,
+                elementPosition, elementOffset, helperOffset, helperBorderWidth = 1,oriEvent,
                 mouseRelativeLeft, mouseRelativeTop, left, top, offset, dragged, dropped, amendment;
             handle.css({ 'cursor': 'move' }).bind('mousedown.' + me.name, function (e) {
                 dragged = false;
                 dropped = false;
+                oriEvent = e;
                 containerWidth = container.width();
                 containerHeight = container.height();
                 containerOffset = container.offset();
@@ -114,7 +115,8 @@
                     $(document).unbind('mousemove.' + me.name + me.guid).unbind('mouseup.' + me.name + me.guid);
                     if (!dragged) {
                         me._clear();
-                        me._trigger('tap', e, me);
+                        oriEvent.type = 'tap';
+                        $(oriEvent.target).trigger(oriEvent);
                         return;
                     }
                     if ($.wa.ddmanager) dropped = $.wa.ddmanager.drop(me, event);

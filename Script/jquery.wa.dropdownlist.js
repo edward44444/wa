@@ -9,9 +9,7 @@
             contentHeight: null,
             contentMinHeight: null,
             readonly: true,
-            search: false,
-            onSelect: function (data) {
-            }
+            search: false
         },
         _create: function () {
             var me = this, options = this.options, listItems, items,
@@ -106,22 +104,17 @@
                     }).join(',');
                     me.element.val(selectedText);
                     input.val(selectedText);
-                });
-                items.bind('click', function (event) {
+                }).bind('click', function (event) {
                     var $this = $(this);
-                    var entity = options.dataSource[items.index($this)];
-                    if ($.isFunction(options.onSelect)) {
-                        options.onSelect.call($this, entity);
-                    }
+                    var entity = options.dataSource[items.find('input:checkbox').index($this)];
+                    me._trigger('select', event, entity);
                 });
             } else {
                 me.selectedItem = null;
                 items.bind('click', function (event) {
                     var $this = $(this);
                     var entity = options.dataSource[items.index($this)];
-                    if ($.isFunction(options.onSelect)) {
-                        options.onSelect.call($this, entity);
-                    }
+                    me._trigger('select', event, entity);
                     me.element.val(entity.text);
                     input.val(entity.text);
                     me.selectedItem = entity;

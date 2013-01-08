@@ -18,7 +18,8 @@
                 html.push('<li>' + Date.wa.format(now, 'yyyy-MM-dd') + '</li>');
             }
             $('#ulDate').append(html.join(''));
-            $('#div2').bind('draggabletap', function (event) {
+            $('#ulDate li').bind('tap', function (event) {
+                Write($(this).text());
             });
             $('#div1').scrollable();
             $(document).bind('mousemove', function () {

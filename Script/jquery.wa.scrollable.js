@@ -19,25 +19,25 @@
             return p;
         }
     });
-    var waSpeedFn = $.speed;
-    $.speed = function (speed, easing, fn) {
-        if (typeof fn == 'object') {
-            var opt = waSpeedFn.apply(this, [speed, easing, fn.complete]);
-            opt.old = fn.complete;
-            delete fn.complete;
-            opt = $.extend(opt, fn);
-            opt.complete = function () {
-                if ($.isFunction(opt.old)) {
-                    opt.old.call(this);
-                }
-                if (opt.queue) {
-                    $.dequeue(this, opt.queue);
-                }
-            }
-            return opt;
-        }
-        return waSpeedFn.apply(this, [speed, easing, fn]);
-    };
+    //var waSpeedFn = $.speed;
+    //$.speed = function (speed, easing, fn) {
+    //    if (typeof fn == 'object') {
+    //        var opt = waSpeedFn.apply(this, [speed, easing, fn.complete]);
+    //        opt.old = fn.complete;
+    //        delete fn.complete;
+    //        opt = $.extend(opt, fn);
+    //        opt.complete = function () {
+    //            if ($.isFunction(opt.old)) {
+    //                opt.old.call(this);
+    //            }
+    //            if (opt.queue) {
+    //                $.dequeue(this, opt.queue);
+    //            }
+    //        }
+    //        return opt;
+    //    }
+    //    return waSpeedFn.apply(this, [speed, easing, fn]);
+    //};
     //        jQuery.fx.step.waScrollTop = function (fx) {
     //            $(fx.elem).css('top', fx.now + 'px');
     //        };
@@ -86,8 +86,9 @@
                             //distance = options.tripThreshold;
                             child.animate({
                                 top: (offsetTopEnd < offsetTopStart ? '-' : '+') + '=' + distance + 'px'
-                            },
-                            scrollTime, 'waScrollBezier', {
+                            }, {
+                                duration: scrollTime,
+                                easing: 'waScrollBezier',
                                 complete: function () {
                                     me.hideScrollbar();
                                 },
@@ -97,14 +98,18 @@
                                         bound = options.boundThreshold * Math.abs(fx.end - now) / options.tripThreshold;
                                         child.animate({
                                             top: (now > 0 ? bound : elementHeight - childHeight - bound) + 'px'
-                                        }, 200, 'waScrollBezier', {
+                                        }, {
+                                            duration: 200,
+                                            easing: 'waScrollBezier',
                                             step: function (now) {
                                                 scrollbarOffsetTop = -1 * now * elementHeight / childHeight;
                                                 me.setScrollBarPosition(scrollbarOffsetTop);
                                             }
                                         }).animate({
                                             top: (now > 0 ? 0 : elementHeight - childHeight) + 'px'
-                                        }, 400, 'waScrollBezier', {
+                                        }, {
+                                            duration: 400,
+                                            easing: 'waScrollBezier',
                                             complete: function () {
                                                 me.hideScrollbar();
                                             },
@@ -145,7 +150,9 @@
                 if (offsetTopEnd > 0 || offsetTopEnd < (elementHeight - childHeight)) {
                     child.animate({
                         top: (offsetTopEnd > 0 ? 0 : elementHeight - childHeight) + 'px'
-                    }, 800, 'waScrollBezier', {
+                    }, {
+                        duration: 800,
+                        easing: 'waScrollBezier',
                         complete: function () {
                             me.hideScrollbar();
                         },

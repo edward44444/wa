@@ -9,12 +9,18 @@ body {
   top:0px;
   bottom:0px;
   margin-left:0px;
-  margin-top:0px;
+  margin-top:-1px;
+  padding-top:1px;
+  /*!
+   * this is to stop collapsing margins 
+   * https://developer.mozilla.org/en-US/docs/CSS/margin_collapsing 
+   */
   margin-right:0px;
   margin-bottom:0px;
   border-width:0px;
   font-size:12px;
   font-family:微软雅黑;
+
 }
 .wa-button {
     display:block;

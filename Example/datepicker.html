@@ -13,17 +13,17 @@
             $('#txtDate').datepicker({ selectedDate: new Date(2012, 11, 25), minDate: new Date(2012, 10, 20), maxDate: new Date(2012, 11, 30) });
             var dateFrom = $('#txtDateFrom').datepicker({
                 minDate: new Date(2012, 0, 1),
-                maxDate: new Date(2012, 11, 30),
+                maxDate: new Date(2013, 11, 30),
                 dateFormat: 'yyyy年MM月dd日',
-                onSelect: function (date) {
+                select: function (event,date) {
                     dateTo.datepicker('option', { minDate: date });
                 }
             });
             var dateTo = $('#txtDateTo').datepicker({
                 minDate: new Date(2012, 0, 1),
-                maxDate: new Date(2012, 11, 30),
+                maxDate: new Date(2013, 11, 30),
                 dateFormat: 'yyyy年MM月dd日',
-                onSelect: function (date) {
+                select: function (event,date) {
                     dateFrom.datepicker('option', { maxDate: date });
                 }
             });

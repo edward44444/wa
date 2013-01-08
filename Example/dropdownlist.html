@@ -13,7 +13,7 @@
                 mutil: false,
                 search: true,
                 contentHeight: null,
-                onSelect: function (data) {
+                select: function (event,data) {
                     alert(data.text);
                 },
                 tpl:'{text}市',
@@ -36,6 +36,9 @@
             $('#txtStreet').dropdownlist({
                 mutil: true,
                 search: false,
+                select: function (event, data) {
+                    alert(data.text);
+                },
                 contentHeight: 200,
                 dataSource: [
                     { text: '人民路', value: '0' },

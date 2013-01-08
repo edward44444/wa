@@ -6,8 +6,7 @@
             minDate: null,
             maxDate: null,
             selectedDate: null,
-            dateFormat: 'yyyy-MM-dd',
-            onSelect: null
+            dateFormat: 'yyyy-MM-dd'
         },
         _create: function () {
             var me = this, options = this.options, datePicker, datePickerHtml = [],
@@ -249,12 +248,10 @@
                 }
             }
             me.tbCalendar.find('tbody').empty().append(dateHtml.join(''));
-            me.tbCalendar.find('tbody .wa-datepicker-date:not(.wa-datepicker-date-disabled)').bind('click', function () {
+            me.tbCalendar.find('tbody .wa-datepicker-date:not(.wa-datepicker-date-disabled)').bind('click', function (event) {
                 var selectedDate = new Date(me.choosedDate.year, me.choosedDate.month, parseInt($(this).text()));
                 me.element.val(Date.wa.format(selectedDate, options.dateFormat));
-                if ($.isFunction(options.onSelect)) {
-                    options.onSelect.call(me, selectedDate, me.ui);
-                }
+                me._trigger('select', event, selectedDate);
                 me.hideDatePicker();
             }).hover(function () {
                 $(this).addClass('wa-datepicker-date-hover');
