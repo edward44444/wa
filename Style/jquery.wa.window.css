@@ -75,6 +75,8 @@
     width:10px;
     right:-10px;
 }
+.wa-window-body {
+}
 .wa-window-header {
     height:40px;
     line-height:40px;
@@ -92,7 +94,7 @@
    position:absolute;
    left:0px;
    top:0px;
-   right:6px;
+   right:0px;
    bottom:0px;
 }
 .wa-window-iframe {
@@ -106,9 +108,9 @@
     display:block;/*remove iframe margin bottom space*/
 }
 .wa-window-button-close {
-    width:16px;
-    height:16px;
-    line-height:16px;
+    width:30px;
+    height:30px;
+    line-height:30px;
     cursor:pointer;
     font-weight:bold;
     text-align:center;
@@ -116,6 +118,7 @@
     position:absolute;
     top:50%;
     right:0px;
-    margin-top:-8px;
+    margin-top:-15px;
+    font-size:18px;
 }
 

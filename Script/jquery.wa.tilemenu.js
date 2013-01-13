@@ -1,4 +1,8 @@
-﻿(function ($, undefined) {
+﻿/// <reference path="jquery.wa.core.js" />
+/// <reference path="jquery.wa.mouse.js" />
+/// <reference path="jquery.wa.draggable.js" />
+
+(function ($, undefined) {
     $.wa.widget('tilemenu', {
         options: {
             dataSource: [{ text: '苏州市', value: '2' }, { text: '呼和浩特', value: '2' }, { text: '苏州市', value: '2' }, { text: '呼和浩特', value: '2' }, { text: '苏州市', value: '2' }, { text: '呼和浩特', value: '2' }, { text: 'A', value: '2' }, { text: 'B', value: '2' }, { text: 'C', value: '2' }, { text: 'D', value: '2' }, { text: 'E', value: '2' }, { text: 'F', value: '2' }],

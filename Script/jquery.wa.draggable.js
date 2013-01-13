@@ -1,7 +1,8 @@
 ﻿/// <reference path="jquery.wa.core.js" />
-/// <reference path="jquery.wa.overlay.js" />
+/// <reference path="jquery.wa.mouse.js" />
+
 (function ($, undefined) {
-    $.wa.widget('draggable', {
+    $.wa.widget('draggable',$.wa.mouse, {
         options: {
             container: null,
             helper: false,
@@ -19,135 +20,128 @@
             }
         },
         _create: function () {
-            var me = this, options = this.options, handle, container;
+            var me = this, options = this.options;
             me.guid = $.wa.guid++;
             if (options.handle) {
-                handle = $(options.handle, me.element);
+                me.handle = $(options.handle, me.element);
             } else {
-                handle = me.element;
+                me.handle = me.element;
             }
-            me.handle = handle.disableSelection();
+            me.handle.disableSelection().css({ 'cursor': 'move' });
             if (options.container == 'parent') {
-                container = me.element.parent();
+                me.container = me.element.parent();
             } else {
-                container = options.container || $(document.body);
+                me.container = options.container || $(document.body);
             }
-            var containerWidth, containerHeight, containerOffset, elementOuterWidth, elementOuterHeight,
-                elementPosition, elementOffset, helperOffset, helperBorderWidth = 1,oriEvent,
-                mouseRelativeLeft, mouseRelativeTop, left, top, offset, dragged, dropped, amendment;
-            handle.css({ 'cursor': 'move' }).bind('mousedown.' + me.name, function (e) {
-                dragged = false;
-                dropped = false;
-                oriEvent = e;
-                containerWidth = container.width();
-                containerHeight = container.height();
-                containerOffset = container.offset();
-                elementOffset = me.element.offset();
-                elementPosition = me.element.position();
-                elementOuterWidth = me.element.outerWidth();
-                elementOuterHeight = me.element.outerHeight();
-                mouseRelativeLeft = e.pageX - elementOffset.left;
-                mouseRelativeTop = e.pageY - elementOffset.top;
-                me.overlay = $('<div></div>').css({
+            me._mouseInit();
+        },
+        _mouseCapture: function (event) {
+            return (jQuery.contains(this.handle[0], event.target) || event.target == this.handle[0]);
+        },
+        _mouseStart: function (event) {
+            var me = this, options = this.options;
+            me.containerWidth = me.container.width();
+            me.containerHeight = me.container.height();
+            me.containerOffset = me.container.offset();
+            me.elementOffset = me.element.offset();
+            me.elementPosition = { left: parseFloat(me.element.css('left')) || 0, top: parseFloat(me.element.css('top')) || 0 };
+            me.elementOuterWidth = me.element.outerWidth();
+            me.elementOuterHeight = me.element.outerHeight();
+            me.mouseRelativeLeft = event.pageX - me.elementOffset.left;
+            me.mouseRelativeTop = event.pageY - me.elementOffset.top;
+            me.helperBorderWidth = 1;
+            me.overlay = $('<div></div>').css({
+                "position": "absolute",
+                "zIndex": (4 + $.wa.overlayZindex),
+                "width": $(document.body).width() + "px",
+                "height": $(document.body).height() + "px",
+                "background-color": '#000000',
+                "opacity": 0,
+                'left': '0px',
+                'top': '0px'
+            }).appendTo(document.body);
+            if (options.helper == 'clone') {
+                me.helper = me.element.clone().css({
                     "position": "absolute",
-                    "zIndex": (4 + $.wa.overlayZindex),
-                    "width": $(document.body).width() + "px",
-                    "height": $(document.body).height() + "px",
-                    "background-color": '#000000',
-                    "opacity": 0,
-                    'left': '0px',
-                    'top': '0px'
-                }).appendTo(document.body);
-                if (options.helper == 'clone') {
-                    me.helper = me.element.clone().css({
-                        "position": "absolute",
-                        "zIndex": 10000
-                    }).appendTo('body').offset({
-                        left: elementOffset.left,
-                        top: elementOffset.top
-                    });
-                } else if (options.helper) {
-                    me.helper = $("<div></div>").css({
-                        "position": "absolute",
-                        "zIndex": 10000,
-                        "width": elementOuterWidth + "px",
-                        "height": elementOuterHeight + "px",
-                        "border": "1px dashed #000000"
-                    }).appendTo('body').offset({
-                        left: elementOffset.left - helperBorderWidth,
-                        top: elementOffset.top - helperBorderWidth
-                    });
-                } else {
-                    me.helper = me.element;
-                }
-                $(document).bind('mousemove.' + me.name + me.guid, function (e) {
-                    e.preventDefault();
-                    if (!dragged) {
-                        me._trigger('dragstart', e, me);
-                        if ($.wa.ddmanager) {
-                            $.wa.ddmanager.current = me;
-                            $.wa.ddmanager.dragStart(me, e);
-                        }
-                        dragged = true;
-                    }
-                    left = e.pageX - mouseRelativeLeft;
-                    top = e.pageY - mouseRelativeTop;
-                    if (options.container) {
-                        amendment = (options.helper == true ? helperBorderWidth * 2 : 0);
-                        left = Math.max(left, containerOffset.left);
-                        left = Math.min(left, containerOffset.left + containerWidth - elementOuterWidth - amendment);
-                        top = Math.max(top, containerOffset.top);
-                        top = Math.min(top, containerOffset.top + containerHeight - elementOuterHeight - amendment);
-                    }
-                    if (options.axis == 'y') {
-                        left = elementOffset.left;
-                    } else if (options.axis == 'x') {
-                        top = elementOffset.top;
-                    }
-                    offset = {
-                        left: left,
-                        top: top
-                    };
-                    offset = me._trigger('drag', e, offset) || offset;
-                    if ($.wa.ddmanager) $.wa.ddmanager.drag(me, e);
-                    me.helper.offset(offset);
-                }).bind('mouseup.' + me.name + me.guid, function (e) {
-                    $(document).unbind('mousemove.' + me.name + me.guid).unbind('mouseup.' + me.name + me.guid);
-                    if (!dragged) {
-                        me._clear();
-                        oriEvent.type = 'tap';
-                        $(oriEvent.target).trigger(oriEvent);
-                        return;
-                    }
-                    if ($.wa.ddmanager) dropped = $.wa.ddmanager.drop(me, event);
-                    if (options.revert == 'invalid' && !dropped || options.revert == 'valid' && dropped || options.revert == true) {
-                        me.helper.animate({
-                            left: elementPosition.left + 'px',
-                            top: elementPosition.top + 'px'
-                        }, options.revertDuration, function () {
-                            me._trigger('dragstop', e, me);
-                            if ($.wa.ddmanager) $.wa.ddmanager.dragStop(me, e);
-                            me._clear();
-                        });
-                    } else {
-                        if (options.helper) {
-                            helperOffset = me.helper.offset();
-                            amendment = (options.helper == 'clone' ? 0 : helperBorderWidth);
-                            me.element.offset({ left: helperOffset.left + amendment, top: helperOffset.top + amendment });
-                        }
-                        me._trigger('dragstop', e, me);
-                        if ($.wa.ddmanager) $.wa.ddmanager.dragStop(me, e);
-                        me._clear();
-                    }
+                    "zIndex": 10000
+                }).insertAfter(me.element).offset({
+                    left: me.elementOffset.left,
+                    top: me.elementOffset.top
                 });
-            });
+            } else if (options.helper) {
+                me.helper = $("<div></div>").css({
+                    "position": "absolute",
+                    "zIndex": 10000,
+                    "width": me.elementOuterWidth + "px",
+                    "height": me.elementOuterHeight + "px",
+                    "border": "1px dashed #000000"
+                }).insertAfter(me.element).offset({
+                    left: me.elementOffset.left - me.helperBorderWidth,
+                    top: me.elementOffset.top - me.helperBorderWidth
+                });
+            } else {
+                me.helper = me.element;
+            }
+            me._trigger('dragstart', event, me);
+            if ($.wa.ddmanager) {
+                $.wa.ddmanager.current = me;
+                $.wa.ddmanager.dragStart(me, event);
+            }
+        },
+        _mouseDrag: function (event) {
+            var me = this, options = this.options,
+            left = event.pageX - me.mouseRelativeLeft,
+            top = event.pageY - me.mouseRelativeTop;
+            if (options.container) {
+                var amendment = (options.helper == true ? me.helperBorderWidth * 2 : 0);
+                left = Math.max(left, me.containerOffset.left);
+                left = Math.min(left, me.containerOffset.left + me.containerWidth - me.elementOuterWidth - amendment);
+                top = Math.max(top, me.containerOffset.top);
+                top = Math.min(top, me.containerOffset.top + me.containerHeight - me.elementOuterHeight - amendment);
+            }
+            if (options.axis == 'y') {
+                left = me.elementOffset.left;
+            } else if (options.axis == 'x') {
+                top = me.elementOffset.top;
+            }
+            var offset = {
+                left: left,
+                top: top
+            };
+            offset = me._trigger('drag', event, offset) || offset;
+            if ($.wa.ddmanager) $.wa.ddmanager.drag(me, event);
+            me.helper.offset(offset);
+        },
+        _mouseStop: function (event) {
+            var me = this, options = this.options, dropped=false;
+            if ($.wa.ddmanager) dropped = $.wa.ddmanager.drop(me, event);
+            if (options.revert == 'invalid' && !dropped || options.revert == 'valid' && dropped || options.revert == true) {
+                me.helper.animate({
+                    left: me.elementPosition.left + 'px',
+                    top: me.elementPosition.top + 'px'
+                }, options.revertDuration, function () {
+                    me._dragstop(event);
+                });
+            } else {
+                if (options.helper) {
+                   var helperOffset = me.helper.offset();
+                   var amendment = (options.helper == 'clone' ? 0 : me.helperBorderWidth);
+                    me.element.offset({ left: helperOffset.left + amendment, top: helperOffset.top + amendment });
+                }
+                me._dragstop(event);
+            }
+        },
+        _dragstop: function (event) {
+            this._trigger('dragstop', event, this);
+            if ($.wa.ddmanager) $.wa.ddmanager.dragStop(this, event);
+            this._clear();
         },
         _clear: function () {
             if (this.overlay) this.overlay.remove();
             if (this.helper && this.helper[0] != this.element[0]) this.helper.remove();
         },
         destroy: function () {
-            this.element.unbind('.' + this.name);
+            this._mouseDestroy();
             this.handle.css({ cursor: 'default' });
             this.handle.enableSelection();
         }

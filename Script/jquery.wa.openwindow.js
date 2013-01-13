@@ -1,4 +1,5 @@
 ﻿/// <reference path="jquery.wa.core.js" />
+/// <reference path="jquery.wa.mouse.js" />
 /// <reference path="jquery.wa.resizable.js" />
 /// <reference path="jquery.wa.draggable.js" />
 (function ($, undefined) {
@@ -73,8 +74,8 @@
             var windowInner = $('.wa-window-inner', openwindow),
                 windowFrame = $('.wa-window-iframe', openwindow),
                 windowHeader = $('.wa-window-header', openwindow),
-                buttonClose = $('.wa-window-button-close', openwindow).
-                bind('click.' + me.name, function () {
+                buttonClose = $('.wa-window-button-close', openwindow)
+                .bind('click.' + me.name, function () {
                     me.hide();
                 }).bind('mousedown.' + me.name, function (e) {
                     e.preventDefault();

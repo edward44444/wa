@@ -5,12 +5,13 @@
     <link href="../Style/jquery.wa.core.css" rel="stylesheet" />
     <script src="../Script/jquery-1.7.1.js"></script>
     <script src="../Script/jquery.wa.core.js"></script>
+    <script src="../Script/jquery.wa.mouse.js"></script>
     <script src="../Script/jquery.wa.draggable.js"></script>
     <script src="../Script/jquery.wa.droppable.js"></script>
     <script type="text/javascript">
         $(function () {
-            $('#div1').draggable({ helper: 'clone', container: null, revert: 'valid' });
-            $('#div4').draggable({ helper: 'clone', container: null, revert: 'invalid' });
+            $('#div1').draggable({ helper: false, container: null, revert: 'valid' });
+            $('#div4').draggable({ helper: false, container: null, revert: 'invalid' });
             $('#div2,#div3').droppable({
                 accept: '#drag>div',
                 activeClass: 'wa-droppable-active',

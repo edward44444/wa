@@ -1,4 +1,6 @@
-﻿(function ($, undefined) {
+﻿/// <reference path="jquery.wa.core.js" />
+
+(function ($, undefined) {
     $.wa.widget('tooltip', {
         options: {
             title: '',

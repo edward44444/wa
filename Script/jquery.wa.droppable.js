@@ -1,4 +1,8 @@
-﻿(function ($, undefined) {
+﻿/// <reference path="jquery.wa.core.js" />
+/// <reference path="jquery.wa.draggable.js" />
+/// <reference path="jquery.wa.mouse.js" />
+
+(function ($, undefined) {
     $.wa.intersect = function (draggable, droppable, tolerance) {
         var dropWidth = droppable.element.outerWidth(),
         dropHeight = droppable.element.outerHeight(),

@@ -106,8 +106,9 @@
             }
         }
     }
-    $.wa.widget = function (name, prototype, base) {
-        if (!base) {
+    $.wa.widget = function (name, base,prototype) {
+        if (!prototype) {
+            prototype = base;
             base = $.wa.base;
         }
         $.wa[name] = function (options, element) {

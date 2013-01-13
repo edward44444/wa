@@ -1,4 +1,5 @@
 ﻿/// <reference path="jquery.wa.core.js" />
+/// <reference path="jquery.wa.mouse.js" />
 /// <reference path="jquery.wa.draggable.js" />
 (function ($, undefined) {
     var scrollBezierArray = [], dragBezierArray = [], precisionNum = 100;
@@ -62,8 +63,8 @@
                         dragStartTime = $.now();
                         offsetTopStart = parseFloat(child.css('top')) || 0;
                         elementOffsetTop = me.element.offset().top;
-                        me.elementHeight = elementHeight = me.element.height();
-                        me.childHeight = childHeight = child.height();
+                        me.elementHeight = elementHeight = me.element.outerHeight();
+                        me.childHeight = childHeight = child.outerHeight();
                         me.scrollbarHeight = scrollbarHeight = Math.pow(elementHeight, 2) / childHeight;
                         scrollbar.css({
                             height: scrollbarHeight + 'px'
@@ -81,9 +82,7 @@
                         if (dragEndTime - dragStartTime <= options.timeThreshold) {
                             distance = (1 - (dragEndTime - dragStartTime) / options.timeThreshold) * options.tripThreshold;
                             distance = distance * Math.min(Math.abs(offsetTopEnd - offsetTopStart), options.distanceThreshold) / options.distanceThreshold;
-                            scrollTime = (distance / options.tripThreshold) * options.durationThreshold;
-                            //scrollTime = options.durationThreshold;
-                            //distance = options.tripThreshold;
+                            scrollTime =Math.max((distance / options.tripThreshold) * options.durationThreshold,1000);
                             child.animate({
                                 top: (offsetTopEnd < offsetTopStart ? '-' : '+') + '=' + distance + 'px'
                             }, {
@@ -132,8 +131,13 @@
                         scrollbarOffsetTop = -1 * (parseFloat(child.css('top')) || 0) * elementHeight / childHeight;
                         me.setScrollBarPosition(scrollbarOffsetTop);
                         if (offset.top - elementOffsetTop > 0) {
+                            offset.top = elementOffsetTop + (offset.top - elementOffsetTop) * 0.5;
                             //console.log(2 * Math.atan(100) / Math.PI);
                             //offset.top = elementOffsetTop + 2 * Math.atan(offset.top - elementOffsetTop) * elementHeight / Math.PI;
+                        }
+                        if (offset.top <elementOffsetTop+elementHeight-childHeight) {
+                            //offset.top = elementOffsetTop + elementHeight - childHeight - (elementOffsetTop + elementHeight - childHeight - offset.top) * 0.5;
+                            offset.top = (elementOffsetTop + elementHeight - childHeight + offset.top) * 0.5;
                         }
                         return offset;
                     }
@@ -151,7 +155,7 @@
                     child.animate({
                         top: (offsetTopEnd > 0 ? 0 : elementHeight - childHeight) + 'px'
                     }, {
-                        duration: 800,
+                        duration: 500,
                         easing: 'waScrollBezier',
                         complete: function () {
                             me.hideScrollbar();
@@ -164,23 +168,21 @@
                 }
             });
             me.child = child;
-            if ($.wa.support.touch) {
-                me.child.touchpunch();
-            }
             this.ui = {};
             this.ui.scrollbar = scrollbar;
         },
         setScrollBarPosition: function (scrollbarOffsetTop) {
             if (scrollbarOffsetTop < 0) {
                 scrollbarOffsetTop = scrollbarOffsetTop * this.childHeight / this.elementHeight;
+                console.log(Math.max((this.scrollbarHeight + scrollbarOffsetTop), 0));
                 this.ui.scrollbar.css({
-                    height: (this.scrollbarHeight + scrollbarOffsetTop) + 'px',
+                    height: Math.max((this.scrollbarHeight + scrollbarOffsetTop),0) + 'px',
                     top: '0px'
                 });
             } else if (scrollbarOffsetTop > this.elementHeight - this.scrollbarHeight) {
                 scrollbarOffsetTop = (scrollbarOffsetTop - this.elementHeight + this.scrollbarHeight) * this.childHeight / this.elementHeight;
                 this.ui.scrollbar.css({
-                    height: (this.scrollbarHeight - scrollbarOffsetTop) + 'px',
+                    height: Math.max((this.scrollbarHeight - scrollbarOffsetTop),0) + 'px',
                     top: this.elementHeight - this.scrollbarHeight + scrollbarOffsetTop + 'px'
                 });
             } else {
@@ -191,18 +193,26 @@
             }
         },
         hideScrollbar: function () {
-            this.ui.scrollbar.hide();
+            var me = this;
+            if (!me.scrollbarTimer) {
+                me.scrollbarTimer = setTimeout(function () {
+                    me.ui.scrollbar.hide();
+                    clearTimeout(me.scrollbarTimer);
+                    me.scrollbarTimer = null;
+                }, 100);
+            }
         },
         showScrollbar: function () {
+            if (this.scrollbarTimer) {
+                clearTimeout(this.scrollbarTimer);
+                this.scrollbarTimer = null;
+            }
             if (this.ui.scrollbar.is(':hidden')) {
                 this.ui.scrollbar.show();
             }
         },
         destroy: function () {
-            if ($.wa.support.touch) {
-                this.child.touchpunch('destroy');
-            }
-            this.element.find('>:first-child').unbind('.' + this.name).draggable('destroy');
+            this.child.unbind('.' + this.name).draggable('destroy');
             $(document).unbind('.' + this.name + this.guid);
             $.wa.base.prototype.destroy.call(this);
         }
