@@ -16,7 +16,7 @@
             var now = new Date();
             for (var i = 0; i < 60; i++) {
                 now = now.addDay(1);
-                html.push('<li>' + Date.wa.format(now, 'yyyy-MM-dd') + '</li>');
+                html.push('<li>' + Date.wa.format(now, 'yyyy-MM-dd') + Date.wa.format(now, 'yyyy-MM-dd') + Date.wa.format(now, 'yyyy-MM-dd') + Date.wa.format(now, 'yyyy-MM-dd') + '</li>');
             }
             $('#ulDate').append(html.join(''));
             $('#ulDate li').bind('tap', function (event) {
@@ -47,21 +47,25 @@
             margin-left:20px;
             height: 400px;
             overflow: hidden;
-            background-color: #0026ff;
             position:relative;
             margin:20px auto;
+            width:400px;
+            background-color:gray;
         }
         #div2
         {
-            background-color:#0026ff;
+            background-color: #0026ff;
             position:relative;
             color:White;
             cursor:default!important;
+            width:2000px;
         }
         #div3 {
             width:200px;
             height:200px;
             background-color:#4cff00;
+            /*-webkit-box-orient:horizontal;
+            -webkit-box-orient:vertical;*/
         }
         #ulDate
         {
@@ -69,7 +73,7 @@
             line-height:40px;
             display:block;
             margin:0px;
-            padding:0px 10px;
+            padding:0px 0px;
         }
         #ulDate li {
             border-bottom:1px solid #808080;

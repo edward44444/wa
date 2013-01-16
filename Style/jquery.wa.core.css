@@ -29,12 +29,23 @@ body {
     text-indent:-999px;
     overflow:hidden;
 }
-.wa-scrollable-scrollbar {
+.wa-scrollable-scrollbar-vertical {
     position: absolute;
     width: 6px;
     right: 2px;
     top: 0px;
     bottom: 0px;
+    border-radius: 20px;
+    background-color: #000000;
+    opacity: 0.3;
+    filter: alpha(opacity=30);
+}
+.wa-scrollable-scrollbar-horizontal {
+    position: absolute;
+    height: 6px;
+    bottom: 2px;
+    left: 0px;
+    right: 0px;
     border-radius: 20px;
     background-color: #000000;
     opacity: 0.3;
