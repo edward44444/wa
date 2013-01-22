@@ -61,8 +61,7 @@
             distanceThreshold: 200,
             durationThreshold: 3000,
             timeThreshold: 400,
-            direction: '',// vertical,horizontal
-
+            direction: ''// vertical,horizontal
         },
         _create: function () {
             this.guid = $.wa.guid++;
@@ -70,7 +69,9 @@
             dragEndTime, offsetStart, offsetEnd, distance,
             scrollTime, scrollbarHeight,scrollbarWidth, elementHeight, elementWidth, childHeight, childWidth,
             scrollbarOffsetTop, scrollbarOffsetLeft, bound, elementOffset,animation,
-            oriChild=me.element.find('>:first-child'),
+            oriChild = me.element.find('>:first-child'),
+            isVertical = (!this.options.direction || this.options.direction == 'vertical'),
+            isHorizontal = (!this.options.direction || this.options.direction == 'horizontal'),
             child = me.element.wrapInner('<div></div>').find('>:first-child').css({
                 position: 'relative',
                 width: oriChild.outerWidth()+'px',
@@ -93,10 +94,8 @@
                     scrollbarHorizontal.css({
                         width: scrollbarWidth + 'px'
                     });
-                    scrollbarOffsetTop = -1 * (parseFloat(child.css('top')) || 0) * elementHeight / childHeight;
-                    scrollbarOffsetLeft = -1 * (parseFloat(child.css('left')) || 0) * elementWidth / childWidth;
-                    me.setScrollBarVerticalPosition(scrollbarOffsetTop);
-                    me.setScrollBarHorizontalPosition(scrollbarOffsetLeft);
+                    me.setScrollBarVerticalPosition(-1 * (parseFloat(child.css('top')) || 0) * elementHeight / childHeight);
+                    me.setScrollBarHorizontalPosition(-1 * (parseFloat(child.css('left')) || 0) * elementWidth / childWidth);
                     me.showScrollbar();
                 },
                 dragstop: function () {
@@ -108,9 +107,9 @@
                         distance.top = distance.top * Math.min(Math.abs(offsetEnd.top - offsetStart.top), options.distanceThreshold) / options.distanceThreshold;
                         distance.left = distance.left * Math.min(Math.abs(offsetEnd.left - offsetStart.left), options.distanceThreshold) / options.distanceThreshold;
                         scrollTime = Math.max((Math.max(distance.top, distance.left) / options.tripThreshold) * options.durationThreshold, 1000);
-                        if (!(offsetEnd.top > 0 || offsetEnd.top < (elementHeight - childHeight))) {
+                        if (isVertical&&!(offsetEnd.top > 0 || offsetEnd.top < (elementHeight - childHeight))) {
                             child.animate({
-                                top: (offsetEnd.top < offsetStart.top ? '-' : '+') + '=' + distance.top + 'px',
+                                top: (offsetEnd.top < offsetStart.top ? '-' : '+') + '=' + distance.top + 'px'
                             }, {
                                 queue: false,
                                 duration: scrollTime,
@@ -123,7 +122,7 @@
                                 }
                             });
                         }
-                        if (!(offsetEnd.left > 0 || offsetEnd.left < (elementWidth - childWidth))) {
+                        if (isHorizontal&&!(offsetEnd.left > 0 || offsetEnd.left < (elementWidth - childWidth))) {
                             child.animate({
                                 left: (offsetEnd.left < offsetStart.left ? '-' : '+') + '=' + distance.left + 'px'
                             }, {
@@ -143,21 +142,23 @@
                     }
                 },
                 drag: function (event, offset) {
-                    scrollbarOffsetTop = -1 * (parseFloat(child.css('top')) || 0) * elementHeight / childHeight;
-                    scrollbarOffsetLeft = -1 * (parseFloat(child.css('left')) || 0) * elementWidth / childWidth;
-                    me.setScrollBarVerticalPosition(scrollbarOffsetTop);
-                    me.setScrollBarHorizontalPosition(scrollbarOffsetLeft);
-                    if (offset.top - elementOffset.top > 0) {
-                        offset.top = elementOffset.top + (offset.top - elementOffset.top) * 0.5;
+                    if (isVertical) {
+                        me.setScrollBarVerticalPosition(-1 * (parseFloat(child.css('top')) || 0) * elementHeight / childHeight);
+                        if (offset.top - elementOffset.top > 0) {
+                            offset.top = elementOffset.top + (offset.top - elementOffset.top) * 0.5;
+                        }
+                        if (offset.top < elementOffset.top + elementHeight - childHeight) {
+                            offset.top = (elementOffset.top + elementHeight - childHeight + offset.top) * 0.5;
+                        }
                     }
-                    if (offset.top < elementOffset.top + elementHeight - childHeight) {
-                        offset.top = (elementOffset.top + elementHeight - childHeight + offset.top) * 0.5;
-                    }
-                    if (offset.left - elementOffset.left > 0) {
-                        offset.left = elementOffset.left + (offset.left - elementOffset.left) * 0.5;
-                    }
-                    if (offset.left < elementOffset.left + elementWidth - childWidth) {
-                        offset.left = (elementOffset.left + elementWidth - childWidth + offset.left) * 0.5;
+                    if (isHorizontal) {
+                        me.setScrollBarHorizontalPosition(-1 * (parseFloat(child.css('left')) || 0) * elementWidth / childWidth);
+                        if (offset.left - elementOffset.left > 0) {
+                            offset.left = elementOffset.left + (offset.left - elementOffset.left) * 0.5;
+                        }
+                        if (offset.left < elementOffset.left + elementWidth - childWidth) {
+                            offset.left = (elementOffset.left + elementWidth - childWidth + offset.left) * 0.5;
+                        }
                     }
                     return offset;
                 }
@@ -167,6 +168,8 @@
             }),
             scrollbarVertical = $('<div class="wa-scrollable-scrollbar-vertical" style="display:none;"></div>').appendTo(me.element),
             scrollbarHorizontal = $('<div class="wa-scrollable-scrollbar-horizontal" style="display:none;"></div>').appendTo(me.element);
+            me.isVertical = isVertical;
+            me.isHorizontal = isHorizontal;
             $(document).bind('mouseup.' + me.name + me.guid, function () {
                 if (child.is(':animated')) {
                     return;
@@ -175,9 +178,9 @@
                     top: parseFloat(child.css('top')) || 0,
                     left: parseFloat(child.css('left')) || 0
                 };
-                if (offsetEnd.top > 0 || offsetEnd.top < (elementHeight - childHeight)) {
+                if (isVertical && (offsetEnd.top > 0 || offsetEnd.top < (elementHeight - childHeight))) {
                     child.animate({
-                        top: (offsetEnd.top > 0 ? 0 : elementHeight - childHeight) + 'px',
+                        top: (offsetEnd.top > 0 ? 0 : elementHeight - childHeight) + 'px'
                     }, {
                         queue: false,
                         duration: 500,
@@ -190,7 +193,7 @@
                         }
                     });
                 }
-                if (offsetEnd.left > 0 || offsetEnd.left < (elementWidth - childWidth)) {
+                if (isHorizontal && (offsetEnd.left > 0 || offsetEnd.left < (elementWidth - childWidth))) {
                     child.animate({
                         left: (offsetEnd.left > 0 ? 0 : elementWidth - childWidth) + 'px'
                     }, {
@@ -331,10 +334,10 @@
                 clearTimeout(this.scrollbarTimer);
                 this.scrollbarTimer = null;
             }
-            if ((!this.options.direction||this.options.direction=='vertical')&&this.ui.scrollbarVertical.is(':hidden')) {
+            if (this.isVertical && this.ui.scrollbarVertical.is(':hidden')) {
                 this.ui.scrollbarVertical.show();
             }
-            if ((!this.options.direction||this.options.direction=='horizontal')&&this.ui.scrollbarHorizontal.is(':hidden')) {
+            if (this.isHorizontal && this.ui.scrollbarHorizontal.is(':hidden')) {
                 this.ui.scrollbarHorizontal.show();
             }
         },

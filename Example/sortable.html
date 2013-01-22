@@ -5,31 +5,11 @@
     <link href="../Style/jquery.wa.core.css" rel="stylesheet" />
     <script src="../Script/jquery-1.7.1.js"></script>
     <script src="../Script/jquery.wa.core.js"></script>
-    <script src="../Script/jquery.wa.draggable.js"></script>
-    <script src="../Script/jquery.wa.droppable.js"></script>
+    <script src="../Script/jquery.wa.mouse.js"></script>
+    <script src="../Script/jquery.wa.sortable.js"></script>
     <script type="text/javascript">
         $(function () {
-            var placeHolder;
-            $('#ul li').draggable({
-                revert: false,
-                helper: false,
-                dragstart: function (event, inst) {
-                    var $this = $(this);
-                    placeHolder = $this.clone().insertAfter($this).text('clone');
-                },
-                dragstop: function (event, inst) {
-                    alert('eee');
-                    placeHolder.replaceWith($(this));
-                }
-            }).droppable({
-                activate: function (event, inst) {    
-                },
-                over: function (event, inst) {
-                    placeHolder.insertAfter($(this));
-                },
-                drop: function (event, inst) {        
-                }
-            });
+            $('#ul').sortable();
         });
     </script>
     <style type="text/css">
@@ -55,6 +35,15 @@
         <li>A</li>
         <li>B</li>
         <li>C</li>
+        <li>D</li>
+        <li>E</li>
+        <li>F</li>
+        <li>G</li>
+        <li>H</li>
+        <li>I</li>
+        <li>J</li>
+        <li>K</li>
+        <li>L</li>
     </ul>
 </body>
 </html>
