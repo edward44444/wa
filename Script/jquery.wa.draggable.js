@@ -75,7 +75,7 @@
                     "width": me.elementOuterWidth + "px",
                     "height": me.elementOuterHeight + "px",
                     "border": "1px dashed #000000"
-                }).insertAfter(me.element).offset({
+                }).insertAfter(document.body).offset({
                     left: me.elementOffset.left - me.helperBorderWidth,
                     top: me.elementOffset.top - me.helperBorderWidth
                 });

@@ -72,10 +72,10 @@
             oriChild = me.element.find('>:first-child'),
             isVertical = (!this.options.direction || this.options.direction == 'vertical'),
             isHorizontal = (!this.options.direction || this.options.direction == 'horizontal'),
-            child = me.element.wrapInner('<div></div>').find('>:first-child').css({
+            child = me.element.wrapInner('<div class="wa-scrollable-inner"></div>').find('>:first-child').css({
                 position: 'relative',
-                width: oriChild.outerWidth()+'px',
-                height:oriChild.outerHeight()+'px'
+                width: Math.max(me.element.outerWidth(), oriChild.outerWidth()) + 'px',
+                height: Math.max(me.element.outerHeight(), oriChild.outerHeight()) + 'px'
             }).draggable({
                 axis: options.direction ? (options.direction == 'vertical' ? 'y' : 'x') : '',
                 dragstart: function () {

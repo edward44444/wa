@@ -29,6 +29,9 @@ body {
     text-indent:-999px;
     overflow:hidden;
 }
+.wa-scrollable-inner {
+    cursor:default!important;
+}
 .wa-scrollable-scrollbar-vertical {
     position: absolute;
     width: 6px;

@@ -22,7 +22,7 @@
             $('#ulDate li').bind('tap', function (event) {
                 Write($(this).text());
             });
-            $('#div1').scrollable();
+            $('#div1').scrollable({tripThreshold:2000});
             $(document).bind('mousemove', function () {
                 if (!timer) {
                     timer = setTimeout(function () {

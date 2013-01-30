@@ -17,13 +17,13 @@
             me.placeHolder = me.helper.clone().empty().css({
                 visibility: 'hidden'
             }).addClass('wa-sortable-placeholder').insertAfter(me.helper);
-            me.helperOriStyle = me.helper.attr('style');
             me.helper.css({
                 position: 'absolute',
                 width: me.helper.width() + 'px',
                 height: me.helper.height() + 'px'
             });
-            me.siblings = me.helper.siblings('li:not(".wa-sortable-placeholder")');
+            me.nextAll = me.placeHolder.nextAll().not(me.helper);
+            me.prevAll = me.placeHolder.prevAll().not(me.helper);
             me.mouseRelativeLeft = event.pageX - me.helperOffset.left;
             me.mouseRelativeTop = event.pageY - me.helperOffset.top;
         },
@@ -35,14 +35,21 @@
                 left: left,
                 top: top
             });
-            me.siblings.each(function () {
+            me.nextAll.each(function () {
                 var $this = $(this);
-                if (me._intersect($(this), 'intersect')) {
-                    if ($this.prevAll().index(me.helper) == -1) {
-                        me.placeHolder.insertBefore($this);
-                    } else {
-                        me.placeHolder.insertAfter($this);
-                    }
+                if (me._intersectNext($this)) {
+                    me.placeHolder.insertAfter($this);
+                    me.nextAll = me.placeHolder.nextAll().not(me.helper);
+                    me.prevAll = me.placeHolder.prevAll().not(me.helper);
+                    return false;
+                }
+            });
+            me.prevAll.each(function () {
+                var $this = $(this);
+                if (me._intersectPrev($this)) {
+                    me.placeHolder.insertBefore($this);
+                    me.nextAll = me.placeHolder.nextAll().not(me.helper);
+                    me.prevAll = me.placeHolder.prevAll().not(me.helper);
                     return false;
                 }
             });
@@ -58,23 +65,33 @@
             }
             return true;
         },
-        _intersect: function (droppable, tolerance) {
-            var me = this;
-            var dropWidth = droppable.outerWidth(),
+        _intersectNext: function (droppable) {
+            var me = this,
+                dropWidth = droppable.outerWidth(),
                 dropHeight = droppable.outerHeight(),
                 dropOffset = droppable.offset(),
                 dragWidth = me.helper.outerWidth(),
                 dragHeight = me.helper.outerHeight(),
                 dragOffset = me.helper.offset();
-            if (tolerance == 'intersect') {
-                return (
-                  dragOffset.left + dragWidth / 2 < dropOffset.left + dropWidth
-                  && dragOffset.left + dragWidth / 2 > dropOffset.left
-                  && dragOffset.top + dragHeight / 2 < dropOffset.top + dropHeight
-                  && dragOffset.top + dragHeight / 2 > dropOffset.top
-                );
-            }
-            return false;
+            return (
+                dragOffset.left + dragWidth / 2 < dropOffset.left + dropWidth
+                && dragOffset.left + dragWidth / 2 > dropOffset.left
+                && dragOffset.top < dropOffset.top + dropHeight
+                && dragOffset.top + dragHeight > dropOffset.top + dropHeight);
+        },
+        _intersectPrev: function (droppable) {
+            var me = this,
+                dropWidth = droppable.outerWidth(),
+                dropHeight = droppable.outerHeight(),
+                dropOffset = droppable.offset(),
+                dragWidth = me.helper.outerWidth(),
+                dragHeight = me.helper.outerHeight(),
+                dragOffset = me.helper.offset();
+            return (
+                dragOffset.left + dragWidth / 2 < dropOffset.left + dropWidth
+                && dragOffset.left + dragWidth / 2 > dropOffset.left
+                && dragOffset.top + dragHeight > dropOffset.top
+                && dragOffset.top < dropOffset.top);
         },
         destroy: function () {
             this.element.removeClass('wa-sortable');
