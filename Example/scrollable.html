@@ -22,7 +22,7 @@
             $('#ulDate li').bind('tap', function (event) {
                 Write($(this).text());
             });
-            $('#div1').scrollable({tripThreshold:2000});
+            $('#div1').scrollable({ tripThreshold: 2000, direction: 'vertical' });
             $(document).bind('mousemove', function () {
                 if (!timer) {
                     timer = setTimeout(function () {
@@ -43,13 +43,10 @@
         }
         #div1
         {
-            margin-top:20px;
-            margin-left:20px;
-            height: 400px;
+            height: 100%;
             overflow: hidden;
             position:relative;
-            margin:20px auto;
-            width:400px;
+            margin:0px auto;
             background-color:gray;
         }
         #div2
@@ -66,6 +63,7 @@
             background-color:#4cff00;
             /*-webkit-box-orient:horizontal;
             -webkit-box-orient:vertical;*/
+            display:none;
         }
         #ulDate
         {

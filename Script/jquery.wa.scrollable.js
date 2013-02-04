@@ -145,19 +145,22 @@
                     if (isVertical) {
                         me.setScrollBarVerticalPosition(-1 * (parseFloat(child.css('top')) || 0) * elementHeight / childHeight);
                         if (offset.top - elementOffset.top > 0) {
-                            offset.top = elementOffset.top + (offset.top - elementOffset.top) * 0.5;
+                            // offset.top = offsetStart.top + elementOffset.top + (offset.top - elementOffset.top - offsetStart.top) * 0.5;
+                            offset.top = (elementOffset.top + offset.top + offsetStart.top) * 0.5;
                         }
+                        // offset.top + childHeight < elementOffset.top + elementHeight;
                         if (offset.top < elementOffset.top + elementHeight - childHeight) {
-                            offset.top = (elementOffset.top + elementHeight - childHeight + offset.top) * 0.5;
+                            //offset.top = offset.top + (elementOffset.top + elementHeight - (offset.top + childHeight) - (elementHeight - offsetStart.top - childHeight)) * 0.5;
+                            offset.top = (elementOffset.top + offset.top + offsetStart.top) * 0.5;
                         }
                     }
                     if (isHorizontal) {
                         me.setScrollBarHorizontalPosition(-1 * (parseFloat(child.css('left')) || 0) * elementWidth / childWidth);
                         if (offset.left - elementOffset.left > 0) {
-                            offset.left = elementOffset.left + (offset.left - elementOffset.left) * 0.5;
+                            offset.left = (elementOffset.left + offset.left + offsetStart.left) * 0.5;
                         }
                         if (offset.left < elementOffset.left + elementWidth - childWidth) {
-                            offset.left = (elementOffset.left + elementWidth - childWidth + offset.left) * 0.5;
+                            offset.left = (elementOffset.left + offset.left + offsetStart.left) * 0.5;
                         }
                     }
                     return offset;
