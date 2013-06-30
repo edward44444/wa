@@ -37,7 +37,7 @@
                 mutil: true,
                 search: false,
                 select: function (event, data) {
-                    alert(data.text);
+                    //alert(data.text);
                 },
                 contentHeight: 200,
                 dataSource: [
@@ -52,7 +52,10 @@
             });
             $('#btnStreet').bind('click', function () {
                 if ($('#txtStreet').dropdownlist('getSelectedItems') && $('#txtStreet').dropdownlist('getSelectedItems').length) {
-                    alert($('#txtStreet').dropdownlist('getSelectedItems')[0].text);
+                    var valueStr = $.map($('#txtStreet').dropdownlist('getSelectedItems'), function (item) {
+                        return item.text;
+                    }).join(',');
+                    alert(valueStr);
                 }
             });
             //alert(document.getElementById('txtCity') == document.getElementsByTagName('input')[1]);
