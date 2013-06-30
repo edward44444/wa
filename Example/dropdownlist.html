@@ -13,10 +13,10 @@
                 mutil: false,
                 search: true,
                 contentHeight: null,
-                select: function (event,data) {
+                select: function (event, data) {
                     alert(data.text);
                 },
-                tpl:'{text}市',
+                tpl: '{text}市',
                 dataSource: [
                     { text: '苏州', value: '0' },
                     { text: '北京', value: '1' },
@@ -60,13 +60,23 @@
             });
             //alert(document.getElementById('txtCity') == document.getElementsByTagName('input')[1]);
         });
-       
+
     </script>
 </head>
 <body>
-    <table style="margin:auto; margin-top:300px;">
-        <tr><td><input type="text" id="txtCity"/></td><td><input id="btnCity" type="button" value="GetCity" /></td></tr>
-        <tr><td><input type="text" id="txtStreet" /></td><td><input id="btnStreet" type="button" value="GetStreet" /></td></tr>
+    <table style="margin: auto; margin-top: 300px;">
+        <tr>
+            <td>
+                <input type="text" id="txtCity" /></td>
+            <td>
+                <input id="btnCity" type="button" value="GetCity" /></td>
+        </tr>
+        <tr>
+            <td>
+                <input type="text" id="txtStreet" /></td>
+            <td>
+                <input id="btnStreet" type="button" value="GetStreet" /></td>
+        </tr>
     </table>
 </body>
 </html>
