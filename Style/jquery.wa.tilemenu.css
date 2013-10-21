@@ -1,0 +1,55 @@
+﻿.wa-tilemenu-tray {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    bottom: 0px;
+    right: 0px;
+    border-radius: 50px;
+    background-color: #808080;
+    opacity: 0.5;
+    filter: alpha(opacity=50);
+    box-shadow: 0px 0px 4px 4px #000000;
+    -webkit-transition: border-radius 400ms;
+    -moz-transition: border-radius 400ms;
+    -o-transition: border-radius 400ms;
+    transition: border-radius 400ms;
+}
+.wa-tilemenu-pole {
+    width: 50px;
+    height: 50px;
+    position: absolute;
+}
+.wa-tilemenu-tile {
+    width: 48px;
+    height: 48px;
+    position: absolute;
+    background-color: #008000;
+    border-radius: 8px;
+    text-align: center;
+    line-height: 48px;
+    box-shadow: 0px 0px 4px #000000;
+    border: 2px solid #FFFFFF;
+    -webkit-transition: -webkit-transform 400ms;
+    -moz-transition: -moz-transform 400ms;
+    -o-transition: -o-transform 400ms;
+    transition: transform 400ms;
+    cursor: pointer!important;
+    color: #FFFFFF;
+}
+.wa-tilemenu-tile:hover {
+    background-color: #1F901F;
+}
+.wa-tilemenu-button-close {
+    width: 50px;
+    height: 50px;
+    text-align: center;
+    text-indent: 0px;
+    color: White;
+    position: absolute;
+    font-size: 20px;
+    line-height: 50px;
+    font-weight: bold;
+    background: #008000;
+    border-radius: 25px;
+    box-shadow: 0px 0px 10px #000000;
+}

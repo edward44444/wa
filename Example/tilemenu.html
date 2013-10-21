@@ -1,0 +1,49 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta name="viewport" content="width=device-width,initial-scale=2" />
+    <title></title>
+    <link href="../Style/jquery.wa.core.css" rel="stylesheet" />
+    <link href="../Style/jquery.wa.tilemenu.css" rel="stylesheet" />
+    <script src="../Script/jquery-1.7.1.js"></script>
+    <script src="../Script/jquery.wa.core.js"></script>
+    <script src="../Script/jquery.wa.mouse.js"></script>
+    <script src="../Script/jquery.wa.touchpunch.js"></script>
+    <script src="../Script/jquery.wa.draggable.js"></script>
+    <script src="../Script/jquery.wa.tilemenu.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $('#div1').tilemenu({
+                showTray:false,
+                itemtap: function (event, data) {
+                    alert(data.text);
+                }
+            });
+        });
+    </script>
+    <style type="text/css">
+    body
+    {
+        user-select:none;
+        -webkit-user-select:none;
+    }
+    #div1
+    {
+        width:40px;
+        height:40px;
+        background-color:#008000;
+        margin:200px;
+        border-radius:40px;
+        box-shadow:0px 0px 10px #000000;
+        color:white;
+        text-align:center;
+        line-height:40px;
+        cursor:pointer;
+        padding:0px;
+    }
+    </style>
+</head>
+<body>
+<div id="div1">城市</div>
+</body>
+</html>

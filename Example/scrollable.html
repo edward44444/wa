@@ -1,0 +1,101 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title></title>
+    <link href="../Style/jquery.wa.core.css" rel="stylesheet" />
+    <script src="../Script/jquery-1.7.1.js"></script>
+    <script src="../Script/jquery.wa.core.js"></script>
+    <script src="../Script/jquery.wa.date.js"></script>
+    <script src="../Script/jquery.wa.mouse.js"></script>
+    <script src="../Script/jquery.wa.touchpunch.js"></script>
+    <script src="../Script/jquery.wa.draggable.js"></script>
+    <script src="../Script/jquery.wa.scrollable.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            var html = [], timer;
+            var now = new Date();
+            for (var i = 0; i < 60; i++) {
+                now = now.addDay(1);
+                html.push('<li>' + Date.wa.format(now, 'yyyy-MM-dd') + Date.wa.format(now, 'yyyy-MM-dd') + Date.wa.format(now, 'yyyy-MM-dd') + Date.wa.format(now, 'yyyy-MM-dd') + '</li>');
+            }
+            $('#ulDate').append(html.join(''));
+            $('#ulDate li').bind('tap', function (event) {
+                Write($(this).text());
+            });
+            $('#div1').scrollable({ tripThreshold: 2000, direction: 'vertical' });
+            $(document).bind('mousemove', function () {
+                if (!timer) {
+                    timer = setTimeout(function () {
+                        Write('mousemove');
+                        timer = null;
+                    }, 500);
+                }
+            });
+        });
+        function Write(str) {
+            document.getElementById('div3').appendChild(document.createTextNode(str + ' '));
+        }
+    </script>
+    <style>
+        body {
+            user-select:none;
+            -webkit-user-select:none;
+        }
+        #div1
+        {
+            overflow: hidden;
+            position:absolute;
+            top:3em;
+            left:0em;
+            right:0em;
+            bottom:0em;
+            margin:0px auto;
+            background-color:gray;
+        }
+        #div2
+        {
+            background-color: #0026ff;
+            position:relative;
+            color:White;
+            cursor:default!important;
+            width:2000px;
+        }
+        #div3 {
+            width:200px;
+            height:200px;
+            background-color:#4cff00;
+            /*-webkit-box-orient:horizontal;
+            -webkit-box-orient:vertical;*/
+            display:none;
+        }
+        #ulDate
+        {
+            list-style-type:none;
+            line-height:3em;
+            display:block;
+            margin:0px;
+            padding:0px 0px;
+        }
+        #ulDate li {
+            border-bottom:1px solid #808080;
+        }
+        .header {
+            height:3em;
+            background:#000000;
+            color:#FFFFFF;
+            line-height:3em;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">Header</div>
+    <div id="div1">
+        <div id="div2">
+           <ul id="ulDate">
+           </ul>
+        </div>
+    </div>
+    <div id="div3"></div>
+</body>
+</html>

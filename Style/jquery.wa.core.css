@@ -1,0 +1,54 @@
+﻿html, body {
+    min-height:100%;
+    min-width:100%;
+    height:100%;
+}
+body {
+  left:0px;
+  right:0px;
+  top:0px;
+  bottom:0px;
+  margin-left:0px;
+  margin-top:-1px;
+  padding-top:1px;
+  /*!
+   * this is to stop collapsing margins 
+   * https://developer.mozilla.org/en-US/docs/CSS/margin_collapsing 
+   */
+  margin-right:0px;
+  margin-bottom:0px;
+  border-width:0px;
+  font-family:微软雅黑;
+}
+.wa-button {
+    display:block;
+    cursor:pointer;
+    background-image:url(Images/ui-icons.png);
+    text-indent:-999px;
+    overflow:hidden;
+}
+.wa-scrollable-inner {
+    cursor:default!important;
+}
+.wa-scrollable-scrollbar-vertical {
+    position: absolute;
+    width: 0.4em;
+    right: 0.1em;
+    top: 0px;
+    bottom: 0px;
+    border-radius: 20px;
+    background-color: #000000;
+    opacity: 0.3;
+    filter: alpha(opacity=30);
+}
+.wa-scrollable-scrollbar-horizontal {
+    position: absolute;
+    height: 0.4em;
+    bottom: 0.1em;
+    left: 0px;
+    right: 0px;
+    border-radius: 20px;
+    background-color: #000000;
+    opacity: 0.3;
+    filter: alpha(opacity=30);
+}

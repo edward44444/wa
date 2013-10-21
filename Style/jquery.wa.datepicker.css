@@ -1,0 +1,93 @@
+﻿.wa-datepicker {
+    position:absolute;
+    width:16em;
+    border:1px solid #AAA;
+    text-align:center;
+    padding:2px;
+    background-color:#FFFFFF;
+    border-radius:4px;
+    box-shadow:2px 2px 8px #808080;
+}
+.wa-datepicker-header {
+    position:relative;
+    text-align:center;
+    border:1px solid #AAA;
+    border-radius:4px;
+    background:transparent url(Images/ui-bg-highlight.png) repeat-x 50% 50% scroll;
+}
+.wa-datepicker-title {
+    padding:3px 0px;
+}
+.wa-datepicker-title select {
+    margin:0px 1px;
+}
+.wa-datepicker-prev,.wa-datepicker-next {
+    display:block;
+    width:16px;
+    height:16px;
+    line-height:16px;
+    position:absolute;
+    overflow:hidden;
+    cursor:pointer;
+    top:50%;
+    margin-top:-8px;
+}
+.wa-datepicker-prev {
+    left:2px;
+    background-position:-80px -192px;
+    top:50%;
+    margin-top:-8px;
+}
+.wa-datepicker-nav-disbaled {
+    color:#808080;
+    opacity:0.5;
+    filter:alpha(opacity=50);
+}
+.wa-datepicker-next {
+    right:2px;
+    background-position:-48px -192px;
+}
+.wa-datepicker-select-year {
+    width:5em;
+}
+.wa-datepicker-select-month {
+    width:3.2em;
+}
+.wa-datepicker-calendar {
+    width:100%;
+    border-collapse:collapse;
+    border-spacing:0px;
+    margin-left:0px;
+    margin-right:0px;
+}
+.wa-datepicker-week {
+    line-height:2em;
+}
+.wa-datepicker-date-td {
+    padding:1px 1px;
+}
+.wa-datepicker-date {
+    display:block;
+    text-align:right;
+    padding-top:0.1em;
+    padding-bottom:0.1em;
+    padding-right:0.4em;
+    cursor:pointer;
+}
+.wa-datepicker-date.wa-datepicker-date-hover,.wa-datepicker-date.wa-datepicker-date-selected.wa-datepicker-date-hover {
+    background-color:#b200ff;
+    color:#FFFFFF
+}
+.wa-datepicker-date.wa-datepicker-date-disabled {
+    text-decoration:line-through;
+}
+.wa-datepicker-date.wa-datepicker-date-selected {
+    background-color:#b200ff;
+    color:#FFFFFF;
+}
+.wa-datepicker-weekend {
+    color:#0026ff;
+}
+.wa-datepicker-now {
+    color: #f00;
+}
