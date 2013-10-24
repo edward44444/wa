@@ -83,7 +83,12 @@
                 });
             } else {
                 this.each(function () {
-                    $.data(this, name, new fn(options, this));
+                    var instance = $.data(this, name);
+                    if (instance) {
+                        instance['option'].call(instance, options);
+                    } else {
+                        $.data(this, name, new fn(options, this));
+                    }
                 });
             }
             return returnValue;

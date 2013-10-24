@@ -14,8 +14,7 @@
             $('#div2').draggable({ helper: 'clone', container: 'parent' });
             $('#div3').draggable({ helper: false, container: 'parent' });
             $('#div4').draggable({ helper: true, container: 'parent', revert: true });
-            //$('#div5').draggable({ helper: 'clone', container: 'parent', revert: true });
-            //$('#div1').draggable('destroy');
+            $('#div5').draggable({ helper: 'clone', container: 'parent', revert: true });
             $('#btnDestroy').click(function () {
                 $('div').draggable('destroy');
             });
@@ -31,6 +30,7 @@
     </style>
 </head>
 <body style="background-color:yellow;">
+    <div id="div5" style="width:100px;height:100px;border:10px solid #0026ff;position:absolute; margin-left:200px;">div5</div>
     <div id="div4" style="width:100px;height:100px;border:10px solid #0026ff;position:absolute;"></div>
     <div id="div1" style="width:100px;height:100px;border:10px solid #0026ff;position:absolute;"></div>
     <div id="div2" style="width:100px;height:100px;border:10px solid #0026ff;position:absolute;"></div>

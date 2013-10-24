@@ -83,7 +83,7 @@
         _mouseCapture: function (event) {
             return true;
         },
-        _mouseDestory: function () {
+        _mouseDestroy: function () {
             this.element.unbind('.' + this.name);
             if (this._mouseStarted) {
                 $(document).unbind('mousemove.' + this.name).unbind('mouseup.' + this.name);

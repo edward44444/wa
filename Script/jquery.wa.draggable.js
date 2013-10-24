@@ -6,6 +6,8 @@
     $.wa.widget('draggable',$.wa.mouse, {
         options: {
             container: null,
+            // for droppable
+            scope: 'default',
             helper: false,
             handle: null,
             axis: null,
@@ -147,7 +149,7 @@
         },
         destroy: function () {
             this._clear();
-            this._mouseDestory();
+            this._mouseDestroy();
             this.handle.css({ cursor: 'default' });
             this.handle.enableSelection();
         }

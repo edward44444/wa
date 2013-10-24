@@ -6,18 +6,22 @@
     <link href="../Style/jquery.wa.resizable.css" rel="stylesheet" />
     <script src="../Script/jquery-1.7.1.js"></script>
     <script src="../Script/jquery.wa.core.js"></script>
+    <script src="../Script/jquery.wa.widget.js"></script>
     <script src="../Script/jquery.wa.mouse.js"></script>
     <script src="../Script/jquery.wa.resizable.js"></script>
     <script type="text/javascript">
         $(function () {
             $('#div1').resizable({ helper: false });
             $('#div2').resizable({ helper: true });
-            $('#div1').resizable('destroy');
+            $('#btnDestroy').click(function () {
+                $('#div1').resizable('destroy');
+            });
         });
     </script>
 </head>
 <body>
-     <div id="div1" style="width:200px;height:200px;border:10px solid #0026ff; left:200px;top:200px;"></div>
+     <div id="div1" style="width:200px;height:200px;border:10px solid #0026ff; left:200px;top:200px; margin-bottom:20px;"></div>
      <div id="div2" style="width:200px;height:200px;border:10px solid #0026ff; left:200px;top:200px;"></div>
+    <input type="button" id="btnDestroy" value="destroy" />
 </body>
 </html>

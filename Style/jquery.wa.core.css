@@ -20,6 +20,9 @@ body {
   border-width:0px;
   font-family:微软雅黑;
 }
+.wa-resize {
+    position:relative;
+}
 .wa-button {
     display:block;
     cursor:pointer;
