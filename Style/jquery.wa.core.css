@@ -20,6 +20,10 @@ body {
   border-width:0px;
   font-family:微软雅黑;
 }
+.wa-transparency {
+   opacity:0;
+   filter:alpha(opacity=0);
+}
 .wa-resize {
     position:relative;
 }
@@ -42,7 +46,7 @@ body {
     border-radius: 20px;
     background-color: #000000;
     opacity: 0.3;
-    filter: alpha(opacity=30);
+    filter: alpha(opacity=50);
 }
 .wa-scrollable-scrollbar-horizontal {
     position: absolute;
@@ -53,5 +57,5 @@ body {
     border-radius: 20px;
     background-color: #000000;
     opacity: 0.3;
-    filter: alpha(opacity=30);
+    filter: alpha(opacity=50);
 }

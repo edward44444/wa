@@ -88,13 +88,11 @@
             me.mouseRelativeLeft = event.pageX - me.elementOffset.left;
             me.mouseRelativeTop = event.pageY - me.elementOffset.top;
             me.helperBorderWidth = 1;
-            me.overlay = $('<div></div>').css({
+            me.overlay = $('<div class="wa-transparency"></div>').css({
                 "position": "absolute",
                 "zIndex": (4 + $.wa.overlayZindex),
                 "width": $(document.body).width() + "px",
                 "height": $(document.body).height() + "px",
-                "background-color": '#000000',
-                "opacity": 0,
                 'left': '0px',
                 'top': '0px'
             }).appendTo(document.body);

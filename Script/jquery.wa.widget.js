@@ -56,19 +56,38 @@
         }
     };
     $.wa.widget = function (name, base, prototype) {
+        var constructor, proxyPrototype = {}, basePrototype;
         if (!prototype) {
             prototype = base;
             base = $.wa.base;
         }
-        $.wa[name] = function (options, element) {
+        constructor = $.wa[name] = function (options, element) {
             if (arguments.length) {
                 this._initial(options, element);
             }
         }
-        $.wa[name].prototype = $.extend(true, {}, new base(), prototype);
-        $.wa[name].prototype.name = name;
-        $.wa[name].prototype.base = new base();
-        $.wa.bridge(name, $.wa[name]);
+        basePrototype = new base();
+        $.each(prototype, function (prop, value) {
+            if (!$.isFunction(value)) {
+                proxyPrototype[prop] = value;
+                return;
+            }
+            proxyPrototype[prop] = (function () {
+                var callParent = function () {
+                    base.prototype[prop].apply(this, arguments);
+                };
+                return function () {
+                    var returnValue;
+                    this.callParent = callParent;
+                    returnValue = value.apply(this, arguments);
+                    return returnValue;
+                }
+            })();
+        });
+        constructor.prototype = $.extend(true, {}, basePrototype, proxyPrototype);
+        constructor.prototype.name = name;
+        //constructor.prototype.base = new base();
+        $.wa.bridge(name, constructor);
     };
     $.wa.bridge = function (name, fn) {
         $.fn[name] = function (options) {

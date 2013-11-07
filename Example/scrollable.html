@@ -6,6 +6,7 @@
     <link href="../Style/jquery.wa.core.css" rel="stylesheet" />
     <script src="../Script/jquery-1.7.1.js"></script>
     <script src="../Script/jquery.wa.core.js"></script>
+    <script src="../Script/jquery.wa.widget.js"></script>
     <script src="../Script/jquery.wa.date.js"></script>
     <script src="../Script/jquery.wa.mouse.js"></script>
     <script src="../Script/jquery.wa.touchpunch.js"></script>
@@ -23,7 +24,7 @@
             $('#ulDate li').bind('tap', function (event) {
                 Write($(this).text());
             });
-            $('#div1').scrollable({ tripThreshold: 2000, direction: 'vertical' });
+           $('#div1').scrollable({ direction: 'vertical' });
             $(document).bind('mousemove', function () {
                 if (!timer) {
                     timer = setTimeout(function () {
@@ -31,6 +32,9 @@
                         timer = null;
                     }, 500);
                 }
+            });
+            $('#btnDestroy').click(function () {
+                $('#div1').scrollable('destroy');
             });
         });
         function Write(str) {
@@ -45,11 +49,10 @@
         #div1
         {
             overflow: hidden;
-            position:absolute;
-            top:3em;
-            left:0em;
-            right:0em;
-            bottom:0em;
+            /* there is a well-known bug in IE6 and IE7. To solve it, you need to add position:relative to the container. Since in your case body is the container, I'd suggest you add a div directly under the body and give it position:relative. It should solve your problem.*/
+            position:relative;
+            height:500px;
+            width:100%;
             margin:0px auto;
             background-color:gray;
         }
@@ -89,7 +92,10 @@
     </style>
 </head>
 <body>
-    <div class="header">Header</div>
+    <div class="header">Header
+
+        <input type="button" value="destroy" id="btnDestroy" />
+    </div>
     <div id="div1">
         <div id="div2">
            <ul id="ulDate">

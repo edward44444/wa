@@ -1,7 +1,9 @@
 ﻿/// <reference path="jquery.wa.core.js" />
+/// <reference path="jquery.wa.widget.js" />
 /// <reference path="jquery.wa.mouse.js" />
 /// <reference path="jquery.wa.resizable.js" />
 /// <reference path="jquery.wa.draggable.js" />
+
 (function ($, undefined) {
     $.wa.widget('openwindow', {
         options: {
@@ -45,42 +47,75 @@
                 height: height,
                 'z-index': zIndex
             }).appendTo(document.body);
+            // when width or height unit is % resize browser window will resize openwindow
             openwindow.css({
                 width: openwindow.width() + 'px',
                 height: openwindow.height() + 'px'
             });
-            html.push('<div class="wa-window-resize">');
-            html.push('  <div class="wa-resize-top wa-window-resize-top"></div>');
-            html.push('  <div class="wa-resize-top-left wa-window-resize-top-left"></div>');
-            html.push('  <div class="wa-resize-top-right wa-window-resize-top-right"></div>');
-            html.push('  <div class="wa-resize-bottom wa-window-resize-bottom"></div>');
-            html.push('  <div class="wa-resize-bottom-left wa-window-resize-bottom-left"></div>');
-            html.push('  <div class="wa-resize-bottom-right wa-window-resize-bottom-right"></div>');
-            html.push('  <div class="wa-resize-left wa-window-resize-left"></div>');
-            html.push('  <div class="wa-resize-right wa-window-resize-right"></div>');
-            html.push('</div>');
-            html.push('<div class="wa-window-inner">');
-            html.push('  <div class="wa-window-header">');
+            html.push('<div class="wa-window-header">');
             html.push('    <div class="wa-window-title">' + options.title + '</div>');
             html.push('    <div class="wa-window-tool">');
-            html.push('      <a class="wa-window-button-close">×</a>');
+            html.push('      <a class="wa-window-button wa-window-button-close" title="close">×</a>');
+            html.push('      <a class="wa-window-button wa-window-button-max" title="maximize">□</a>');
+            html.push('      <a class="wa-window-button wa-window-button-min" title="minimize">-</a>');
             html.push('    </div>');
-            html.push('  </div>');
-            html.push('  <div class="wa-window-body">');
+            html.push('</div>');
+            html.push('<div class="wa-window-body">');
             html.push('      <iframe class="wa-window-iframe" scrolling="auto" frameborder="0"></iframe>');
-            html.push('  </div>');
             html.push('</div>');
             openwindow.append(html.join(''));
-            var windowInner = $('.wa-window-inner', openwindow),
+            var windowBody = $('.wa-window-body', openwindow),
                 windowFrame = $('.wa-window-iframe', openwindow),
-                windowHeader = $('.wa-window-header', openwindow),
-                buttonClose = $('.wa-window-button-close', openwindow)
-                .bind('click.' + me.name, function () {
-                    me.hide();
-                }).bind('mousedown.' + me.name, function (e) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                }), overlay;
+                windowHeader = $('.wa-window-header', openwindow);
+            var buttonClose = $('.wa-window-button-close', openwindow)
+               .bind('click.' + me.name, function () {
+                   me.hide();
+               });
+            var oriOffset, oriWidth, oriHeight, oriHeightMinimize;
+            var buttonMax = $('.wa-window-button-max', openwindow);
+            buttonMax.bind('click', function () {
+                if (buttonMin.is('.wa-window-button-expand')) {
+                    return;
+                }
+                var $this = $(this);
+                if ($this.is('.wa-window-button-restore')) {
+                    openwindow.offset(oriOffset).css({
+                        width: oriWidth,
+                        height: oriHeight
+                    });
+                    $this.removeClass('wa-window-button-restore');
+                } else {
+                    oriOffset = openwindow.offset();
+                    oriWidth = openwindow.width();
+                    oriHeight = openwindow.height();
+                    openwindow.offset({
+                        left: 0,
+                        top: 0
+                    }).css({
+                        width: $(window).width() + 'px',
+                        height: $(window).height() + 'px'
+                    });
+                    $this.addClass('wa-window-button-restore');
+                }
+                openwindow.triggerHandler('resize.' + me.name);
+            });
+            var buttonMin = $('.wa-window-button-min', openwindow);
+            buttonMin.bind('click', function () {
+                var $this = $(this);
+                if ($this.is('.wa-window-button-expand')) {
+                    openwindow.css({ height: oriHeightMinimize + 'px' });
+                    $this.removeClass('wa-window-button-expand');
+                } else {
+                    oriHeightMinimize = openwindow.height();
+                    openwindow.css({ height: windowHeader.outerHeight(true) + 'px' });
+                    $this.addClass('wa-window-button-expand');
+                }
+                openwindow.triggerHandler('resize.' + me.name);
+            });
+            buttonClose.add(buttonMin).add(buttonMax).bind('mousedown.' + me.name, function (e) {
+                e.preventDefault();
+                e.stopPropagation();
+            })
             left = ($(window).width() - openwindow.width()) / 2;
             top = ($(window).height() - openwindow.height()) / 2;
             openwindow.offset({ left: left, top: top })
@@ -92,12 +127,12 @@
                 .resizable({ helper: options.helper })
                 .bind('resize.' + me.name, function () {
                     windowFrame.css({
-                        height: (windowInner.height() - windowHeader.height()) + 'px',
-                        width: windowInner.width() + 'px'
+                        height: windowBody.height() + 'px',
+                        width: windowBody.width() + 'px'
                     });
                 });
             openwindow.triggerHandler('resize.' + me.name);
-            overlay = $('<div></div>').appendTo(document.body);
+            var overlay = $('<div></div>').appendTo(document.body);
             if (options.modal) {
                 overlay.css({
                     'position': 'absolute',
@@ -143,9 +178,8 @@
             }
         },
         destroy: function () {
-            this.element.unbind('.' + this.name);
             $(window).unbind('resize.' + this.name + this.guid);
-            $.wa.base.prototype.destroy.call(this);
+            this.callParent(arguments);
         }
     });
 })(jQuery);
