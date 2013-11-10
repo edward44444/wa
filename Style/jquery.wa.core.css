@@ -20,12 +20,13 @@ body {
   border-width:0px;
   font-family:微软雅黑;
 }
-.wa-transparency {
-   opacity:0;
-   filter:alpha(opacity=0);
-}
 .wa-resize {
     position:relative;
+}
+.wa-position-indicator {
+    position:relative;
+    width:0px;
+    height:0px;
 }
 .wa-button {
     display:block;
@@ -58,4 +59,7 @@ body {
     background-color: #000000;
     opacity: 0.3;
     filter: alpha(opacity=50);
+}
+.wa-invisible {
+    visibility:hidden;
 }

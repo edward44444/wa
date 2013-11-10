@@ -179,7 +179,7 @@
         },
         destroy: function () {
             $(window).unbind('resize.' + this.name + this.guid);
-            this.callParent(arguments);
+            this.callParent();
         }
     });
 })(jQuery);

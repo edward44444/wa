@@ -1,15 +1,18 @@
 ﻿.wa-dropdownlist {
+    position:absolute;
+    border:1px solid #ABADB3;
 }
 .wa-dropdownlist-input {
-     margin-top:0px;
-     margin-left:0px;
-     margin-right:0px;
-     margin-bottom:0px;
+    margin: 0px 0px 0px 0px;
+    border-color: transparent;
+    -border-color:blue;
+    _filter: chroma(color=blue);
+    display: block;
 }
 .wa-dropdownlist-content {
-    border:1px solid #919191;
+    border:1px solid #ABADB3;
     background:#FFFFFF;
-    box-shadow:0px 0px 8px #000000;
+    /*box-shadow:0px 0px 8px #000000;*/
 }
 .wa-dropdownlist-items {
     margin-top:0px;
@@ -53,5 +56,5 @@
     top:50%;
     margin-top:-8px;
     background-position: -64px -16px;
-    right:2px;
+    right:0px;
 }

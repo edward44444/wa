@@ -52,14 +52,15 @@
             me.mouseRelativeLeft = event.pageX - me.elementOffset.left;
             me.mouseRelativeTop = event.pageY - me.elementOffset.top;
             me.helperBorderWidth = 1;
-            me.overlay = $('<div class="wa-transparency"></div>').css({
+            me.overlay = $('<div></div>').css({
                 "position": "absolute",
                 "zIndex": (4 + $.wa.overlayZindex),
                 "width": $(document.body).width() + "px",
                 "height": $(document.body).height() + "px",
+                "opacity": 0,
                 'left': '0px',
                 'top': '0px',
-                'margin':'0px'
+                'margin': '0px'
             }).appendTo(document.body);
             if (options.helper == 'clone') {
                 me.helper = me.element.clone().css({

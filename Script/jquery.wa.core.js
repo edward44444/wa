@@ -1,4 +1,6 @@
-﻿(function ($, undefined) {
+﻿// All property shoud declare use this or the property will in prototype
+
+(function ($, undefined) {
     $.wa = {};
     var div = document.createElement("div");
     $.wa.support = {};

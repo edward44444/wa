@@ -1,5 +1,6 @@
 ﻿/// <reference path="jquery.wa.core.js" />
-/// All property shoud declare use this or the property will in prototype
+/// <reference path="jquery.wa.widget.js" />
+
 (function ($, undefined) {
     $.wa.widget('overlay', {
         options: {
@@ -49,9 +50,6 @@
             this.ui.overlay = overlay;
             this.element.addClass('has-wa-overlay');
         },
-        overlay: function () {
-            return this.ui.overlay;
-        },
         _reset: function () {
             this.destroy();
             this._create();
@@ -59,7 +57,7 @@
         destroy: function () {
             $(window).unbind('.' + this.name + this.guid);
             this.element.removeClass('has-wa-overlay');
-            $.wa.base.prototype.destroy.call(this);
+            this.callParent();
         },
         hide: function () {
             this.ui.overlay.hide();

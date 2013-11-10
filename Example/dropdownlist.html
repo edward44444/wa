@@ -6,9 +6,13 @@
     <link href="../Style/jquery.wa.dropdownlist.css" rel="stylesheet" />
     <script src="../Script/jquery-1.7.1.js"></script>
     <script src="../Script/jquery.wa.core.js"></script>
+    <script src="../Script/jquery.wa.widget.js"></script>
     <script src="../Script/jquery.wa.dropdownlist.js"></script>
     <script type="text/javascript">
         $(function () {
+            $('#btnDestroy').click(function () {
+                $('.wa-dropdownlist').hide();
+            });
             $('#txtCity').dropdownlist({
                 mutil: false,
                 search: true,
@@ -64,6 +68,7 @@
     </script>
 </head>
 <body>
+     <input type="button" value="destroy" id="btnDestroy" />
     <table style="margin: auto; margin-top: 300px;">
         <tr>
             <td>
@@ -76,6 +81,12 @@
                 <input type="text" id="txtStreet" /></td>
             <td>
                 <input id="btnStreet" type="button" value="GetStreet" /></td>
+        </tr>
+        <tr>
+            <td>
+                <input type="text" id="Text1" /></td>
+            <td>
+                <input id="Button1" type="button" value="GetStreet" /></td>
         </tr>
     </table>
 </body>
