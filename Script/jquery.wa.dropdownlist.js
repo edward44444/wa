@@ -4,7 +4,7 @@
 (function ($, undefined) {
     $.wa.widget('dropdownlist', {
         options: {
-            dataSource: [{ text: 'A', value: '1' }, { text: 'B', value: '2' }, { text: 'Bc', value: '21' }, { text: 'C', value: '3' }, { text: 'D', value: '4' }, { text: 'E', value: '5' }, { text: 'F', value: '6' }, { text: 'G', value: '7' }],
+            dataSource: [],
             tpl: '{text}',
             mutil: false,
             contentWidth: null,
@@ -159,6 +159,7 @@
             me.ui = {};
             me.ui.listItems = listItems;
             me.ui.wrap = wrap;
+            me.ui.positionIndicator = positionIndicator;
         },
         toggleListItems: function () {
             if (this.ui.listItems.is(':hidden')) {
@@ -209,6 +210,7 @@
         destroy: function () {
             $(document).unbind('click.' + this.name + this.guid);
             //$(window).unbind('resize.' + this.name + this.guid);
+            this.element.removeClass('wa-invisible');
             this.callParent();
         }
     });

@@ -56,7 +56,7 @@
             html.push('    <div class="wa-window-title">' + options.title + '</div>');
             html.push('    <div class="wa-window-tool">');
             html.push('      <a class="wa-window-button wa-window-button-close" title="close">×</a>');
-            html.push('      <a class="wa-window-button wa-window-button-max" title="maximize">□</a>');
+            html.push('      <a class="wa-window-button wa-window-button-max" title="maximize">#</a>');
             html.push('      <a class="wa-window-button wa-window-button-min" title="minimize">-</a>');
             html.push('    </div>');
             html.push('</div>');

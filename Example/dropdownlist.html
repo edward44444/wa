@@ -11,7 +11,7 @@
     <script type="text/javascript">
         $(function () {
             $('#btnDestroy').click(function () {
-                $('.wa-dropdownlist').hide();
+                $('#txtCity').dropdownlist('destroy');
             });
             $('#txtCity').dropdownlist({
                 mutil: false,
@@ -20,7 +20,7 @@
                 select: function (event, data) {
                     alert(data.text);
                 },
-                tpl: '{text}市',
+                tpl: '{text}市{value}',
                 dataSource: [
                     { text: '苏州', value: '0' },
                     { text: '北京', value: '1' },

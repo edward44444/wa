@@ -7,6 +7,7 @@
     <link href="../Style/jquery.wa.tilemenu.css" rel="stylesheet" />
     <script src="../Script/jquery-1.7.1.js"></script>
     <script src="../Script/jquery.wa.core.js"></script>
+    <script src="../Script/jquery.wa.widget.js"></script>
     <script src="../Script/jquery.wa.mouse.js"></script>
     <script src="../Script/jquery.wa.touchpunch.js"></script>
     <script src="../Script/jquery.wa.draggable.js"></script>
@@ -14,7 +15,8 @@
     <script type="text/javascript">
         $(function () {
             $('#div1').tilemenu({
-                showTray:false,
+                showTray: false,
+                dataSource:[{ text: '苏州市', value: '2' }, { text: '呼和浩特', value: '2' }, { text: '苏州市', value: '2' }, { text: '呼和浩特', value: '2' }, { text: '苏州市', value: '2' }, { text: '呼和浩特', value: '2' }, { text: 'A', value: '2' }, { text: 'B', value: '2' }, { text: 'C', value: '2' }, { text: 'D', value: '2' }, { text: 'E', value: '2' }, { text: 'F', value: '2' }],
                 itemtap: function (event, data) {
                     alert(data.text);
                 }
