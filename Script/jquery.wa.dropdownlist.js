@@ -22,8 +22,7 @@
             wrap = $('<div class="wa-dropdownlist"></div>')
                 .css({
                     position: 'absolute',
-                    width: width - 2 + 'px'
-                    //height:height+2+'px'
+                    width: width + 'px'
                 })
                 .appendTo(positionIndicator)
                 .bind('click', function (event) {
@@ -34,8 +33,6 @@
                 });
             input = me.element.clone().removeAttr('id').appendTo(wrap).addClass('wa-dropdownlist-input');
             me.element.addClass('wa-invisible');
-            input.width(width - 16)
-            input.height(me.element.height())
             if (options.readonly && !options.search) {
                 //input.attr('disabled', 'disabled');
                 input.attr('readonly', 'true');
@@ -90,7 +87,11 @@
             }
             itemsHtml.push('</ul>');
             listItems.append(itemsHtml.join(''));
-            items = listItems.find('.wa-dropdownlist-item');
+            items = listItems.find('.wa-dropdownlist-item').bind('mouseover', function () {
+                $(this).addClass('wa-dropdownlist-item-hover');
+            }).bind('mouseout', function () {
+                $(this).removeClass('wa-dropdownlist-item-hover');
+            });
             if (options.mutil) {
                 me.selectedItems = [];
                 items.find('input:checkbox').bind('click', function (event) {
@@ -173,7 +174,8 @@
             if (this.ui.listItems.is(':hidden')) {
                 var offset = this.ui.wrap.offset(),
                         left = offset.left,
-                        top = offset.top + this.ui.wrap.outerHeight()-1;
+                        top = offset.top + this.ui.wrap.outerHeight() - 1;
+                alert(this.ui.wrap.outerHeight());
                 if (top + this.ui.listItems.outerHeight()-1 > $(window).height()) {
                     top = offset.top - this.ui.listItems.outerHeight()+1;
                 }

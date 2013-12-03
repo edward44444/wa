@@ -1,13 +1,8 @@
 ﻿.wa-dropdownlist {
     position:absolute;
-    border:1px solid #ABADB3;
 }
 .wa-dropdownlist-input {
-    margin: 0px 0px 0px 0px;
-    border-color: transparent;
-    -border-color:blue;
-    _filter: chroma(color=blue);
-    display: block;
+    margin: 0px;
 }
 .wa-dropdownlist-content {
     border:1px solid #ABADB3;
@@ -35,7 +30,7 @@
     overflow-x:hidden;
     padding-left:4px;
 }
-.wa-dropdownlist-item:hover {
+.wa-dropdownlist-item-hover {
     background-color:#000000;
     color:#FFFFFF;
 }

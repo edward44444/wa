@@ -20,6 +20,10 @@ body {
   border-width:0px;
   font-family:微软雅黑;
 }
+input[type="text"] {
+    border:1px solid #ABADB3;
+    padding:3px 2px;
+}
 .wa-resize {
     position:relative;
 }
