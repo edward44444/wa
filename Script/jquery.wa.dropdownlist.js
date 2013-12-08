@@ -175,7 +175,6 @@
                 var offset = this.ui.wrap.offset(),
                         left = offset.left,
                         top = offset.top + this.ui.wrap.outerHeight() - 1;
-                alert(this.ui.wrap.outerHeight());
                 if (top + this.ui.listItems.outerHeight()-1 > $(window).height()) {
                     top = offset.top - this.ui.listItems.outerHeight()+1;
                 }
@@ -191,6 +190,9 @@
             }
         },
         hideListItems: function () {
+            if (this.ui.listItems.is(':hidden')) {
+                return;
+            }
             var input = this.ui.wrap.find('input'), selectedText = '';
             if (this.selectedItems && this.selectedItems.length) {
                 selectedText = $.map(this.selectedItems, function (value) {

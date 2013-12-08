@@ -61,7 +61,7 @@
             html.push('    </div>');
             html.push('</div>');
             html.push('<div class="wa-window-body">');
-            html.push('      <iframe class="wa-window-iframe" scrolling="auto" frameborder="0"></iframe>');
+            html.push('    <iframe class="wa-window-iframe" style="height:0px;width:0px;" scrolling="auto" frameborder="0"></iframe>');
             html.push('</div>');
             openwindow.append(html.join(''));
             var windowBody = $('.wa-window-body', openwindow),
@@ -73,6 +73,10 @@
                });
             var oriOffset, oriWidth, oriHeight, oriHeightMinimize;
             var buttonMax = $('.wa-window-button-max', openwindow);
+            windowBody.css({
+                width: openwindow.width() - 20 + 'px',
+                height: openwindow.height() - 50 + 'px'
+            });
             buttonMax.bind('click', function () {
                 if (buttonMin.is('.wa-window-button-expand')) {
                     return;
@@ -132,6 +136,12 @@
                     });
                 });
             openwindow.triggerHandler('resize.' + me.name);
+            //windowFrame.bind('load', function () {
+            //    windowFrame.css({
+            //        height: windowBody.height() + 'px',
+            //        width: windowBody.width() + 'px'
+            //    });
+            //});
             var overlay = $('<div></div>').appendTo(document.body);
             if (options.modal) {
                 overlay.css({
