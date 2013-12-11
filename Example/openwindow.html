@@ -20,7 +20,8 @@
                 refresh: true,
                 title: '百度',
                 helper: true,
-                modal: true
+                modal: true,
+                url:'http://www.soso.com/'
             });
             $('#btnOpen2').openwindow({
                 width: '50%',
@@ -32,6 +33,12 @@
                 url: 'http://www.soso.com/'
             });
             $('#btnDestroy').click(function () {
+                var div = document.createElement("div");
+                div.style.height = "100px";
+                div.style.width = "100px";
+                div.style.border = "1px solid #000000;"
+                div.innerText = "edwarc";
+                document.body.appendChild(div);
                 $('#btnOpen').openwindow('destroy');
             });
         });

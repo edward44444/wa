@@ -6,6 +6,14 @@
     $.wa.support = {};
     $.wa.support.selectstart = "onselectstart" in div;
     $.wa.support.touch = 'ontouchend' in document;
+    $(function () {
+        div = document.createElement("div");
+        div.style.position = "absolute";
+        div.style.visibility = "hidden";
+        div.style.height = "100%";
+        document.body.appendChild(div);
+        document.body.removeChild(div);
+    });
     $.fn.disableSelection = function () {
         return this.bind(($.wa.support.selectstart ? "selectstart" : "mousedown") +
             ".wa-disableSelection", function (event) {

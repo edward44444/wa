@@ -39,6 +39,8 @@
             }
             if (!isNaN(options.height)) {
                 height = options.height + 'px';
+            } else if (/%$/.test(options.height)) {
+                height = parseFloat(options.height) * $(window).height() / 100 + 'px';
             } else {
                 height = options.height
             }
@@ -73,10 +75,10 @@
                });
             var oriOffset, oriWidth, oriHeight, oriHeightMinimize;
             var buttonMax = $('.wa-window-button-max', openwindow);
-            windowBody.css({
-                width: openwindow.width() - 20 + 'px',
-                height: openwindow.height() - 50 + 'px'
-            });
+            //windowBody.css({
+            //    width: openwindow.width() - 20 + 'px',
+            //    height: openwindow.height() - 50 + 'px'
+            //});
             buttonMax.bind('click', function () {
                 if (buttonMin.is('.wa-window-button-expand')) {
                     return;
@@ -130,9 +132,9 @@
                 })
                 .resizable({ helper: options.helper })
                 .bind('resize.' + me.name, function () {
-                    windowFrame.css({
-                        height: windowBody.height() + 'px',
-                        width: windowBody.width() + 'px'
+                    windowBody.add(windowFrame).css({
+                        width: openwindow.width() - 20 + 'px',
+                        height: openwindow.height() - 50 + 'px'
                     });
                 });
             openwindow.triggerHandler('resize.' + me.name);
