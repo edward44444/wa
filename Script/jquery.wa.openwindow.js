@@ -31,7 +31,7 @@
                 }
                 return;
             }
-            var width, height, left, top, zIndex = 2 + ($.wa.overlayZindex++);
+            var width, height, left, top,paddingBox, zIndex = 2 + ($.wa.overlayZindex++);
             if (!isNaN(options.width)) {
                 width = options.width + 'px';
             } else {
@@ -54,6 +54,12 @@
                 width: openwindow.width() + 'px',
                 height: openwindow.height() + 'px'
             });
+            paddingBox = {
+                top: parseInt(openwindow.css('padding-left'))||0,
+                left: parseInt(openwindow.css('padding-top'))||0,
+                right: parseInt(openwindow.css('padding-right'))||0,
+                bottom: parseInt(openwindow.css('padding-bottom'))||0
+            };
             html.push('<div class="wa-window-header">');
             html.push('    <div class="wa-window-title">' + options.title + '</div>');
             html.push('    <div class="wa-window-tool">');
@@ -85,6 +91,11 @@
                 }
                 var $this = $(this);
                 if ($this.is('.wa-window-button-restore')) {
+                    // in IE6 iframe width and height should set to zero first
+                    windowFrame.css({
+                        width: '0px',
+                        height:'0px'
+                    });
                     openwindow.offset(oriOffset).css({
                         width: oriWidth,
                         height: oriHeight
@@ -98,8 +109,8 @@
                         left: 0,
                         top: 0
                     }).css({
-                        width: $(window).width() + 'px',
-                        height: $(window).height() + 'px'
+                        width: $(window).width() - paddingBox.left - paddingBox.right + 'px',
+                        height: $(window).height()-paddingBox.top-paddingBox.bottom + 'px'
                     });
                     $this.addClass('wa-window-button-restore');
                 }
@@ -109,11 +120,17 @@
             buttonMin.bind('click', function () {
                 var $this = $(this);
                 if ($this.is('.wa-window-button-expand')) {
-                    openwindow.css({ height: oriHeightMinimize + 'px' });
+                    openwindow.css({
+                        height: oriHeightMinimize + 'px',
+                        'padding-bottom': paddingBox.bottom+'px'
+                    });
                     $this.removeClass('wa-window-button-expand');
                 } else {
                     oriHeightMinimize = openwindow.height();
-                    openwindow.css({ height: windowHeader.outerHeight(true) + 'px' });
+                    openwindow.css({
+                        height: windowHeader.outerHeight(true) + 'px',
+                        'padding-bottom':'0px'
+                    });
                     $this.addClass('wa-window-button-expand');
                 }
                 openwindow.triggerHandler('resize.' + me.name);
@@ -132,9 +149,14 @@
                 })
                 .resizable({ helper: options.helper })
                 .bind('resize.' + me.name, function () {
-                    windowBody.add(windowFrame).css({
-                        width: openwindow.width() - 20 + 'px',
-                        height: openwindow.height() - 50 + 'px'
+                    // in IE6 iframe width and height should set to zero first
+                    windowFrame.css({
+                        width: '0px',
+                        height: '0px'
+                    });
+                    windowFrame.css({
+                        width: openwindow.width() + 'px',
+                        height: Math.max(openwindow.height() - windowHeader.outerHeight(true), 0) + 'px'
                     });
                 });
             openwindow.triggerHandler('resize.' + me.name);

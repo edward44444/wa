@@ -1,4 +1,5 @@
 ﻿.wa-window {
+    padding:10px 10px 10px 10px;
     position:absolute!important;
     left:0px;
     right:0px;
@@ -17,8 +18,6 @@
 }
 .wa-window-body {
     position:relative;
-    margin-left:auto;
-    margin-right:auto;
     zoom:1;
 }
 .wa-window-header {
@@ -26,9 +25,6 @@
     color:white;
     overflow:hidden;
     position:relative;
-    margin-left:10px;
-    margin-right:10px;
-    margin-top:10px;
 }
 .wa-window-title {
    height:30px;
