@@ -11,13 +11,21 @@
             offsetX: 10,
             offsetY: 10,
             content: '',
-            trackMouse: true,
+            trackMouse: false,
             autoHidden: true
         },
         _create: function () {
-            var me = this, options = this.options;
+            var me = this, options = this.options, pageX, pageY;
             me.element.bind('mouseover.' + me.name, function (event) {
                 me.showTooltip();
+                if (options.trackMouse) {
+                    me.mousePageX = event.pageX;
+                    me.mousePageY = event.pageY;
+                    me.oriTooltipOffset = me.ui.tooltip.offset();
+                    me.element.unbind('mousemove.' + me.name).bind('mousemove.' + me.name, function (event) {
+                        me.moveTooltip(event);
+                    });
+                }
             });
             if (options.autoHidden) {
                 me.element.bind('mouseout.' + me.name, function () {
@@ -26,12 +34,19 @@
             }
             me.ui = {};
         },
+        moveTooltip: function (event) {
+            var me = this, offset = me.oriTooltipOffset;
+            me.ui.tooltip.offset({
+                left: offset.left + event.pageX - me.mousePageX,
+                top: offset.top + event.pageY - me.mousePageY
+            });
+        },
         showTooltip: function () {
             var me = this, options = this.options, html = [], tooltip, offset, left, top;
             if (!me.ui.tooltip) {
-                html.push('<div class="wa-tooltip" style="display: none;">');
+                html.push('<label class="wa-tooltip" style="display: none;">');
                 if (options.showHeader) {
-                    html.push('<div class="wa-tooltip-header">');
+                    html.push('<div class="wa-tooltip-header" style="width:0px;">');
                     html.push('<div class="wa-tooltip-title">');
                     html.push(options.title);
                     html.push('</div>');
@@ -43,7 +58,7 @@
                 html.push('<div class="wa-tooltip-body">');
                 html.push(options.content);
                 html.push('</div>');
-                html.push('</div>');
+                html.push('</label>');
                 tooltip = $(html.join('')).appendTo(document.body);
                 if (options.width) {
                     tooltip.css({
@@ -73,11 +88,12 @@
             if (top + me.ui.tooltip.outerHeight() > $(window).height()) {
                 top = offset.top - me.ui.tooltip.outerHeight() - options.offsetY;
             }
+            // width bug in IE6,IE7
+            $('.wa-tooltip-header', me.ui.tooltip).width(me.ui.tooltip.width());
+
             me.ui.tooltip.show().offset({ left: left, top: top });
         },
         hideTooltip: function () {
-            this.ui.tooltip.hide();
-            //this.ui.tooltip.remove();
             this.ui.tooltip.detach();
         },
         destroy: function () {

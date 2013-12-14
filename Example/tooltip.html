@@ -10,11 +10,17 @@
     <script src="../Script/jquery.wa.tooltip.js"></script>
     <script type="text/javascript">
         $(function () {
-            $('#button1,.tooltip').tooltip({
+            $('#button1').tooltip({
                 title: 'edward',
                 content: 'edward edward rtrt         tggfdg  fdgdfg  fgfd',
                 showHeader: true,
                 autoHidden: false
+            });
+            $('.tooltip').tooltip({
+                title: 'edward',
+                content: 'edward edward',
+                showHeader: true,
+                autoHidden: true
             });
             $('#button2').click(function () {
                 $('#button1').tooltip('destroy');
