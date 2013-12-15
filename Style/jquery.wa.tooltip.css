@@ -1,5 +1,6 @@
 ﻿.wa-tooltip {
-    position:absolute;
+    /*the label style position will set to inline after apend to document in IE*/
+    position:absolute!important;
     border-width:0px;
     border-radius:4px;
     box-shadow:0px 0px 8px #000000;

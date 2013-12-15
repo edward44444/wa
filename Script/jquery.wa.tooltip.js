@@ -11,21 +11,18 @@
             offsetX: 10,
             offsetY: 10,
             content: '',
-            trackMouse: false,
+            trackMouse: true,
             autoHidden: true
         },
         _create: function () {
             var me = this, options = this.options, pageX, pageY;
             me.element.bind('mouseover.' + me.name, function (event) {
-                me.showTooltip();
                 if (options.trackMouse) {
-                    me.mousePageX = event.pageX;
-                    me.mousePageY = event.pageY;
-                    me.oriTooltipOffset = me.ui.tooltip.offset();
                     me.element.unbind('mousemove.' + me.name).bind('mousemove.' + me.name, function (event) {
                         me.moveTooltip(event);
                     });
                 }
+                me.showTooltip(event);
             });
             if (options.autoHidden) {
                 me.element.bind('mouseout.' + me.name, function () {
@@ -35,13 +32,15 @@
             me.ui = {};
         },
         moveTooltip: function (event) {
-            var me = this, offset = me.oriTooltipOffset;
+            var me = this,left = event.pageX + me.options.offsetX;
+            if (left + me.ui.tooltip.outerWidth() > $(window).width()) {
+                left = event.pageX - me.ui.tooltip.outerWidth() - me.options.offsetX;
+            }
             me.ui.tooltip.offset({
-                left: offset.left + event.pageX - me.mousePageX,
-                top: offset.top + event.pageY - me.mousePageY
+                left: left
             });
         },
-        showTooltip: function () {
+        showTooltip: function (event) {
             var me = this, options = this.options, html = [], tooltip, offset, left, top;
             if (!me.ui.tooltip) {
                 html.push('<label class="wa-tooltip" style="display: none;">');
@@ -76,8 +75,18 @@
                 me.ui.tooltip = tooltip;
             } else {
                 if (!me.ui.tooltip.parent().length) {
+                    // the label style position will set to inline after apend to document in IE
                     me.ui.tooltip.appendTo(document.body);
                 }
+            }
+            me.ui.tooltip.show();
+
+            // width bug in IE6,IE7
+            $('.wa-tooltip-header', me.ui.tooltip).width(me.ui.tooltip.width());
+
+            if (options.trackMouse) {
+                me.moveTooltip(event);
+                return;
             }
             offset = me.element.offset();
             left = offset.left + me.element.outerWidth() + options.offsetX;
@@ -88,12 +97,10 @@
             if (top + me.ui.tooltip.outerHeight() > $(window).height()) {
                 top = offset.top - me.ui.tooltip.outerHeight() - options.offsetY;
             }
-            // width bug in IE6,IE7
-            $('.wa-tooltip-header', me.ui.tooltip).width(me.ui.tooltip.width());
-
-            me.ui.tooltip.show().offset({ left: left, top: top });
+            me.ui.tooltip.offset({ left: left, top: top });
         },
         hideTooltip: function () {
+            //this.ui.tooltip.hide();
             this.ui.tooltip.detach();
         },
         destroy: function () {

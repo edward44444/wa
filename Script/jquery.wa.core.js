@@ -8,11 +8,15 @@
     $.wa.support.touch = 'ontouchend' in document;
     $(function () {
         div = document.createElement("div");
-        div.style.position = "absolute";
-        div.style.visibility = "hidden";
-        div.style.height = "100%";
         document.body.appendChild(div);
+        div.style.height = "100%";
+        $.wa.support.hasLayout = (('currentStyle' in div) && div.currentStyle.hasLayout);
+        //div.style.position = "absolute";
+        //div.style.visibility = "hidden";
+        //div.style.height = "100%";
+        
         document.body.removeChild(div);
+        //alert(div.currentStyle.hasLayout);
     });
     $.fn.disableSelection = function () {
         return this.bind(($.wa.support.selectstart ? "selectstart" : "mousedown") +
