@@ -35,6 +35,7 @@
     transition: transform 400ms;
     cursor: pointer!important;
     color: #FFFFFF;
+    overflow:hidden;
 }
 .wa-tilemenu-tile:hover {
     background-color: #1F901F;

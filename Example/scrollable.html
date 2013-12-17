@@ -22,7 +22,7 @@
             }
             $('#ulDate').append(html.join(''));
             $('#ulDate li').bind('tap', function (event) {
-                Write($(this).text());
+                alert($(this).text());
             });
            $('#div1').scrollable({ direction: 'vertical' });
             $(document).bind('mousemove', function () {

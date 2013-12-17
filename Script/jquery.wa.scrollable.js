@@ -14,6 +14,7 @@
                 }
             }
             return $.wa.getBezierY(scrollBezierArray, p);
+            //return Math.pow(p,1/4);
         },
         waDragBezier: function (p) {
             return p;
@@ -67,13 +68,12 @@
         },
         _create: function () {
             this.guid = $.wa.guid++;
-            var me = this, options = this.options, dragStartTime,
-            dragEndTime, offsetStart, offsetEnd, distance,
-            scrollTime, scrollbarHeight,scrollbarWidth, elementHeight, elementWidth, childHeight, childWidth,
+            var me = this, options = this.options, dragStartTime, offsetStart,
+            scrollTime, elementHeight, elementWidth, childHeight, childWidth,
             bound, elementOffset,
             oriChild = me.element.find('>:first-child'),
-            isVertical = (!this.options.direction || this.options.direction == 'vertical'),
-            isHorizontal = (!this.options.direction || this.options.direction == 'horizontal'),
+            isVertical = (!options.direction || options.direction == 'vertical'),
+            isHorizontal = (!options.direction || options.direction == 'horizontal'),
             child = me.element.wrapInner('<div class="wa-scrollable-inner"></div>').find('>:first-child').css({
                 position: 'relative',
                 width: Math.max(me.element.innerWidth(), oriChild.outerWidth(true)) + 'px',
@@ -88,23 +88,22 @@
                     me.elementWidth = elementWidth = me.element.innerWidth();
                     me.childHeight = childHeight = child.outerHeight();
                     me.childWidth = childWidth = child.outerWidth();
-                    me.scrollbarHeight = scrollbarHeight = Math.pow(elementHeight, 2) / childHeight;
-                    me.scrollbarWidth = scrollbarWidth = Math.pow(elementWidth, 2) / childWidth;
-                    scrollbarVertical.css({
-                        height: scrollbarHeight + 'px'
+                    me.scrollbarHeight  = Math.pow(elementHeight, 2) / childHeight;
+                    me.scrollbarWidth  = Math.pow(elementWidth, 2) / childWidth;
+                    me.ui.scrollbarVertical.css({
+                        height: me.scrollbarHeight + 'px'
                     });
-                    scrollbarHorizontal.css({
-                        width: scrollbarWidth + 'px'
+                    me.ui.scrollbarHorizontal.css({
+                        width: me.scrollbarWidth + 'px'
                     });
                     me.setScrollBarVerticalPosition(parseFloat(child.css('top')) || 0);
                     me.setScrollBarHorizontalPosition(parseFloat(child.css('left')) || 0);
                     me.showScrollbar();
                 },
                 dragstop: function () {
-                    dragEndTime = $.now();
-                    offsetEnd = { top: parseFloat(child.css('top')) || 0, left: parseFloat(child.css('left')) || 0 };
+                    var dragEndTime = $.now(),offsetEnd = { top: parseFloat(child.css('top')) || 0, left: parseFloat(child.css('left')) || 0 };
                     if (dragEndTime - dragStartTime <= options.timeThreshold) {
-                        distance = {};
+                        var distance = {};
                         distance.top = distance.left = (1 - (dragEndTime - dragStartTime) / options.timeThreshold) * options.tripThreshold;
                         distance.top = distance.top * Math.min(Math.abs(offsetEnd.top - offsetStart.top), options.distanceThreshold) / options.distanceThreshold;
                         distance.left = distance.left * Math.min(Math.abs(offsetEnd.left - offsetStart.left), options.distanceThreshold) / options.distanceThreshold;
@@ -140,7 +139,9 @@
                             });
                         }
                     } else {
-                        me.hideScrollbar();
+                        if (!child.is(':animated')) {
+                            me.hideScrollbar();
+                        }
                     }
                 },
                 drag: function (event, offset) {
@@ -169,6 +170,7 @@
                 }
             }).bind('mousedown.' + me.name, function () {
                 child.stop();
+                child.stop();
                 me.hideScrollbar();
             }),
             scrollbarVertical = $('<div class="wa-scrollable-scrollbar-vertical" style="display:none;"></div>').appendTo(me.element),
@@ -179,7 +181,7 @@
                 if (child.is(':animated')) {
                     return;
                 }
-                offsetEnd = {
+                var offsetEnd = {
                     top: parseFloat(child.css('top')) || 0,
                     left: parseFloat(child.css('left')) || 0
                 };
@@ -288,15 +290,15 @@
         setScrollBarVerticalPosition: function (offsetTop) {
             if (offsetTop >= 0) {
                 this.ui.scrollbarVertical.css({
-                    top: '0px',
-                    height: Math.max((this.scrollbarHeight - offsetTop), 0) + 'px',
+                    top: '2px',
+                    height: Math.max((this.scrollbarHeight - offsetTop), 8) + 'px',
                     bottom:'auto'
                 });
             } else if (offsetTop <= this.elementHeight - this.childHeight) {
                 this.ui.scrollbarVertical.css({
                     top: 'auto',
-                    height:  this.scrollbarHeight - (this.elementHeight - this.childHeight - offsetTop) + 'px',
-                    bottom: '0px'
+                    height: Math.max(this.scrollbarHeight - (this.elementHeight - this.childHeight - offsetTop),8) + 'px',
+                    bottom: '2px'
                 });
             } else {
                 this.ui.scrollbarVertical.css({
@@ -310,7 +312,7 @@
             if (offsetLeft >= 0) {
                 this.ui.scrollbarHorizontal.css({
                     left: '0px',
-                    width: Math.max((this.scrollbarWidth - offsetLeft), 0) + 'px',
+                    width: Math.max((this.scrollbarWidth - offsetLeft), 8) + 'px',
                     right: 'auto'
                 });
             } else if (offsetLeft <= this.elementWidth - this.childWidth) {

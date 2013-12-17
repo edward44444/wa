@@ -1,6 +1,6 @@
 ﻿.wa-datepicker {
     position:absolute;
-    width:16em;
+    width:14em;
     border:1px solid #AAA;
     text-align:center;
     padding:2px;
@@ -14,9 +14,10 @@
     border:1px solid #AAA;
     border-radius:4px;
     background:transparent url(Images/ui-bg-highlight.png) repeat-x 50% 50% scroll;
+    height:28px;
 }
 .wa-datepicker-title {
-    padding:3px 0px;
+    padding:2px 0px;
 }
 .wa-datepicker-title select {
     margin:0px 1px;
@@ -48,10 +49,8 @@
     background-position:-48px -192px;
 }
 .wa-datepicker-select-year {
-    width:5em;
 }
 .wa-datepicker-select-month {
-    width:3.2em;
 }
 .wa-datepicker-calendar {
     width:100%;
