@@ -11,10 +11,10 @@
 .wa-datepicker-header {
     position:relative;
     text-align:center;
-    border:1px solid #AAA;
     border-radius:4px;
-    background:transparent url(Images/ui-bg-highlight.png) repeat-x 50% 50% scroll;
-    height:28px;
+    background-color:#B200FF;
+    min-height:2em;
+    _height:2em;
 }
 .wa-datepicker-title {
     padding:2px 0px;

@@ -1,0 +1,34 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <link href="../Style/jquery.wa.core.css" rel="stylesheet" />
+    <link href="../Style/jquery.wa.inputtooltip.css" rel="stylesheet" />
+    <script src="../Script/jquery-1.7.1.js"></script>
+    <script src="../Script/jquery.wa.core.js"></script>
+    <script src="../Script/jquery.wa.widget.js"></script>
+    <script src="../Script/jquery.wa.inputtooltip.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $('#Text0').inputtooltip({
+                content: '明月几时有，把酒问青天。不知天上宫阙，今夕是何年。'
+            });
+            $('#Text1').inputtooltip({
+                content: '明月几时有，把酒问青天。不知天上宫阙，今夕是何年。',
+                position:'bottom'
+            });
+            $('#Text2').inputtooltip({
+                content: '明月几时有，把酒问青天。不知天上宫阙，今夕是何年。',
+                position:'left'
+            });
+            $('#Text3').inputtooltip({
+                content: '明月几时有，把酒问青天。不知天上宫阙，今夕是何年。',
+                position:'right'
+            });
+        });
+    </script>
+</head>
+<body>
+    <div style="margin-left:200px; margin-top:200px;"><input type="text" id="Text0" /><input type="text" id="Text1" /><input type="text" id="Text2" /><input type="text" id="Text3" /></div>
+</body>
+</html>

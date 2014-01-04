@@ -23,8 +23,8 @@
             });
             datePickerHtml.push('<div class="wa-datepicker" style="display:none;">');
             datePickerHtml.push('<div class="wa-datepicker-header">');
-            datePickerHtml.push('<a class="wa-button wa-datepicker-prev"><</a>');
-            datePickerHtml.push('<a class="wa-button wa-datepicker-next">></a>');
+            datePickerHtml.push('<a class="wa-button wa-datepicker-prev"><div class="wa-arrow wa-arrow-left"></div></a>');
+            datePickerHtml.push('<a class="wa-button wa-datepicker-next"><div class="wa-arrow wa-arrow-right"></div></a>');
             datePickerHtml.push('<div class="wa-datepicker-title">');
             datePickerHtml.push('<select class="wa-datepicker-select-year"></select>');
             datePickerHtml.push('<select class="wa-datepicker-select-month"></select>');

@@ -46,7 +46,7 @@
             //        'margin-top': '-1px'
             //    });
             //}
-            buttonArrowDown = $('<a class="wa-button wa-dropdownlist-button-arrow-down">▼</a>').appendTo(wrap);
+            buttonArrowDown = $('<a class="wa-button wa-dropdownlist-button-arrow-down"><div class="wa-arrow wa-arrow-down"></div></a>').appendTo(wrap);
             listItems = $('<div style="display:none;"></div>')
                 .appendTo(document.body)
                 .addClass('wa-dropdownlist-content');
@@ -175,8 +175,12 @@
                 var offset = this.ui.wrap.offset(),
                         left = offset.left,
                         top = offset.top + this.ui.wrap.outerHeight() - 1;
-                if (top + this.ui.listItems.outerHeight()-1 > $(window).height()) {
-                    top = offset.top - this.ui.listItems.outerHeight()+1;
+                if (top + this.ui.listItems.outerHeight() - 1 > $(window).height()) {
+                    top = offset.top - this.ui.listItems.outerHeight() + 1;
+                    // in ie6 and ie7 the offset not render correct
+                    this.ui.listItems.removeClass('wa-dropdownlist-content-down-ie').addClass('wa-dropdownlist-content-up-ie');
+                } else {
+                    this.ui.listItems.removeClass('wa-dropdownlist-content-up-ie').addClass('wa-dropdownlist-content-down-ie');
                 }
                 if (showAll) {
                     this.ui.listItems.find('.wa-dropdownlist-item').parent().show();

@@ -1,0 +1,107 @@
+﻿.wa-gridview {
+    position:relative;
+    background-color:#F0F5FF;
+    border-top:1px solid #C3C2D4;
+    border-left:1px solid #C3C2D4;
+    border-right:1px solid #C3C2D4;
+    border-bottom:1px solid #C3C2D4;
+}
+.wa-gridview-panel {
+    position:absolute;
+    top:0px;
+    right:0px;
+}
+.wa-gridview-body-locked {
+    position: relative;
+    overflow:hidden;
+    width:100%;
+}
+.wa-gridview-container {
+    display:table;
+}
+.wa-gridview-body-locked .wa-gridview-container {
+    padding-bottom:17px;
+}
+.wa-gridview-body-scrollable {
+    position:relative;
+    overflow:auto;
+    width:100%;
+}
+.wa-gridview-head {
+    line-height:2em;
+    background:#FFFFFF url(Images/gridview-head.png) repeat-x center bottom scroll;
+    position: relative;
+    width:100%;
+    border-bottom:1px solid #D5D5D5;
+}
+.wa-gridview-head-scrollable {
+    overflow:hidden;
+}
+.wa-gridview-head-scrollable .wa-gridview-container {
+    padding-right:17px;
+}
+.wa-gridview-body td {
+    border-right:1px solid #C3C2D4;
+    border-bottom:1px solid #C3C2D4;
+    line-height:2.5em;
+}
+.wa-gridview-head td {
+    border-right:1px solid #D5D5D5;
+    line-height:2.5em;
+    text-align:center;
+    font-weight:bold;
+}
+.wa-gridview-widthholder td {
+    height:0px;
+    padding-top:0px;
+    padding-bottom:0px;
+    border-bottom-width:0px;
+}
+.wa-gridview-table {
+    border-collapse:collapse;
+}
+.wa-gridview-table td div {
+    overflow:hidden;
+    white-space:nowrap;
+    margin:auto;
+    padding-left:4px;
+    padding-right:4px;
+}
+.wa-gridview-tr-hover {
+    background-color:#E5EECC!important;
+}
+.wa-gridview-tr-selected {
+    background-color: #E5EECC!important;
+}
+.wa-gridview-tr-odd {
+    background-color:#F9F9F9;
+}
+.wa-gridview-tr-even {
+    background-color:#FFFFFF;
+}
+.wa-gridview-footer {
+    line-height:2.5em;
+    height:2.5em;
+    background-color:#FFFFFF;
+    border-top:1px solid #D5D5D5;
+    position:absolute;
+    width:100%;
+    bottom:0px;
+    left:0px;
+    right:0px;
+}
+.wa-gridview-pager {
+    margin-left:10px;
+    border-collapse:collapse;
+}
+.wa-gridview-pagesize,.wa-gridview-pageindex {
+    width:2em;
+    padding:1px 1px!important;
+}
+.wa-gridview-nav {
+    margin-left:0.6em;
+    margin-right:0.6em;
+    text-decoration:none;
+    color:#0603dd;
+    cursor:pointer;
+}

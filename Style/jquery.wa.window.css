@@ -1,6 +1,7 @@
 ﻿.wa-window {
     padding:10px 10px 10px 10px;
-    position:absolute!important;
+    position:fixed!important;
+    _position:absolute!important;
     left:0px;
     right:0px;
     top:0px;
@@ -24,6 +25,7 @@
     color:white;
     overflow:hidden;
     position:relative;
+    font-size:14px;
 }
 .wa-window-title {
    height:30px;

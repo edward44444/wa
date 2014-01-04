@@ -318,7 +318,7 @@
             } else if (offsetLeft <= this.elementWidth - this.childWidth) {
                 this.ui.scrollbarHorizontal.css({
                     left: 'auto',
-                    width: this.scrollbarWidth - (this.elementWidth - this.childWidth - offsetLeft) + 'px',
+                    width: Math.max(this.scrollbarWidth - (this.elementWidth - this.childWidth - offsetLeft),8) + 'px',
                     right: '0px'
                 });
             } else {

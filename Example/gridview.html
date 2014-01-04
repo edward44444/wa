@@ -1,0 +1,73 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <link href="../Style/jquery.wa.core.css" rel="stylesheet" />
+    <link href="../Style/jquery.wa.gridview.css" rel="stylesheet" />
+    <script src="../Script/jquery-1.7.1.js"></script>
+    <script src="../Script/jquery.wa.core.js"></script>
+    <script src="../Script/jquery.wa.widget.js"></script>
+    <script src="../Script/jquery.wa.gridview.js"></script>
+    <script src="../Script/jquery.wa.overlay.js"></script>
+    <script src="../Script/jquery.wa.mouse.js"></script>
+    <script src="../Script/jquery.wa.resizable.js"></script>
+    <script type="text/javascript">
+        function BindGirdView(pageIndex, pageSize) {
+            $('#gridView').gridview('lock');
+            $.ajax({
+                cache:false,
+                url: 'Data/invoice.js',
+                dataType: 'json',
+                beforeSend: function () {
+                   
+                },
+                success: function (result) {
+                    $('#gridView').gridview('bindData', result.slice(0,20), pageIndex, 993, pageSize || 50);
+                },
+                error: function (xhr) {
+                    alert(xhr.responseText);
+                }
+            });
+        }
+        $(function () {
+            $('#gridView').gridview({
+                columns: [
+                    { field: 'name', headText: '名称', width: 200, locked: true },
+                    { field: 'time', headText: '时间', width: 200, locked: true },
+                    { field: 'head', headText: '抬头', width: 200 },
+                    { field: 'amount', headText: '开票金额', width: 200 },
+                    { field: 'address', headText: '地址', width: 200 },
+                    { field: 'postcode', headText: '邮编', width: 200 },
+                    { field: 'linkman', headText: '收件人', width: 200,locked:false },
+                    { field: 'phone', headText: '手机号', width: 200 },
+                    { field: 'invoicetype', headText: '开票类型', width: 200 }
+                ],
+                dataBind: function (event, entity) {
+                    var object = [];
+                    var buttonName = $('<a href="http://www.baidu.com/">' + entity.name + '</a>');
+                    object.push(buttonName);
+                    object.push(entity.time);
+                    object.push(entity.head);
+                    object.push(entity.amount);
+                    object.push(entity.address);
+                    object.push(entity.postcode);
+                    object.push(entity.linkman);
+                    object.push(entity.phone);
+                    object.push(entity.invoicetype);
+                    return object;
+                },
+                pageIndexChange: function (event, pageIndex, pageSize) {
+                    BindGirdView(pageIndex, pageSize);
+                }
+            });
+            $(window).bind('resize', function (event) {
+                $('#gridView').gridview('resize', $(window).width(), $(window).height());
+            }).trigger('resize');
+            BindGirdView(1);
+        });
+    </script>
+</head>
+<body  style="overflow:hidden;" scroll="no">
+    <div id="gridView"></div>
+</body>
+</html>

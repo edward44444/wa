@@ -22,6 +22,7 @@ body {
   margin-bottom:0px;
   border-width:0px;
   font-family:微软雅黑;
+  font-size:12px;
 }
 input[type="text"] {
     border:1px solid #ABADB3;
@@ -38,9 +39,14 @@ input[type="text"] {
 .wa-button {
     display:block;
     cursor:pointer;
-    background-image:url(Images/ui-icons.png);
+    /*background-image:url(Images/ui-icons.png);*/
     text-indent:-999px;
     overflow:hidden;
+}
+.wa-button-disabled {
+    color:#808080!important;
+    opacity:0.9;
+    filter:alpha(opacity=90);
 }
 .wa-scrollable-inner {
     cursor:default!important;
@@ -69,4 +75,41 @@ input[type="text"] {
 }
 .wa-invisible {
     visibility:hidden;
+}
+.wa-arrow {
+    width: 0px;
+    height: 0px;
+    position:absolute;
+    line-height:0px;
+    font-size:0px;
+    left:50%;
+    top:50%;
+}
+.wa-arrow-down {
+    border-top: 4px solid #242224;
+    border-right: 4px dashed transparent;
+    border-left: 4px dashed transparent;
+    margin-top:-2px;
+    margin-left:-4px;
+}
+.wa-arrow-up {
+    border-bottom: 4px solid #242224;
+    border-right: 4px dashed transparent;
+    border-left: 4px dashed transparent;
+    margin-top:-2px;
+    margin-left:-4px;
+}
+.wa-arrow-left {
+    border-right: 4px solid #242224;
+    border-top: 4px dashed transparent;
+    border-bottom: 4px dashed transparent;
+    margin-top:-4px;
+    margin-left:-2px;
+}
+.wa-arrow-right {
+    border-left: 4px solid #242224;
+    border-top: 4px dashed transparent;
+    border-bottom: 4px dashed transparent;
+    margin-top:-4px;
+    margin-left:-2px;
 }

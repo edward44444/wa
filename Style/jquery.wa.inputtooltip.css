@@ -1,0 +1,45 @@
+﻿.wa-inputtooltip {
+    /*the label style position will set to inline after apend to document in IE*/
+    position:absolute!important;
+    border:1px solid #000000;
+    border-radius:4px;
+    box-shadow:0px 0px 8px #000000;
+    border-radius:4px;
+    padding:4px;
+    background-color:#FFFFFF;
+    display:inline;
+}
+.wa-inputtooltip-inner {
+    background-color:#FFFFFF;
+    overflow:auto;
+}
+.wa-inputtooltip-arrow-down {
+    border-top: 6px solid #000000;
+    border-right: 6px dashed transparent;
+    border-left: 6px dashed transparent;
+    top:auto;
+    margin-left:-3px;
+    bottom:-6px;
+}
+.wa-inputtooltip-arrow-bottom {
+    border-right: 6px dashed transparent;
+    border-left: 6px dashed transparent;
+    border-bottom: 6px solid #000000;
+    margin-left: -3px;
+    top: -6px;
+}
+.wa-inputtooltip-arrow-left {
+    border-right: 6px solid #242224;
+    border-top: 6px dashed transparent;
+    border-bottom: 6px dashed transparent;
+    left:-6px;
+    margin-top:-6px;
+}
+.wa-inputtooltip-arrow-right {
+    border-left: 6px solid #242224;
+    border-top: 6px dashed transparent;
+    border-bottom: 6px dashed transparent;
+    right:-6px;
+    left:auto;
+    margin-top:-6px;
+}

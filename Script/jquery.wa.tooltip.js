@@ -43,7 +43,7 @@
         showTooltip: function (event) {
             var me = this, options = this.options, html = [], tooltip, offset, left, top;
             if (!me.ui.tooltip) {
-                html.push('<label class="wa-tooltip" style="display: none;">');
+                html.push('<div class="wa-tooltip" style="display: none;">');
                 if (options.showHeader) {
                     html.push('<div class="wa-tooltip-header" style="width:0px;">');
                     html.push('<div class="wa-tooltip-title">');
@@ -57,7 +57,7 @@
                 html.push('<div class="wa-tooltip-body">');
                 html.push(options.content);
                 html.push('</div>');
-                html.push('</label>');
+                html.push('</div>');
                 tooltip = $(html.join('')).appendTo(document.body);
                 if (options.width) {
                     tooltip.css({
