@@ -1,0 +1,33 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <link href="../Style/jquery.wa.tabpanel.css" rel="stylesheet" />
+    <script src="../Script/jquery-1.7.1.js"></script>
+    <script src="../Script/jquery.wa.core.js"></script>
+    <script src="../Script/jquery.wa.widget.js"></script>
+    <script src="../Script/jquery.wa.mouse.js"></script>
+    <script src="../Script/jquery.wa.resizable.js"></script>
+    <script src="../Script/jquery.wa.tabpanel.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $('#div1').tabpanel({ title: 'SoSo', url: 'http://www.soso.com' });
+            $('#btnAdd').bind('click', function () {
+                $('#div1').tabpanel('addTab', { title: 'Baidu', url: 'http://www.baidu.com' });
+            });
+            $('#Button1').bind('click', function () {
+                $('#div1').tabpanel('addTab', { title: 'hao123', url: 'http://www.hao123.com/' });
+            });
+            $('#Button2').bind('click', function () {
+                $('#div1').tabpanel('addTab', { title: 'zol', url: 'http://www.zol.com.cn/' });
+            });
+        });
+    </script>
+</head>
+<body>
+    <input type="button" value="Baidu" id="btnAdd" />
+    <input type="button" value="Hao123" id="Button1" />
+    <input type="button" value="zol" id="Button2" />
+    <div id="div1" style="width:800px;height:500px;margin-top:100px;"></div>
+</body>
+</html>

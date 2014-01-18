@@ -113,3 +113,6 @@ input[type="text"] {
     margin-top:-4px;
     margin-left:-2px;
 }
+.wa-clearfix:after {
+    clear:both;
+}

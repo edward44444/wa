@@ -1,0 +1,43 @@
+﻿.wa-tabpanel-bar {
+    background-color:#CFEDFF;
+    padding-top:4px;
+    position:relative;
+    border-bottom: 1px solid #B0E1FF;
+}
+.wa-tabpanel-tabs {
+    height:28px;
+    padding-left:0px;
+    margin:0px 0px -1px 0px;
+}
+.wa-tabpanel-tab {
+    list-style-type:none;
+    float:left;
+    margin-left:4px;
+    background-color:#90C8F3;
+    color:#FFFFFF;
+    margin-bottom:-1px;
+    position:relative;
+}
+.wa-tabpanel-tab-active {
+    background-color:#FFFFFF;
+    color:#5D7396;
+}
+.wa-tabpanel-anchor {
+    display:block;
+    padding:0px 18px;
+    height:28px;
+    line-height:28px;
+    cursor:default;
+}
+.wa-tabpanel-button-close {
+    position:absolute;
+    height:1em;
+    line-height:1em;
+    right:0px;
+    cursor:pointer;
+    width:1em;
+    text-align:center;
+}
+.wa-tabpanel-anchor:focus {
+    outline-style:none;
+}

@@ -51,21 +51,15 @@
     text-align:center;
     font-weight:bold;
 }
-.wa-gridview-widthholder td {
-    height:0px;
-    padding-top:0px;
-    padding-bottom:0px;
-    border-bottom-width:0px;
-}
 .wa-gridview-table {
     border-collapse:collapse;
 }
 .wa-gridview-table td div {
+    text-indent:4px;
     overflow:hidden;
     white-space:nowrap;
     margin:auto;
-    padding-left:4px;
-    padding-right:4px;
+    width:100%;
 }
 .wa-gridview-tr-hover {
     background-color:#E5EECC!important;

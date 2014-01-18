@@ -1,5 +1,5 @@
 ﻿.wa-window {
-    padding:10px 10px 10px 10px;
+    padding:6px 6px 6px 6px;
     position:fixed!important;
     _position:absolute!important;
     left:0px;
@@ -8,7 +8,7 @@
     bottom:0px;
     border-width:0px;
     border-radius:5px;
-    background-color:#000000;
+    background-color:#4994DD;
     box-shadow:0px 0px 10px #000000;
     -webkit-box-shadow:0px 0px 10px #000000;
     -moz-box-shadow:0px 0px 10px #000000;
