@@ -1,0 +1,89 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <link href="../Style/jquery.wa.core.css" rel="stylesheet" />
+    <link href="../Style/jquery.wa.dropdownlist.css" rel="stylesheet" />
+    <script src="../Script/jquery-1.7.1.js"></script>
+    <script src="../Script/jquery-ui-1.10.4.js"></script>
+    <script src="../Script/jquery.wa.dropdownlist.%20compatible.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $('#txtCity').dropdownlist({
+                mutil: false,
+                search: true,
+                contentHeight: null,
+                select: function (event, data) {
+                   // alert(data.text);
+                },
+                tpl: '{text}市{value}',
+                dataSource: [
+                    { text: '苏州', value: '0' },
+                    { text: '北京', value: '1' },
+                    { text: '上海', value: '2' },
+                    { text: '天津', value: '3' },
+                    { text: '武汉', value: '4' },
+                    { text: '徐州', value: '5' },
+                    { text: '西安', value: '6' },
+                    { text: '台州', value: '7' },
+                    { text: '广州', value: '8' },
+                    { text: '南京', value: '9' }
+                ]
+            });
+            $('#btnCity').bind('click', function () {
+                alert($('#txtCity').dropdownlist('getSelectedItem').text);
+            });
+            $('#txtStreet').dropdownlist({
+                mutil: true,
+                search: false,
+                select: function (event, data) {
+                    //alert(data.text);
+                },
+                contentHeight: 200,
+                dataSource: [
+                    { text: '人民路', value: '0' },
+                    { text: '松江路', value: '1' },
+                    { text: '星湖街', value: '2' },
+                    { text: '干将路', value: '3' },
+                    { text: '星海街', value: '4' },
+                    { text: '星塘街', value: '5' },
+                    { text: '星海街', value: '6' }
+                ]
+            });
+            $('#btnStreet').bind('click', function () {
+                if ($('#txtStreet').dropdownlist('getSelectedItems') && $('#txtStreet').dropdownlist('getSelectedItems').length) {
+                    var valueStr = $.map($('#txtStreet').dropdownlist('getSelectedItems'), function (item) {
+                        return item.text;
+                    }).join(',');
+                    alert(valueStr);
+                }
+            });
+            //alert(document.getElementById('txtCity') == document.getElementsByTagName('input')[1]);
+        });
+
+    </script>
+</head>
+<body>
+    <input type="button" value="destroy" id="btnDestroy" />
+    <table style="margin: auto; margin-top: 100px;">
+        <tr>
+            <td>
+                <input type="text" id="txtCity" /></td>
+            <td>
+                <input id="btnCity" type="button" value="GetCity" /></td>
+        </tr>
+        <tr>
+            <td>
+                <input type="text" id="txtStreet" /></td>
+            <td>
+                <input id="btnStreet" type="button" value="GetStreet" /></td>
+        </tr>
+        <tr>
+            <td>
+                <input type="text" id="Text1" /></td>
+            <td>
+                <input id="Button1" type="button" value="GetStreet" /></td>
+        </tr>
+    </table>
+</body>
+</html>
